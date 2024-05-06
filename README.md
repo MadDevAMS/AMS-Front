@@ -1,27 +1,18 @@
-# AmsFront
+# AMS Front Web
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.6.
+## Estructura de Directorios
 
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- **base/:** Contiene elementos base compartidos entre las diferentes capas de la aplicación, como servicios genéricos o utilidades comunes.
+- **data/:** Maneja el acceso a los datos y la persistencia. Aquí se implementan los repositorios para interactuar con la capa de dominio y el backend (el cómo se va a extraer).
+- **domain/:** Contiene las reglas de negocio centrales de la aplicación (modelos), asì como casos de uso (qué es lo que se desea extraer) y repositorios (qué es lo que va a tener).
+- **ui/:** Contiene la lógica relacionada con la interfaz de usuario de la aplicación.
+  - **app/:** Contiene componentes, rutas, servicios y otros elementos de la interfaz de usuario.
+    - **auth/:** Componentes y servicios relacionados con la autenticación de usuarios.
+    - **config/:** Componentes y servicios relacionados con la configuración de la aplicación.
+    - **dashboard/:** Componentes y servicios relacionados con el dashboard, monitoreo y gesitòn de activos de la aplicación.
+    - **management/:** Componentes y servicios relacionados con la gestión de reportes, grupos y usuarios de la aplicación.
+    - **shared/:** Componentes, servicios y directivas compartidos entre diferentes partes de la aplicación.
+  - **assets/:** Contiene recursos estáticos como imágenes, fuentes, etc.
+- **index.html:** Página principal de la aplicación.
+- **main.ts:** Archivo principal de inicialización de la aplicación.
+- **styles.css:** Estilos globales de la aplicación.
