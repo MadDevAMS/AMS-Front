@@ -81,7 +81,10 @@
             "tsConfig": "tsconfig.spec.json",
             "assets": [
               "src/favicon.ico",
-              "src/ui/assets"
+              "src/ui/assets",
+              "src/ui/assets/Inter",
+              "src/ui/assets/Poppins"
+
             ],
             "styles": [
               "src/styles.css"
@@ -91,5 +94,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
