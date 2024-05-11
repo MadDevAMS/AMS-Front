@@ -25,9 +25,10 @@
               "src/ui/assets"
             ],
             "styles": [
+              "src/custom-theme.scss",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": ["./node_modules/@material-tailwind/html/scripts/ripple.js"]
           },
           "configurations": {
             "production": {
