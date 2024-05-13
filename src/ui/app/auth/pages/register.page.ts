@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -11,6 +11,12 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { RouterLink } from '@angular/router';
+import { AuthLayout } from '../layouts/auth.layout';
+import { FormLayout } from '../layouts/form.layout';
+import { CdkStepperModule } from '@angular/cdk/stepper';
+import { StepperLayout } from '../../shared/layouts/stepper.layout';
+import { MatStepper } from '@angular/material/stepper';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'register-page',
@@ -18,19 +24,25 @@ import { RouterLink } from '@angular/router';
   imports: [
     RouterLink,
     MatButtonModule,
+    MatFormFieldModule,
     MatInputModule,
     MatIconModule,
     MatCheckboxModule,
-
     FormsModule,
     ReactiveFormsModule,
+
+    CdkStepperModule,
+    StepperLayout,
+    
+    AuthLayout,
+    FormLayout
   ],
   templateUrl: 'register.page.html',
 })
 export class RegisterPage {
-  hide = true;
+  @ViewChild('stepper') stepper!: MatStepper;
 
-  page = 1;
+  hide = true;
 
   formUser = new FormGroup({
     nombre: new FormControl('', [Validators.required]),
@@ -57,13 +69,15 @@ export class RegisterPage {
   }
 
   volver() {
-    this.page = 1;
+    this.stepper.previous()
   }
 
   register() {
-    if (this.page === 1 && !this.formUser.invalid) {
-      this.page = 2;
-    } else if (this.page === 2 && !this.formEntity.invalid) {
+    console.log(this.stepper.selectedIndex, this.stepper.steps.length);
+    
+    if (this.stepper.selectedIndex < this.stepper.steps.length && !this.formUser.invalid) {
+      this.stepper.next()
+    } else if (this.stepper.selectedIndex === this.stepper.steps.length - 1 && !this.formEntity.invalid) {
       console.log("Usuario y entidad registrados");
       console.log(this.formUser.value);
       console.log(this.formEntity.value);
