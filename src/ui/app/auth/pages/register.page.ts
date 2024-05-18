@@ -11,7 +11,6 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { RouterLink } from '@angular/router';
-import { AuthLayout } from '../layouts/auth.layout';
 import { FormLayout } from '../layouts/form.layout';
 import { CdkStepperModule } from '@angular/cdk/stepper';
 import { StepperLayout } from '../../shared/layouts/stepper.layout';
@@ -34,7 +33,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     CdkStepperModule,
     StepperLayout,
     
-    AuthLayout,
     FormLayout
   ],
   templateUrl: 'register.page.html',
