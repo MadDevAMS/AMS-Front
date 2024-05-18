@@ -1,0 +1,52 @@
+<header class="flex justify-between items-center py-3 px-6 bg-white shadow-sm-ams-01">
+  <button (click)="handleOpen()" mat-icon-button>
+    <mat-icon class="text-gray01 !text-[32px] !w-8 !h-8">menu</mat-icon>
+  </button>
+  <div class="flex items-center gap-2">
+    <button mat-icon-button [matMenuTriggerFor]="notificaciones">
+      <mat-icon class="text-gray01 !text-[32px] !w-8 !h-8" matBadge="2" matBadgeColor="warn">notifications</mat-icon>
+    </button>
+    <button mat-icon-button [matMenuTriggerFor]="cuenta">
+      <mat-icon class="text-gray01 !text-[32px] !w-8 !h-8">person</mat-icon>
+    </button>
+  </div>
+</header>
+
+<mat-menu #notificaciones="matMenu">
+  <span mat-menu-item>Notificacion 1</span>
+  <span mat-menu-item>Notificacion 2</span>
+</mat-menu>
+
+<mat-menu #cuenta="matMenu" class="!shadow-sm-ams-01">
+  <section class="!py-2" mat-menu-item>
+    <div class="flex items-center w-64">
+      <mat-icon>person</mat-icon>
+      <div class="flex flex-col">
+        <p class="font-medium text-base">Admin 1</p>
+        <p class="font-light text-sm">admin&#64;gmail.com</p>
+      </div>
+    </div>
+  </section>
+  <hr />
+  <section class="py-2">
+    <a [routerLink]="'/dashboard/'" mat-menu-item>
+      <mat-icon icon>grid_view</mat-icon>
+      Dashboard
+    </a>
+    <a [routerLink]="'/dashboard/activos'" mat-menu-item>
+      <mat-icon icon>lan</mat-icon>
+      Activos
+    </a>
+  </section>
+  <hr />
+  <section class="py-2">
+    <a [routerLink]="'/dashboard/configuracion'" mat-menu-item>
+      <mat-icon icon>settings</mat-icon>
+      Configuracion
+    </a>
+    <a [routerLink]="'/auth'" mat-menu-item>
+      <mat-icon icon>logout</mat-icon>
+      Cerrar sesión
+    </a>
+  </section>
+</mat-menu>

@@ -3,20 +3,9 @@
     class="flex flex-col py-[40px] px-[12px] min-[390px]:px-[40px] sm:px-[72px] bg-white shadow-[0px_4px_4px_#00000040] max-w-[548px] w-full gap-4 rounded-xl"
   >
     <header class="flex justify-center items-center">
-      <svg
-        width="48"
-        height="48"
-        viewBox="0 0 40 40"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path d="M5.5 12L20 4L34.5 12L20 20L5.5 12Z" fill="#B9DFF2" />
-        <path d="M5.5 28L20 20L34.5 28L20 36L5.5 28Z" fill="#1397D5" />
-        <path d="M20 20L5.5 12V28L20 20Z" fill="#72C2E7" />
-        <path d="M20 20L34.5 28V12L20 20Z" fill="#C4E9FB" />
-      </svg>
+      <img src="/ui/assets/icons/svg/logo.svg" alt="logo-svg">
       <h1 class="text-gray02 font-bold text-4xl text-center">AMS</h1>
     </header>
-    <ng-content></ng-content>
+    <router-outlet></router-outlet>
   </div>
 </div>

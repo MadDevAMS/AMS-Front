@@ -1,222 +1,220 @@
-<auth-layout>
-    <stepper-layout #stepper class="flex flex-col gap-8">
-      <cdk-step label="Datos de usuario">
-        <form-layout
-          [title]="'Bienvenido a AMS'"
-          [subtitle]="'Por favor, ingrese sus datos de usuario'"
-          [footerText]="'¿Ya tienes una cuenta?'"
-          [footerTextLink]="'Iniciar sesión'"
-          [footerLinkRouter]="'/auth/login'"
-          [submitText]="'Siguiente'"
-          [formGroup]="formUser"
-          (submit)="register()"
-        >
-          <ng-template #inputs>
-            <div class="flex flex-col sm:flex-row gap-4">
-              <mat-form-field
-                appearance="outline"
-                class="h-full !text-sm sm:!text-base"
-              >
-                <mat-label class="!text-sm sm:!text-base">Nombres</mat-label>
-                <mat-icon matPrefix>people</mat-icon>
-                <input
-                  type="text"
-                  formControlName="nombre"
-                  name="nombre"
-                  matInput
-                />
-                @if(hasError('nombre', 'required')) {
-                <mat-error>Ingrese sus nombres</mat-error> }
-              </mat-form-field>
-              <mat-form-field
-                appearance="outline"
-                class="h-full !text-sm sm:!text-base"
-              >
-                <mat-label class="!text-sm sm:!text-base">Apellidos</mat-label>
-                <mat-icon matPrefix>people</mat-icon>
-                <input
-                  type="text"
-                  formControlName="apellido"
-                  name="apellido"
-                  matInput
-                />
-                @if(hasError('apellido', 'required')) {
-                <mat-error>Ingrese sus apellidos</mat-error> }
-              </mat-form-field>
-            </div>
-            <mat-form-field
-              appearance="outline"
-              class="h-full !text-sm sm:!text-base"
-            >
-              <mat-label class="!text-sm sm:!text-base"
-                >Correo electrònico</mat-label
-              >
-              <mat-icon matPrefix>mail</mat-icon>
-              <input
-                type="email"
-                formControlName="email"
-                name="email"
-                matInput
-              />
-              @if(hasError('email', 'required')) {
-              <mat-error>El correo es requerido</mat-error> }
-              @if(hasError('email', 'email')) {
-              <mat-error>Debe especificar un correo vàlido</mat-error> }
-            </mat-form-field>
-            <mat-form-field
-              appearance="outline"
-              class="h-full !text-sm sm:!text-base"
-            >
-              <mat-label class="!text-sm sm:!text-base">Contraseña</mat-label>
-              <mat-icon matPrefix>lock</mat-icon>
-              <input
-                [type]="hide ? 'password' : 'text'"
-                formControlName="password"
-                name="password"
-                matInput
-              />
-              <button
-                type="button"
-                mat-icon-button
-                matSuffix
-                (click)="hide = !hide"
-                [attr.aria-label]="'Hide password'"
-                [attr.aria-pressed]="hide"
-              >
-                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-              </button>
-              @if(hasError('password', 'required')) {
-              <mat-error>La contraseña requerida</mat-error> }
-              @if(hasError('password', 'pattern')) {
-              <mat-error>Contraseña invalida</mat-error> }
-            </mat-form-field>
-            <mat-form-field
-              appearance="outline"
-              class="h-full !text-sm sm:!text-base"
-            >
-              <mat-label class="!text-sm sm:!text-base"
-                >Confirmar contraseña</mat-label
-              >
-              <mat-icon matPrefix>lock</mat-icon>
-              <input
-                [type]="hide ? 'password' : 'text'"
-                formControlName="confirmPassword"
-                name="confirmPassword"
-                matInput
-              />
-              <button
-                type="button"
-                mat-icon-button
-                matSuffix
-                (click)="hide = !hide"
-                [attr.aria-label]="'Hide password'"
-                [attr.aria-pressed]="hide"
-              >
-                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-              </button>
-              @if(hasError('confirmPassword', 'required')) {
-              <mat-error>Ingrese de nuevo su contraseña</mat-error> }
-              @if(hasError('confirmPassword', 'pattern')) {
-              <mat-error>Contraseña invalida</mat-error> }
-            </mat-form-field>
-          </ng-template>
-        </form-layout>
-      </cdk-step>
-      <cdk-step label="Datos de empresa">
-        @if (stepper.selectedIndex === 1) {
-          <form-layout
-            [title]="'Permítenos conocerte mejor'"
-            [subtitle]="'Por favor, ingrese los datos de su empresa'"
-            [footerText]="'¿Ya tienes una cuenta?'"
-            [footerTextLink]="'Iniciar sesión'"
-            [footerLinkRouter]="'/auth/login'"
-            [submitText]="'Registrarse'"
-            [formGroup]="formEntity"
-            (submit)="register()"
+<stepper-layout #stepper class="flex flex-col gap-8">
+  <cdk-step label="Datos de usuario">
+    <form-layout
+      [title]="'Bienvenido a AMS'"
+      [subtitle]="'Por favor, ingrese sus datos de usuario'"
+      [footerText]="'¿Ya tienes una cuenta?'"
+      [footerTextLink]="'Iniciar sesión'"
+      [footerLinkRouter]="'/auth/login'"
+      [submitText]="'Siguiente'"
+      [formGroup]="formUser"
+      (submit)="register()"
+    >
+      <ng-template #inputs>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <mat-form-field
+            appearance="outline"
+            class="h-full !text-sm sm:!text-base"
           >
-            <!-- Input -->
-            <ng-template #inputs>
-              <div class="flex flex-col sm:flex-row gap-4">
-                <mat-form-field
-                  appearance="outline"
-                  class="h-full !text-sm sm:!text-base"
-                >
-                  <mat-label class="!text-sm sm:!text-base">RUC</mat-label>
-                  <mat-icon matPrefix>badge</mat-icon>
-                  <input
-                    type="number"
-                    formControlName="ruc"
-                    name="ruc"
-                    matInput
-                  />
-                  @if(hasErrorEntity('ruc', 'required')) {
-                  <mat-error>El RUC es requerido</mat-error> }
-                </mat-form-field>
-                <mat-form-field
-                  appearance="outline"
-                  class="h-full !text-sm sm:!text-base"
-                >
-                  <mat-label class="!text-sm sm:!text-base">Nombre</mat-label>
-                  <mat-icon matPrefix
-                    >apartment</mat-icon
-                  >
-                  <input
-                    type="text"
-                    formControlName="nombre"
-                    name="nombre"
-                    matInput
-                  />
-                  @if(hasErrorEntity('nombre', 'required')) {
-                  <mat-error>El nombre de su empresa es requerido</mat-error> }
-                </mat-form-field>
-              </div>
-              <mat-form-field
-                appearance="outline"
-                class="h-full !text-sm sm:!text-base"
+            <mat-label class="!text-sm sm:!text-base">Nombres</mat-label>
+            <mat-icon matPrefix>people</mat-icon>
+            <input
+              type="text"
+              formControlName="nombre"
+              name="nombre"
+              matInput
+            />
+            @if(hasError('nombre', 'required')) {
+            <mat-error>Ingrese sus nombres</mat-error> }
+          </mat-form-field>
+          <mat-form-field
+            appearance="outline"
+            class="h-full !text-sm sm:!text-base"
+          >
+            <mat-label class="!text-sm sm:!text-base">Apellidos</mat-label>
+            <mat-icon matPrefix>people</mat-icon>
+            <input
+              type="text"
+              formControlName="apellido"
+              name="apellido"
+              matInput
+            />
+            @if(hasError('apellido', 'required')) {
+            <mat-error>Ingrese sus apellidos</mat-error> }
+          </mat-form-field>
+        </div>
+        <mat-form-field
+          appearance="outline"
+          class="h-full !text-sm sm:!text-base"
+        >
+          <mat-label class="!text-sm sm:!text-base"
+            >Correo electrònico</mat-label
+          >
+          <mat-icon matPrefix>mail</mat-icon>
+          <input
+            type="email"
+            formControlName="email"
+            name="email"
+            matInput
+          />
+          @if(hasError('email', 'required')) {
+          <mat-error>El correo es requerido</mat-error> }
+          @if(hasError('email', 'email')) {
+          <mat-error>Debe especificar un correo vàlido</mat-error> }
+        </mat-form-field>
+        <mat-form-field
+          appearance="outline"
+          class="h-full !text-sm sm:!text-base"
+        >
+          <mat-label class="!text-sm sm:!text-base">Contraseña</mat-label>
+          <mat-icon matPrefix>lock</mat-icon>
+          <input
+            [type]="hide ? 'password' : 'text'"
+            formControlName="password"
+            name="password"
+            matInput
+          />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="hide = !hide"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide"
+          >
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          @if(hasError('password', 'required')) {
+          <mat-error>La contraseña requerida</mat-error> }
+          @if(hasError('password', 'pattern')) {
+          <mat-error>Contraseña invalida</mat-error> }
+        </mat-form-field>
+        <mat-form-field
+          appearance="outline"
+          class="h-full !text-sm sm:!text-base"
+        >
+          <mat-label class="!text-sm sm:!text-base"
+            >Confirmar contraseña</mat-label
+          >
+          <mat-icon matPrefix>lock</mat-icon>
+          <input
+            [type]="hide ? 'password' : 'text'"
+            formControlName="confirmPassword"
+            name="confirmPassword"
+            matInput
+          />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="hide = !hide"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide"
+          >
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          @if(hasError('confirmPassword', 'required')) {
+          <mat-error>Ingrese de nuevo su contraseña</mat-error> }
+          @if(hasError('confirmPassword', 'pattern')) {
+          <mat-error>Contraseña invalida</mat-error> }
+        </mat-form-field>
+      </ng-template>
+    </form-layout>
+  </cdk-step>
+  <cdk-step label="Datos de empresa">
+    @if (stepper.selectedIndex === 1) {
+      <form-layout
+        [title]="'Permítenos conocerte mejor'"
+        [subtitle]="'Por favor, ingrese los datos de su empresa'"
+        [footerText]="'¿Ya tienes una cuenta?'"
+        [footerTextLink]="'Iniciar sesión'"
+        [footerLinkRouter]="'/auth/login'"
+        [submitText]="'Registrarse'"
+        [formGroup]="formEntity"
+        (submit)="register()"
+      >
+        <!-- Input -->
+        <ng-template #inputs>
+          <div class="flex flex-col sm:flex-row gap-4">
+            <mat-form-field
+              appearance="outline"
+              class="h-full !text-sm sm:!text-base"
+            >
+              <mat-label class="!text-sm sm:!text-base">RUC</mat-label>
+              <mat-icon matPrefix>badge</mat-icon>
+              <input
+                type="number"
+                formControlName="ruc"
+                name="ruc"
+                matInput
+              />
+              @if(hasErrorEntity('ruc', 'required')) {
+              <mat-error>El RUC es requerido</mat-error> }
+            </mat-form-field>
+            <mat-form-field
+              appearance="outline"
+              class="h-full !text-sm sm:!text-base"
+            >
+              <mat-label class="!text-sm sm:!text-base">Nombre</mat-label>
+              <mat-icon matPrefix
+                >apartment</mat-icon
               >
-                <mat-label class="!text-sm sm:!text-base">Razón social</mat-label>
-                <mat-icon matPrefix>people</mat-icon>
-                <input
-                  type="text"
-                  formControlName="razonSocial"
-                  name="razonSocial"
-                  matInput
-                />
-                @if(hasErrorEntity('razonSocial', 'required')) {
-                <mat-error>La razón social es requerida</mat-error> }
-              </mat-form-field>
-              <mat-form-field
-                appearance="outline"
-                class="h-full !text-sm sm:!text-base"
-              >
-                <mat-label class="!text-sm sm:!text-base">Teléfono</mat-label>
-                <mat-icon matPrefix>phone</mat-icon>
-                <input
-                  type="tel"
-                  formControlName="telefono"
-                  name="telefono"
-                  matInput
-                />
-                @if(hasErrorEntity('telefono', 'required')) {
-                <mat-error>Debe ingresar el teléfono de su empresa</mat-error> }
-              </mat-form-field>
-            </ng-template>
-            <ng-container secondaryButton>
-              <button
-                type="button"
-                class="font-semibold text-sm !text-green2"
-                (click)="volver()"
-                mat-button
-              >
-                <div
-                  class="text-center !py-[0.625rem] !px-5 font-semibold text-base"
-                >
-                  Volver
-                </div>
-              </button>
-            </ng-container>
-          </form-layout>
-        }
-      </cdk-step>
-    </stepper-layout>
-</auth-layout>
+              <input
+                type="text"
+                formControlName="nombre"
+                name="nombre"
+                matInput
+              />
+              @if(hasErrorEntity('nombre', 'required')) {
+              <mat-error>El nombre de su empresa es requerido</mat-error> }
+            </mat-form-field>
+          </div>
+          <mat-form-field
+            appearance="outline"
+            class="h-full !text-sm sm:!text-base"
+          >
+            <mat-label class="!text-sm sm:!text-base">Razón social</mat-label>
+            <mat-icon matPrefix>people</mat-icon>
+            <input
+              type="text"
+              formControlName="razonSocial"
+              name="razonSocial"
+              matInput
+            />
+            @if(hasErrorEntity('razonSocial', 'required')) {
+            <mat-error>La razón social es requerida</mat-error> }
+          </mat-form-field>
+          <mat-form-field
+            appearance="outline"
+            class="h-full !text-sm sm:!text-base"
+          >
+            <mat-label class="!text-sm sm:!text-base">Teléfono</mat-label>
+            <mat-icon matPrefix>phone</mat-icon>
+            <input
+              type="tel"
+              formControlName="telefono"
+              name="telefono"
+              matInput
+            />
+            @if(hasErrorEntity('telefono', 'required')) {
+            <mat-error>Debe ingresar el teléfono de su empresa</mat-error> }
+          </mat-form-field>
+        </ng-template>
+        <ng-container secondaryButton>
+          <button
+            type="button"
+            class="font-semibold text-sm !text-green2"
+            (click)="volver()"
+            mat-button
+          >
+            <div
+              class="text-center !py-[0.625rem] !px-5 font-semibold text-base"
+            >
+              Volver
+            </div>
+          </button>
+        </ng-container>
+      </form-layout>
+    }
+  </cdk-step>
+</stepper-layout>

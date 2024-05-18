@@ -10,7 +10,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { AuthLayout } from '../layouts/auth.layout';
 import { FormLayout } from '../layouts/form.layout';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -27,8 +26,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatCheckboxModule,
     FormsModule,
     ReactiveFormsModule,
-
-    AuthLayout,
     FormLayout,
   ],
   templateUrl: 'login.page.html',
