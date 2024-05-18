@@ -23,8 +23,31 @@ body {
   margin: 0;
   font-family: "Inter", "Poppins", "Roboto", "Helvetica Neue";
 }
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #676767;
+  border-radius: 10px;
+  background-clip: padding-box;
+}
+
 .mdc-notched-outline__notch {
   border-inline: none !important;
+}
+
+button[mat-icon-button] {
+  width: auto !important;
+  height: auto !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
 }
 
 /* fallback */
