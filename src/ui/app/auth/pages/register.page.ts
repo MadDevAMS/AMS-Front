@@ -73,8 +73,6 @@ export class RegisterPage {
   }
 
   register() {
-    console.log(this.stepper.selectedIndex, this.stepper.steps.length);
-    
     if (this.stepper.selectedIndex < this.stepper.steps.length && !this.formUser.invalid) {
       this.stepper.next()
     } else if (this.stepper.selectedIndex === this.stepper.steps.length - 1 && !this.formEntity.invalid) {
