@@ -4,12 +4,6 @@
 $dark-primary-text: #1B1C31;
 $light-primary-text: #FDFDFD;
 
-// $roboto-font-path: "~roboto-fontface/fonts" !default;
-// @import "~roboto-fontface/css/roboto/sass/roboto-fontface";
-
-// $material-icons-font-path: '~material-icons/iconfont/';
-// @import '~material-icons/iconfont/material-icons.scss';
-
 $ams-gray-pallete: (
   50: #FDFDFD,
   100: #F8F7F1,
@@ -94,7 +88,7 @@ $ams-front-theme: mat.define-light-theme((
     warn: $ams-front-warn,
   ),
   typography: mat.define-typography-config(
-    $font-family: 'Inter'
+    $font-family: 'Poppins'
   ),
   density: 0
 ));
