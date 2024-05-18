@@ -1,50 +1,39 @@
- <div class="flex flex-col gap-8">
-  <div class="flex flex-col gap-[0.75rem]">
-    <h2 class="text-[#1C1C1E] font-medium text-xl">Bienvenido de nuevo</h2>
-    <p class="text-base font-normal mb-4">Por favor, ingrese los datos de su cuenta</p>
-    <form class="flex flex-col gap-6" [formGroup]="formUser" (ngSubmit)="login()">
-      <!-- Input -->
-      <div class="flex flex-col gap-4">
-        <mat-form-field appearance="outline" class="max-h-max h-full">
-          <mat-label>Correo electrónico</mat-label>
-          <mat-icon class="text-blue-gray-700" matPrefix>mail</mat-icon>
-          <input type="email" name="email" formControlName="email" matInput>
-          @if(hasError('email', 'required')) { <mat-error>El correo es requerido</mat-error> }
-          @if(hasError('email', 'email')) { <mat-error>Debe especificar un correo vàlido</mat-error> }
-        </mat-form-field>
-        <mat-form-field appearance="outline" class="max-h-max h-full">
-          <mat-label>Contraseña</mat-label>
-          <mat-icon class="text-blue-gray-700" matPrefix>lock</mat-icon>
-          <input [type]="hide ? 'password' : 'text'" name="password" formControlName="password" matInput>
-          <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-          </button>
-          @if(hasError('password', 'required')) { <mat-error>La contraseña requerida</mat-error> }
-        </mat-form-field>
-        <!-- Options -->
-        <section class="flex items-center">
-          <div class="text-sm text-[#222338] flex-1">
-            <mat-checkbox color="primary" formControlName="rememberMe">Recuérdame</mat-checkbox>
-          </div>
-          <a class="font-semibold text-sm text-[#009D92]">¿Olvidó su contraseña?</a>
-        </section>
-      </div>
-      <!-- Button -->
-      <button
-        type="submit"
-        mat-flat-button
-        color="primary"
-        class="bg-[#222338] !rounded-lg !h-auto">
-        <div class="text-center !py-[0.625rem] !px-5 font-semibold text-base">
-          Iniciar sesión
+<auth-layout>
+  <form-layout
+    [title]="'Bienvenido de nuevo'"
+    [subtitle]="'Por favor, ingrese los datos de su cuenta'"
+    [footerText]="'¿No tienes una cuenta?'"
+    [footerTextLink]="'Registrarse'"
+    [footerLinkRouter]="'/auth/register'"
+    [submitText]="'Iniciar sesión'"
+    [formGroup]="formUser"
+    (submit)="login()"
+  >
+    <ng-template #inputs>
+      <mat-form-field appearance="outline" class="h-full !text-sm sm:!text-base">
+        <mat-label class="!text-sm sm:!text-base">Correo electrónico</mat-label>
+        <mat-icon matPrefix>mail</mat-icon>
+        <input type="email" name="email" formControlName="email" matInput>
+        @if(hasError('email', 'required')) { <mat-error>El correo es requerido</mat-error> }
+        @if(hasError('email', 'email')) { <mat-error>Debe especificar un correo vàlido</mat-error> }
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="h-full !text-sm sm:!text-base">
+        <mat-label class="!text-sm sm:!text-base">Contraseña</mat-label>
+        <mat-icon matPrefix>lock</mat-icon>
+        <input [type]="hide ? 'password' : 'text'" name="password" formControlName="password" matInput>
+        <button type="button" mat-icon-button matSuffix (click)="hide = !hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        @if(hasError('password', 'required')) { <mat-error>La contraseña requerida</mat-error> }
+      </mat-form-field>
+    </ng-template>
+    <ng-container options>
+      <section class="flex justify-between items-center">
+        <div class="text-xs sm:text-sm flex-1">
+          <mat-checkbox formControlName="rememberMe" color="primary">Recuérdame</mat-checkbox>
         </div>
-      </button>
-    </form>
-  </div>
-  <footer class="flex justify-center gap-3">
-    <p class="font-normal text-base">¿No tienes una cuenta?</p>
-    <a
-      class="text-[#009D92] font-semibold text-base" 
-      [routerLink]="'/auth/register'">Registrarse</a>
-  </footer>
-</div>
+        <a class="font-semibold text-xs sm:text-sm text-green2 text-end">¿Olvidó su contraseña?</a>
+      </section>
+    </ng-container>
+  </form-layout>
+</auth-layout>
