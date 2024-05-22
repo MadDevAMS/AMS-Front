@@ -1,45 +1,25 @@
 import { Routes } from '@angular/router';
-import { DahsboardLayout } from './layouts/dashboard.layout';
-import { MainPage } from './pages/main/main.page';
-import { ActivosPage } from './pages/activos/activos.page';
-import { MonitoreoPage } from './pages/monitoreo/monitoreo.page';
-import { ReportesPage } from './pages/reportes/reportes.page';
-import { UsuariosPage } from './pages/usuarios/usuarios.page';
-import { GruposPage } from './pages/grupos/grupos.page';
-import { ConfiguracionPage } from './pages/configuracion/configuracion.page';
+import { DahsboardLayout } from './shared/layouts/dashboard.layout';
+import { dashboardRoutes } from './dashboard/dashboard.routes';
+import { gestionRoutes } from './gestion/gestion.routes';
+import { configuracionRoutes } from './configuracion/configuracion.routes';
 
-export const dashboardRoutes: Routes = [
+export const mainRoutes: Routes = [
   {
     path: '',
     component: DahsboardLayout,
     children: [
       {
         path: '',
-        component: MainPage,
+        children: dashboardRoutes
       },
       {
-        path: 'activos',
-        component: ActivosPage,
-      },
-      {
-        path: 'monitoreo',
-        component: MonitoreoPage,
-      },
-      {
-        path: 'reportes',
-        component: ReportesPage,
-      },
-      {
-        path: 'usuarios',
-        component: UsuariosPage,
-      },
-      {
-        path: 'grupos',
-        component: GruposPage,
+        path: 'gestion',
+        children: gestionRoutes
       },
       {
         path: 'configuracion',
-        component: ConfiguracionPage,
+        children: configuracionRoutes
       },
     ],
   },

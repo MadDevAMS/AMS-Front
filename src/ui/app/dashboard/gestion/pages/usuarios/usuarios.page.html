@@ -1,0 +1,179 @@
+<div class="flex flex-col md:flex-row gap-3 h-full font-poppins">
+  <div class="flex flex-col md:w-1/2 xl:flex-1 gap-3">
+    <div class="flex flex-col sm:flex-row justify-between gap-3">
+      <div class="rounded-lg bg-white py-3 px-6 flex items-center text-base shadow-expand-ams w-full sm:w-auto">
+        <input 
+          type="text"
+          placeholder="Busca aqui"
+          class="focus:outline-none w-full"
+        />
+        <mat-icon>search</mat-icon>
+      </div>
+      <div class="flex gap-3">
+        <button class="!bg-white !shadow-expand-ams !rounded-lg !py-2.5 !px-5 !text-blue02 !font-poppins !font-semibold !text-sm !h-full" mat-button>
+          Filtrar
+          <mat-icon>tune</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="bg-white rounded h-full">
+      <header class="px-6 py-3 flex text-gray01 shadow-expand-ams">
+        <span class="w-14">Nro</span>
+        <div class="grid grid-cols-[repeat(auto-fit,minmax(0,1fr))] flex-1 gap-2">
+          <span class="text-ellipsis overflow-clip text-nowrap">Nombres</span>
+          <span class="text-ellipsis overflow-clip text-nowrap">Apellidos</span>
+          <span class="text-ellipsis overflow-clip text-nowrap">Correo</span>
+          <span class="text-ellipsis overflow-clip text-nowrap">Último inicio</span>
+        </div>
+      </header>
+      <div class="px-6 py-6 flex items-center font-light text-sm">
+        <span class="w-14">001</span>
+        <div class="grid grid-cols-[repeat(auto-fit,minmax(0,1fr))] flex-1 gap-2">
+          <span class="text-ellipsis overflow-clip text-nowrap">Juan Jose</span>
+          <span class="text-ellipsis overflow-clip text-nowrap">Condori Pinto</span>
+          <span class="text-ellipsis overflow-clip text-nowrap">juan.condori.p&#64;tecsup.edu.pe</span>
+          <span class="text-ellipsis overflow-clip text-nowrap">22/04/2024</span>
+        </div>
+      </div>
+      <div class="px-6 py-6 flex items-center font-light text-sm">
+        <span class="w-14">001</span>
+        <div class="grid grid-cols-[repeat(auto-fit,minmax(0,1fr))] flex-1 gap-2">
+          <span class="text-ellipsis overflow-clip text-nowrap">Juan Jose</span>
+          <span class="text-ellipsis overflow-clip text-nowrap">Condori Pinto</span>
+          <span class="text-ellipsis overflow-clip text-nowrap">juan.condori.p&#64;tecsup.edu.pe</span>
+          <span class="text-ellipsis overflow-clip text-nowrap">22/04/2024</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-col md:w-1/2 xl:w-auto gap-3">
+    <card-layout class="md:h-1/2">
+      <div class="flex justify-between" header>
+        <p class="text-gray01 text-base font-semibold">
+          Datos de usuario
+        </p>
+        <button color="primary" class="!shadow-expand-ams !rounded-lg !py-2.5 !px-5 !font-poppins !font-semibold !text-sm !h-full" mat-raised-button>
+          <mat-icon>add</mat-icon>
+          Añadir
+        </button>
+      </div>
+      <form class="flex flex-col gap-3" [formGroup]="formUser" body>
+        <div class="flex flex-col xl:flex-row gap-4">
+          <mat-form-field
+            appearance="outline"
+            class="h-full sm:!flex-1 !text-sm sm:!text-base"
+          >
+            <mat-label class="!text-sm sm:!text-base">Nombres</mat-label>
+            <mat-icon matPrefix>people</mat-icon>
+            <input
+              type="text"
+              formControlName="nombre"
+              name="nombre"
+              matInput
+            />
+            @if(hasError('nombre', 'required')) {
+            <mat-error>Ingrese sus nombres</mat-error> }
+          </mat-form-field>
+          <mat-form-field
+            appearance="outline"
+            class="h-full sm:!flex-1 !text-sm sm:!text-base"
+          >
+            <mat-label class="!text-sm sm:!text-base">Apellidos</mat-label>
+            <mat-icon matPrefix>people</mat-icon>
+            <input
+              type="text"
+              formControlName="apellido"
+              name="apellido"
+              matInput
+            />
+            @if(hasError('apellido', 'required')) {
+            <mat-error>Ingrese sus apellidos</mat-error> }
+          </mat-form-field>
+        </div>
+        <mat-form-field
+          appearance="outline"
+          class="h-full !text-sm sm:!text-base"
+        >
+          <mat-label class="!text-sm sm:!text-base"
+            >Correo electrònico</mat-label
+          >
+          <mat-icon matPrefix>mail</mat-icon>
+          <input
+            type="email"
+            formControlName="email"
+            name="email"
+            matInput
+          />
+          @if(hasError('email', 'required')) {
+          <mat-error>El correo es requerido</mat-error> }
+          @if(hasError('email', 'email')) {
+          <mat-error>Debe especificar un correo vàlido</mat-error> }
+        </mat-form-field>
+        <mat-form-field
+          appearance="outline"
+          class="h-full !text-sm sm:!text-base"
+        >
+          <mat-label class="!text-sm sm:!text-base">Contraseña</mat-label>
+          <mat-icon matPrefix>lock</mat-icon>
+          <input
+            [type]="hide ? 'password' : 'text'"
+            formControlName="password"
+            name="password"
+            matInput
+          />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="hide = !hide"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide"
+          >
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          @if(hasError('password', 'required')) {
+          <mat-error>La contraseña requerida</mat-error> }
+          @if(hasError('password', 'pattern')) {
+          <mat-error>Contraseña invalida</mat-error> }
+        </mat-form-field>
+        <mat-form-field
+          appearance="outline"
+          class="h-full !text-sm sm:!text-base"
+        >
+          <mat-label class="!text-sm sm:!text-base"
+            >Confirmar contraseña</mat-label
+          >
+          <mat-icon matPrefix>lock</mat-icon>
+          <input
+            [type]="hide ? 'password' : 'text'"
+            formControlName="confirmPassword"
+            name="confirmPassword"
+            matInput
+          />
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="hide = !hide"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide"
+          >
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          @if(hasError('confirmPassword', 'required')) {
+          <mat-error>Ingrese de nuevo su contraseña</mat-error> }
+          @if(hasError('confirmPassword', 'pattern')) {
+          <mat-error>Contraseña invalida</mat-error> }
+        </mat-form-field>
+      </form>
+    </card-layout>
+    <card-layout class="md:h-1/2">
+      <p class="text-gray01 text-base font-semibold" header>
+        Grupos disponibles
+      </p>
+      <div body>
+        asd
+      </div>
+    </card-layout>
+  </div>
+</div>

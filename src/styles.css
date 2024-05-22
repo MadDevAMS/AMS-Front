@@ -24,10 +24,6 @@ body {
   font-family: "Inter", "Poppins", "Roboto", "Helvetica Neue";
 }
 
-::-webkit-scrollbar {
-  width: 4px;
-}
-
 ::-webkit-scrollbar-track {
   background: transparent;
 }
