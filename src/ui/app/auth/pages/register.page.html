@@ -7,8 +7,8 @@
       [footerTextLink]="'Iniciar sesión'"
       [footerLinkRouter]="'/auth/login'"
       [submitText]="'Siguiente'"
-      [formGroup]="formUser"
-      (submit)="register()"
+      [formGroup]="serviceForm.formUser"
+      (submit)="submit()"
     >
       <ng-template #inputs>
         <div class="flex flex-col sm:flex-row gap-4">
@@ -20,11 +20,11 @@
             <mat-icon matPrefix>people</mat-icon>
             <input
               type="text"
-              formControlName="nombre"
-              name="nombre"
+              formControlName="firstName"
+              name="firstName"
               matInput
             />
-            @if(hasError('nombre', 'required')) {
+            @if(serviceForm.hasError('firstName', 'required')) {
             <mat-error>Ingrese sus nombres</mat-error> }
           </mat-form-field>
           <mat-form-field
@@ -35,11 +35,11 @@
             <mat-icon matPrefix>people</mat-icon>
             <input
               type="text"
-              formControlName="apellido"
-              name="apellido"
+              formControlName="lastName"
+              name="lastName"
               matInput
             />
-            @if(hasError('apellido', 'required')) {
+            @if(serviceForm.hasError('lastName', 'required')) {
             <mat-error>Ingrese sus apellidos</mat-error> }
           </mat-form-field>
         </div>
@@ -53,13 +53,13 @@
           <mat-icon matPrefix>mail</mat-icon>
           <input
             type="email"
-            formControlName="email"
-            name="email"
+            formControlName="userEmail"
+            name="userEmail"
             matInput
           />
-          @if(hasError('email', 'required')) {
+          @if(serviceForm.hasError('userEmail', 'required')) {
           <mat-error>El correo es requerido</mat-error> }
-          @if(hasError('email', 'email')) {
+          @if(serviceForm.hasError('userEmail', 'email')) {
           <mat-error>Debe especificar un correo vàlido</mat-error> }
         </mat-form-field>
         <mat-form-field
@@ -84,9 +84,9 @@
           >
             <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
           </button>
-          @if(hasError('password', 'required')) {
+          @if(serviceForm.hasError('password', 'required')) {
           <mat-error>La contraseña requerida</mat-error> }
-          @if(hasError('password', 'pattern')) {
+          @if(serviceForm.hasError('password', 'pattern')) {
           <mat-error>Contraseña invalida</mat-error> }
         </mat-form-field>
         <mat-form-field
@@ -113,9 +113,9 @@
           >
             <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
           </button>
-          @if(hasError('confirmPassword', 'required')) {
+          @if(serviceForm.hasError('confirmPassword', 'required')) {
           <mat-error>Ingrese de nuevo su contraseña</mat-error> }
-          @if(hasError('confirmPassword', 'pattern')) {
+          @if(serviceForm.hasError('confirmPassword', 'pattern')) {
           <mat-error>Contraseña invalida</mat-error> }
         </mat-form-field>
       </ng-template>
@@ -130,8 +130,8 @@
         [footerTextLink]="'Iniciar sesión'"
         [footerLinkRouter]="'/auth/login'"
         [submitText]="'Registrarse'"
-        [formGroup]="formEntity"
-        (submit)="register()"
+        [formGroup]="serviceForm.formEntity"
+        (submit)="serviceForm.register()"
       >
         <!-- Input -->
         <ng-template #inputs>
@@ -148,7 +148,7 @@
                 name="ruc"
                 matInput
               />
-              @if(hasErrorEntity('ruc', 'required')) {
+              @if(serviceForm.hasErrorEntity('ruc', 'required')) {
               <mat-error>El RUC es requerido</mat-error> }
             </mat-form-field>
             <mat-form-field
@@ -165,7 +165,7 @@
                 name="nombre"
                 matInput
               />
-              @if(hasErrorEntity('nombre', 'required')) {
+              @if(serviceForm.hasErrorEntity('nombre', 'required')) {
               <mat-error>El nombre de su empresa es requerido</mat-error> }
             </mat-form-field>
           </div>
@@ -181,7 +181,7 @@
               name="razonSocial"
               matInput
             />
-            @if(hasErrorEntity('razonSocial', 'required')) {
+            @if(serviceForm.hasErrorEntity('razonSocial', 'required')) {
             <mat-error>La razón social es requerida</mat-error> }
           </mat-form-field>
           <mat-form-field
@@ -196,8 +196,25 @@
               name="telefono"
               matInput
             />
-            @if(hasErrorEntity('telefono', 'required')) {
+            @if(serviceForm.hasErrorEntity('telefono', 'required')) {
             <mat-error>Debe ingresar el teléfono de su empresa</mat-error> }
+          </mat-form-field>
+          <mat-form-field
+            appearance="outline"
+            class="h-full !text-sm sm:!text-base"
+          >
+            <mat-label class="!text-sm sm:!text-base">Correo</mat-label>
+            <mat-icon matPrefix>email</mat-icon>
+            <input
+              type="email"
+              formControlName="email"
+              name="email"
+              matInput
+            />
+            @if(serviceForm.hasErrorEntity('email', 'required')) {
+            <mat-error>Debe ingresar el correo de su empresa</mat-error> }
+            @if(serviceForm.hasErrorEntity('email', 'email')) {
+              <mat-error>Debe ingresar un correo valido</mat-error> }
           </mat-form-field>
         </ng-template>
         <ng-container secondaryButton>

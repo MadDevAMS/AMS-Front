@@ -1,0 +1,30 @@
+<tabla-layout
+  [header]="[
+    'Nombre',
+    'Descripcion',
+    'F. Creación',
+  ]"
+>
+  <input
+    type="text"
+    [(ngModel)]="busqueda"
+    placeholder="Buscar grupos"
+    class="focus:outline-none w-full"
+    search
+  />
+  <ng-container body>
+    @for(grupo of filtrarGrupos(); track $index) {
+      <div (click)="seleccionar(grupo)" [ngClass]="{
+        'px-6 py-6 flex items-center font-light text-sm cursor-pointer transition-colors hover:bg-smoke2': true,
+        '!bg-slate-200': serviceForm.grupoSeleccionado && serviceForm.grupoSeleccionado.id === grupo.id
+      }" matRipple>
+        <span class="w-14">{{ $index | number: '3.0' }}</span>
+        <div class="grid grid-cols-[repeat(auto-fit,minmax(0,1fr))] flex-1 gap-2">
+          <tabla-col>{{ grupo.nombre }}</tabla-col>
+          <tabla-col>{{ grupo.descripcion }}</tabla-col>
+          <tabla-col>{{ grupo.fecha_creacion | date: 'short' }}</tabla-col>
+        </div>
+      </div>
+    }
+  </ng-container>
+</tabla-layout>
