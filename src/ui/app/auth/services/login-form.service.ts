@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { LoginUsecase } from "@data/login/usecases/login.usecase";
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({ providedIn: 'platform' })
 export class LoginFormService {
@@ -8,7 +9,8 @@ export class LoginFormService {
   formUser: FormGroup
 
   constructor(
-    public loginUsecase: LoginUsecase
+    public loginUsecase: LoginUsecase,
+    private _snackBar: MatSnackBar
   ) { 
     this.formUser = new FormGroup({
       correo: new FormControl('', [Validators.required, Validators.email]),
@@ -30,9 +32,15 @@ export class LoginFormService {
       this.loginUsecase.execute(this.formUser.value).subscribe({
         next: (res) => {
           if (res.Status !== 201) {
-            res.Errors.forEach((err) => {
+            res.Errors?.forEach((err) => {
               this.formUser.get(err.PropertyName)?.setErrors({ errors: err.PropertyName })
             })
+            res.Message && this._snackBar.open(res.Message, 'Aceptar', {
+              panelClass: ['error-snackbar'],
+              duration: 3000,
+              horizontalPosition: 'center',
+              verticalPosition: 'top',
+            });
           } else {
             console.log(res);
           }
