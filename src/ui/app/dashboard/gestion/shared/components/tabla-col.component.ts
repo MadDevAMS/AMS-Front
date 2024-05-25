@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'tabla-col-usuarios',
+  selector: 'tabla-col',
   templateUrl: './tabla-col.component.html',
 })
 export class TablaColComponent { }

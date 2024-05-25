@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { IUsuarioModel } from '@data/usuarios/models/usuario.model';
 import { UsuarioFormService } from '../../services/usuario-form.service';
 

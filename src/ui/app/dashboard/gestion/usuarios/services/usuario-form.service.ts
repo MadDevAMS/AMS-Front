@@ -51,7 +51,7 @@ export class UsuarioFormService {
   }
 
   toggleSeleccionar(usuario: IUsuarioModel) {
-    if (this.usuarioSeleccionado) {
+    if (this.usuarioSeleccionado && this.usuarioSeleccionado === usuario) {
       this.limpiar();
     } else {
       this.usuarioSeleccionado = usuario;

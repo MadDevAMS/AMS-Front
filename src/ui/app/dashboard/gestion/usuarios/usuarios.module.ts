@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TablaColComponent } from './components/tabla/tabla-col.component';
 import { TablaComponent } from './components/tabla/tabla.component';
 import { CardLayout } from '@ui/shared/layouts/card.layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -8,6 +7,7 @@ import { GrupoDataModule } from '@data/grupos/grupo.data.module';
 import { UsuarioDataModule } from '@data/usuarios/usuario.data.module';
 import { MaterialModule } from '@ui/shared/modules/material.module';
 import { UsuarioUsecaseService } from './services/usuario-usecase.service';
+import { SharedModule } from '../shared/shared.module';
 
 const commonModules = [
   CommonModule,
@@ -15,15 +15,15 @@ const commonModules = [
   FormsModule,
   
   MaterialModule,
-
+  
   CardLayout,
+  SharedModule,
 
   UsuarioDataModule,
   GrupoDataModule
 ]
 
 const declarations = [
-  TablaColComponent,
   TablaComponent,
 ]
 
