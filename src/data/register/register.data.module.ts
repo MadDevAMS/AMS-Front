@@ -11,7 +11,7 @@ import { RegisterDomainModule } from '@domain/register/register.domain.module';
   providers: [
     { 
       provide: RegisterUsuarioEntidadUsecase,
-      useFactory: (usuarioRepo: RegisterRepository) => new RegisterUsuarioEntidadUsecase(usuarioRepo),
+      useFactory: (registerRepo: RegisterRepository) => new RegisterUsuarioEntidadUsecase(registerRepo),
       deps: [RegisterRepository]
     },
   ],

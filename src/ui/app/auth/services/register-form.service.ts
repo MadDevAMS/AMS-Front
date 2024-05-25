@@ -6,6 +6,13 @@ import { RegisterUsuarioEntidadUsecase } from "@data/register/usecases/register-
 export class RegisterFormService {
   formUser: FormGroup;
   formEntity: FormGroup;
+  razonesSociales: string[] = [
+    "SAC",
+    "SA",
+    "EIRL",
+    "SAA",
+    "SRL"
+  ];
 
   constructor(
     private registerUsecase: RegisterUsuarioEntidadUsecase
@@ -19,7 +26,7 @@ export class RegisterFormService {
     });
   
     this.formEntity = new FormGroup({
-      ruc: new FormControl('', [Validators.required]),
+      ruc: new FormControl('', [Validators.required, Validators.pattern(/^[0-9]{11}$/)]),
       nombre: new FormControl('', [Validators.required]),
       razonSocial: new FormControl('', [Validators.required]),
       telefono: new FormControl('', [Validators.required]),
@@ -35,13 +42,32 @@ export class RegisterFormService {
     return this.formEntity.get(field)?.hasError(type);
   }
 
+  getErrorsApi(form: FormGroup, field: string) {
+    return form.get(field)?.getError('errors')
+  }
+
   register() {
     this.formEntity.markAllAsTouched()
     this.formUser.markAllAsTouched()
-    if (this.formEntity.valid) {
+    this.formEntity.get('email')?.setErrors({ www: 'Invalid www' })
+    if (this.formEntity.valid && this.formUser.valid) {
       this.registerUsecase.execute({
         ...this.formEntity.value,
         ...this.formUser.value
+      }).subscribe({
+        next: (res) => {
+          if (res.Status !== 201) {
+            res.Errors.forEach((err) => {
+              this.formEntity.get(err.PropertyName)?.setErrors({ errors: err.PropertyName })
+              this.formUser.get(err.PropertyName)?.setErrors({ errors: err.PropertyName })
+            })
+          } else {
+            console.log(res);
+          }
+        },
+        error: (err) => {
+          console.error(err);
+        }
       })
     }
   }
