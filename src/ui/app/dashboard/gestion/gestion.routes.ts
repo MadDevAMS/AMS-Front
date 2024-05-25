@@ -1,7 +1,7 @@
 import { Routes } from "@angular/router";
-import { ReportesPage } from "./pages/reportes/reportes.page";
-import { UsuariosPage } from "./pages/usuarios/usuarios.page";
-import { GruposPage } from "./pages/grupos/grupos.page";
+import { ReportesPage } from "./reportes/reportes.page";
+import { UsuariosPage } from "./usuarios/pages/usuarios.page";
+import { GruposPage } from "./grupos/pages/grupos.page";
 
 export const gestionRoutes: Routes = [
   {

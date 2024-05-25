@@ -6,6 +6,7 @@ import { SidebarItemComponent } from './sidebar-item.component';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatRippleModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { MatButtonModule } from '@angular/material/button';
     RouterLink, 
     RouterLinkActive,
     MatIcon, 
+    MatRippleModule,
     MatButtonModule
   ],
   exports: [ SidebarComponent ],
