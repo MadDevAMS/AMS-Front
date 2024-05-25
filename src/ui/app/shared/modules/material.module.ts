@@ -1,3 +1,4 @@
+import { CdkStepperModule } from '@angular/cdk/stepper';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckbox } from '@angular/material/checkbox';
@@ -19,6 +20,7 @@ const materialModules = [
   MatChipsModule,
   MatCheckbox,
   MatExpansionModule,
+  CdkStepperModule
 ]
 
 @NgModule({

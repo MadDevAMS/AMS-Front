@@ -1,4 +1,4 @@
-import { Observable, filter, from, map, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { PermisoMapper } from './permiso.mapper';
 import { IPermisoEntity } from './permiso.entity';
 import { PermisoRepository } from '../../data/permisos/repository/permiso.repository';
