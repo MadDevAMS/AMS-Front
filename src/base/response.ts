@@ -9,6 +9,6 @@ export interface IApiResponse<T> {
   Status: HttpStatusCode,
   Message: string,
   TotalRecords: number,
-  Data: T,
-  Errors: IErrorResponse[]
+  Data: T | null,
+  Errors: IErrorResponse[] | null
 }

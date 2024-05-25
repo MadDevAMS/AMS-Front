@@ -42,6 +42,14 @@ body {
   border-inline: none !important;
 }
 
+.mat-mdc-snack-bar-container {
+  &.error-snackbar {
+    --mdc-snackbar-container-color: #FDFDFD;
+    --mat-snack-bar-button-color: #1B1C31;
+    --mdc-snackbar-supporting-text-color: #DC3939;
+  }
+}
+
 button[mat-icon-button] {
   width: auto !important;
   height: auto !important;

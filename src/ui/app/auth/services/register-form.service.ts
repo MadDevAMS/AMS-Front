@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { RegisterUsuarioEntidadUsecase } from "@data/register/usecases/register-usuario-entidad.usecase";
 
 @Injectable({ providedIn: 'platform' })
@@ -15,7 +16,8 @@ export class RegisterFormService {
   ];
 
   constructor(
-    private registerUsecase: RegisterUsuarioEntidadUsecase
+    private registerUsecase: RegisterUsuarioEntidadUsecase,
+    private _snackBar: MatSnackBar
   ) {
     this.formUser = new FormGroup({
       firstName: new FormControl('', [Validators.required]),
@@ -56,10 +58,16 @@ export class RegisterFormService {
       }).subscribe({
         next: (res) => {
           if (res.Status !== 201) {
-            res.Errors.forEach((err) => {
+            res.Errors?.forEach((err) => {
               this.formEntity.get(err.PropertyName)?.setErrors({ errors: err.PropertyName })
               this.formUser.get(err.PropertyName)?.setErrors({ errors: err.PropertyName })
             })
+            res.Message && this._snackBar.open(res.Message, 'Aceptar', {
+              panelClass: ['error-snackbar'],
+              duration: 3000,
+              horizontalPosition: 'center',
+              verticalPosition: 'top',
+            });
           } else {
             console.log(res);
           }
