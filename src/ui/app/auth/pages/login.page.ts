@@ -1,32 +1,16 @@
 import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import {
   FormControl,
   FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { FormLayout } from '../layouts/form.layout';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { AuthModule } from '../auth.module';
 
 @Component({
   selector: 'login-page',
   standalone: true,
   imports: [
-    RouterLink,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatCheckboxModule,
-    FormsModule,
-    ReactiveFormsModule,
-    FormLayout,
+    AuthModule
   ],
   templateUrl: 'login.page.html',
   schemas: [NO_ERRORS_SCHEMA],
