@@ -49,7 +49,6 @@ export class RegisterFormService {
   register() {
     this.formEntity.markAllAsTouched()
     this.formUser.markAllAsTouched()
-    this.formEntity.get('email')?.setErrors({ www: 'Invalid www' })
     if (this.formEntity.valid && this.formUser.valid) {
       this.registerUsecase.execute({
         ...this.formEntity.value,
