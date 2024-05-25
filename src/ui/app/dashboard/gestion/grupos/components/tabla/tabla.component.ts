@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { IGrupoModel } from '../../../../../../../data/grupos/models/grupo.model';
+import { Component, Input } from '@angular/core';
+import { IGrupoModel } from '@data/grupos/models/grupo.model';
+import { GrupoFormService } from '../../services/grupo-form.service';
 
 @Component({
   selector: 'tabla-grupos',
@@ -7,12 +8,22 @@ import { IGrupoModel } from '../../../../../../../data/grupos/models/grupo.model
 })
 export class TablaComponent {
   @Input() grupos: IGrupoModel[] = [];
-  @Output() seleccion = new EventEmitter<IGrupoModel>()
 
-  seleccionado: IGrupoModel | null = null;
+  busqueda: string = "";
+
+  constructor(
+    public serviceForm: GrupoFormService
+  ) { }
 
   seleccionar(grupo: IGrupoModel) {
-    this.seleccion.emit(grupo)
-    this.seleccionado = this.seleccionado === grupo ? null : grupo
+    this.serviceForm.toggleSeleccionar(grupo);
+  }
+
+  filtrarGrupos() {
+    return this.grupos.filter(grupo =>
+      Object.values(grupo).some(value =>
+        value?.toString().toLowerCase().includes(this.busqueda.toLowerCase())
+      )
+    );
   }
 }

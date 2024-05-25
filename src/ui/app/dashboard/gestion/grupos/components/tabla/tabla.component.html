@@ -1,35 +1,30 @@
-<div class="w-full h-full flex flex-col gap-3">
-  <div class="flex flex-col sm:flex-row justify-between gap-3">
-    <div class="rounded-lg bg-white py-3 px-6 flex items-center text-base shadow-expand-ams w-full sm:w-auto">
-      <input
-        type="text"
-        placeholder="Busca aqui"
-        class="focus:outline-none w-full"
-      />
-      <mat-icon>search</mat-icon>
-    </div>
-  </div>
-  <div class="bg-white rounded flex-1">
-    <header class="px-6 py-3 flex text-gray01 shadow-expand-ams">
-      <span class="w-14">Nro</span>
-      <div class="grid grid-cols-[repeat(auto-fit,minmax(0,1fr))] flex-1 gap-2">
-        <tabla-col-grupos>Nombre</tabla-col-grupos>
-        <tabla-col-grupos>Descripcion</tabla-col-grupos>
-        <tabla-col-grupos>F. Creación</tabla-col-grupos>
-      </div>
-    </header>
-    @for(grupo of grupos; track $index) {
+<tabla-layout
+  [header]="[
+    'Nombre',
+    'Descripcion',
+    'F. Creación',
+  ]"
+>
+  <input
+    type="text"
+    [(ngModel)]="busqueda"
+    placeholder="Buscar grupos"
+    class="focus:outline-none w-full"
+    search
+  />
+  <ng-container body>
+    @for(grupo of filtrarGrupos(); track $index) {
       <div (click)="seleccionar(grupo)" [ngClass]="{
         'px-6 py-6 flex items-center font-light text-sm cursor-pointer transition-colors hover:bg-smoke2': true,
-        '!bg-slate-200': seleccionado && seleccionado.id === grupo.id
+        '!bg-slate-200': serviceForm.grupoSeleccionado && serviceForm.grupoSeleccionado.id === grupo.id
       }" matRipple>
         <span class="w-14">{{ $index | number: '3.0' }}</span>
         <div class="grid grid-cols-[repeat(auto-fit,minmax(0,1fr))] flex-1 gap-2">
-          <tabla-col-grupos>{{ grupo.nombre }}</tabla-col-grupos>
-          <tabla-col-grupos>{{ grupo.descripcion }}</tabla-col-grupos>
-          <tabla-col-grupos>{{ grupo.fecha_creacion | date: 'short' }}</tabla-col-grupos>
+          <tabla-col>{{ grupo.nombre }}</tabla-col>
+          <tabla-col>{{ grupo.descripcion }}</tabla-col>
+          <tabla-col>{{ grupo.fecha_creacion | date: 'short' }}</tabla-col>
         </div>
       </div>
     }
-  </div>
-</div>
+  </ng-container>
+</tabla-layout>

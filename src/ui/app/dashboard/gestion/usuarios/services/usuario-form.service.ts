@@ -13,12 +13,12 @@ export class UsuarioFormService {
 
   constructor() {
     this.formUsuario = new FormGroup({
-      nombres: new FormControl('', [Validators.required]),
-      apellidos: new FormControl('', [Validators.required]),
-      correo: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl(''),
-      confirmPassword: new FormControl(''),
-      grupos: new FormControl([])
+      nombres: new FormControl<string>('', [Validators.required]),
+      apellidos: new FormControl<string>('', [Validators.required]),
+      correo: new FormControl<string>('', [Validators.required, Validators.email]),
+      password: new FormControl<string>(''),
+      confirmPassword: new FormControl<string>(''),
+      grupos: new FormControl<IGrupoModel[]>([])
     });
     this.setValidators();
   }

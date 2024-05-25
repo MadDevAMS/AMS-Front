@@ -2,19 +2,23 @@ import { NgModule } from '@angular/core';
 import { TablaComponent } from './components/tabla/tabla.component';
 import { GrupoDataModule } from '@data/grupos/grupo.data.module';
 import { UsuarioDataModule } from '@data/usuarios/usuario.data.module';
-import { UsuarioUsecaseService } from './services/usuario-usecase.service';
 import { SharedModule } from '../shared/shared.module';
-import { UsuarioFormService } from './services/usuario-form.service';
+import { GrupoUsecaseService } from './services/grupo-usecase.service';
+import { GrupoFormService } from './services/grupo-form.service';
+import { PermisoDataModule } from '@data/permisos/permiso.data.module';
+import { TablaUsuariosComponent } from './components/tabla/tabla-usuarios.component';
 
 const commonModules = [
   SharedModule,
 
   UsuarioDataModule,
-  GrupoDataModule
+  GrupoDataModule,
+  PermisoDataModule
 ]
 
 const declarations = [
   TablaComponent,
+  TablaUsuariosComponent
 ]
 
 @NgModule({
@@ -25,8 +29,8 @@ const declarations = [
     ...commonModules
   ],
   providers: [ 
-    UsuarioUsecaseService,
-    UsuarioFormService
+    GrupoUsecaseService,
+    GrupoFormService
   ],
 })
-export class UsuariosModule { }
+export class GruposModule { }
