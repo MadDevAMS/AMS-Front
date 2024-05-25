@@ -5,16 +5,19 @@
   [footerTextLink]="'Registrarse'"
   [footerLinkRouter]="'/auth/register'"
   [submitText]="'Iniciar sesión'"
-  [formGroup]="formUser"
-  (submit)="login()"
+  [formGroup]="serviceForm.formUser"
+  (submit)="serviceForm.login()"
 >
   <ng-template #inputs>
     <mat-form-field appearance="outline" class="h-full !text-sm sm:!text-base">
       <mat-label class="!text-sm sm:!text-base">Correo electrónico</mat-label>
       <mat-icon matPrefix>mail</mat-icon>
-      <input type="email" name="email" formControlName="email" matInput>
-      @if(hasError('email', 'required')) { <mat-error>El correo es requerido</mat-error> }
-      @if(hasError('email', 'email')) { <mat-error>Debe especificar un correo vàlido</mat-error> }
+      <input type="email" name="correo" formControlName="correo" matInput>
+      @if(serviceForm.hasError('correo', 'required')) { <mat-error>El correo es requerido</mat-error> }
+      @if(serviceForm.hasError('correo', 'email')) { <mat-error>Debe especificar un correo vàlido</mat-error> }
+      @for (error of serviceForm.getErrorsApi('correo'); track $index) {
+        <mat-error>{{ error }}</mat-error>
+      }
     </mat-form-field>
     <mat-form-field appearance="outline" class="h-full !text-sm sm:!text-base">
       <mat-label class="!text-sm sm:!text-base">Contraseña</mat-label>
@@ -23,7 +26,10 @@
       <button type="button" mat-icon-button matSuffix (click)="hide = !hide">
         <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
-      @if(hasError('password', 'required')) { <mat-error>La contraseña requerida</mat-error> }
+      @if(serviceForm.hasError('password', 'required')) { <mat-error>La contraseña requerida</mat-error> }
+      @for (error of serviceForm.getErrorsApi('password'); track $index) {
+        <mat-error>{{ error }}</mat-error>
+      }
     </mat-form-field>
   </ng-template>
   <ng-container options>

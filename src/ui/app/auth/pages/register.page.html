@@ -61,6 +61,9 @@
           <mat-error>El correo es requerido</mat-error> }
           @if(serviceForm.hasError('userEmail', 'email')) {
           <mat-error>Debe especificar un correo vàlido</mat-error> }
+          @for (error of serviceForm.getErrorsApi(serviceForm.formUser, 'userEmail'); track $index) {
+            <mat-error>{{ error }}</mat-error>
+          }
         </mat-form-field>
         <mat-form-field
           appearance="outline"
@@ -88,6 +91,9 @@
           <mat-error>La contraseña requerida</mat-error> }
           @if(serviceForm.hasError('password', 'pattern')) {
           <mat-error>Contraseña invalida</mat-error> }
+          @for (error of serviceForm.getErrorsApi(serviceForm.formUser, 'password'); track $index) {
+            <mat-error>{{ error }}</mat-error>
+          }
         </mat-form-field>
         <mat-form-field
           appearance="outline"
@@ -117,6 +123,9 @@
           <mat-error>Ingrese de nuevo su contraseña</mat-error> }
           @if(serviceForm.hasError('confirmPassword', 'pattern')) {
           <mat-error>Contraseña invalida</mat-error> }
+          @for (error of serviceForm.getErrorsApi(serviceForm.formUser, 'confirmPassword'); track $index) {
+            <mat-error>{{ error }}</mat-error>
+          }
         </mat-form-field>
       </ng-template>
     </form-layout>
@@ -143,13 +152,18 @@
               <mat-label class="!text-sm sm:!text-base">RUC</mat-label>
               <mat-icon matPrefix>badge</mat-icon>
               <input
-                type="number"
+                type="text"
                 formControlName="ruc"
                 name="ruc"
                 matInput
               />
               @if(serviceForm.hasErrorEntity('ruc', 'required')) {
               <mat-error>El RUC es requerido</mat-error> }
+              @if(serviceForm.hasErrorEntity('ruc', 'pattern')) {
+                <mat-error>Ingrese un RUC valido</mat-error> }
+              @for (error of serviceForm.getErrorsApi(serviceForm.formEntity, 'ruc'); track $index) {
+                <mat-error>{{ error }}</mat-error>
+              }
             </mat-form-field>
             <mat-form-field
               appearance="outline"
@@ -167,6 +181,9 @@
               />
               @if(serviceForm.hasErrorEntity('nombre', 'required')) {
               <mat-error>El nombre de su empresa es requerido</mat-error> }
+              @for (error of serviceForm.getErrorsApi(serviceForm.formEntity, 'nombre'); track $index) {
+                <mat-error>{{ error }}</mat-error>
+              }
             </mat-form-field>
           </div>
           <mat-form-field
@@ -175,14 +192,19 @@
           >
             <mat-label class="!text-sm sm:!text-base">Razón social</mat-label>
             <mat-icon matPrefix>people</mat-icon>
-            <input
-              type="text"
-              formControlName="razonSocial"
+            <mat-select
               name="razonSocial"
-              matInput
-            />
+              formControlName="razonSocial"
+            >
+              @for (razonSocial of serviceForm.razonesSociales; track $index) {
+                <mat-option [value]="razonSocial">{{razonSocial}}</mat-option>
+              }
+            </mat-select>
             @if(serviceForm.hasErrorEntity('razonSocial', 'required')) {
             <mat-error>La razón social es requerida</mat-error> }
+            @for (error of serviceForm.getErrorsApi(serviceForm.formEntity, 'razonSocial'); track $index) {
+              <mat-error>{{ error }}</mat-error>
+            }
           </mat-form-field>
           <mat-form-field
             appearance="outline"
@@ -198,6 +220,9 @@
             />
             @if(serviceForm.hasErrorEntity('telefono', 'required')) {
             <mat-error>Debe ingresar el teléfono de su empresa</mat-error> }
+            @for (error of serviceForm.getErrorsApi(serviceForm.formEntity, 'telefono'); track $index) {
+              <mat-error>{{ error }}</mat-error>
+            }
           </mat-form-field>
           <mat-form-field
             appearance="outline"
@@ -215,6 +240,9 @@
             <mat-error>Debe ingresar el correo de su empresa</mat-error> }
             @if(serviceForm.hasErrorEntity('email', 'email')) {
               <mat-error>Debe ingresar un correo valido</mat-error> }
+            @for (error of serviceForm.getErrorsApi(serviceForm.formEntity, 'email'); track $index) {
+              <mat-error>{{ error }}</mat-error>
+            }
           </mat-form-field>
         </ng-template>
         <ng-container secondaryButton>

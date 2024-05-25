@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSelectModule } from '@angular/material/select';
 
 const materialModules = [
   MatIconModule,
@@ -19,6 +20,7 @@ const materialModules = [
   MatRippleModule,
   MatChipsModule,
   MatCheckbox,
+  MatSelectModule,
   MatExpansionModule,
   CdkStepperModule
 ]

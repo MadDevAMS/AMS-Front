@@ -4,6 +4,7 @@ import { RegistroMapper } from '../mappers/register.mapper';
 import { IFormRegisterModel } from '@data/register/models/formRegister.model';
 import { HttpClient } from '@angular/common/http';
 import { API_URL } from '@base/environment';
+import { IApiResponse } from '@base/response';
 
 export class RegisterImplementationRepository extends RegisterRepository {
 
@@ -15,9 +16,8 @@ export class RegisterImplementationRepository extends RegisterRepository {
     super();
   }
 
-  override registerUser(param: IFormRegisterModel): Observable<void> {
-    console.log(this.mapper.mapTo(param));
-    return this.http.post<void>(`${API_URL}`, this.mapper.mapTo(param))
+  override registerUser(param: IFormRegisterModel): Observable<IApiResponse<null>> {
+    return this.http.post<IApiResponse<null>>(`${API_URL}/Entidad`, this.mapper.mapTo(param))
   }
   
 }
