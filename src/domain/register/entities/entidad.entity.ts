@@ -4,5 +4,4 @@ export interface IEntidadAuthEntity {
   razonSocial: string,
   telefono: string, 
   email: string,
-  direccion: string | null
 }
