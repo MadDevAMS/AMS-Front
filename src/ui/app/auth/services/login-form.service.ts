@@ -31,11 +31,11 @@ export class LoginFormService {
     if (this.formUser.valid) {
       this.loginUsecase.execute(this.formUser.value).subscribe({
         next: (res) => {
-          if (res.Status !== 201) {
-            res.Errors?.forEach((err) => {
-              this.formUser.get(err.PropertyName)?.setErrors({ errors: err.PropertyName })
+          if (res.status !== 201) {
+            res.errors?.forEach((err) => {
+              this.formUser.get(err.propertyName)?.setErrors({ errors: err.propertyName })
             })
-            res.Message && this._snackBar.open(res.Message, 'Aceptar', {
+            res.message && this._snackBar.open(res.message, 'Aceptar', {
               panelClass: ['error-snackbar'],
               duration: 3000,
               horizontalPosition: 'center',

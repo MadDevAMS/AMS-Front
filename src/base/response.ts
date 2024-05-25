@@ -1,14 +1,14 @@
 import { HttpStatusCode } from '@angular/common/http';
 
 export interface IErrorResponse {
-  PropertyName: string,
-  ErrorMessage: string[]
+  propertyName: string,
+  errorMessage: string[]
 }
 
 export interface IApiResponse<T> {
-  Status: HttpStatusCode,
-  Message: string,
-  TotalRecords: number,
-  Data: T | null,
-  Errors: IErrorResponse[] | null
+  status: HttpStatusCode,
+  message: string,
+  totalRecords: number,
+  data: T | null,
+  errors: IErrorResponse[] | null
 }
