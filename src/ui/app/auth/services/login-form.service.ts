@@ -35,7 +35,7 @@ export class LoginFormService {
             res.errors?.forEach((err) => {
               this.formUser.get(err.propertyName)?.setErrors({ errors: err.propertyName })
             })
-            res.message && this._snackBar.open(res.message, 'Aceptar', {
+            res.message && this._snackBar.open(res.message, 'Cerrar', {
               panelClass: ['error-snackbar'],
               duration: 3000,
               horizontalPosition: 'center',
