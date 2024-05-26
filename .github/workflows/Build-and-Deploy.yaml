@@ -37,7 +37,7 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Sync S3 bucket
-        run: aws s3 sync dist/ s3://${{ secrets.AWS_BUCKET_NAME }} --delete
+        run: aws s3 sync dist/ams-front/browser s3://${{ secrets.AWS_BUCKET_NAME }} --delete
 
       - name: CloudFront cache
         run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DID }} --paths "/*"
