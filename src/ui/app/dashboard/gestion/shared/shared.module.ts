@@ -1,12 +1,9 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { TablaLayout } from './layouts/tabla.layout';
 import { TablaColComponent } from './components/tabla-col.component';
-import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '@ui/shared/modules/material.module';
-import { CardLayout } from '@ui/shared/layouts/card.layout';
-
+import { SharedGlobalModule } from '@ui/shared/modules/shared-global.module';
 
 const components = [
   TablaLayout,
@@ -14,14 +11,11 @@ const components = [
 ]
 
 const common = [
-  CommonModule,
-  MatIconModule,
+  SharedGlobalModule,
+  MaterialModule,
+
   ReactiveFormsModule,
   FormsModule,
-  
-  MaterialModule,
-  
-  CardLayout,
 ]
 
 @NgModule({

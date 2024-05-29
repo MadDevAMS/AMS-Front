@@ -1,7 +1,7 @@
 import { Routes } from "@angular/router";
-import { ActivosPage } from "./pages/activos/activos.page";
-import { MainPage } from "./pages/main/main.page";
-import { MonitoreoPage } from "./pages/monitoreo/monitoreo.page";
+import { ActivosPage } from "./activos/pages/activos.page";
+import { MainPage } from "./main/pages/main.page";
+import { MonitoreoPage } from "./monitoreo/pages/monitoreo.page";
 
 export const dashboardRoutes: Routes = [
   {

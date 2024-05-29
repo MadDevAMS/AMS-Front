@@ -1,0 +1,32 @@
+<div 
+  (click)="seleccionar()"
+  [ngClass]="{
+    'border-gray04 border-opacity-50 border-[0.25px] w-96 flex justify-between shadow-sm-ams-01 rounded-e-md arbol-item transition-colors cursor-pointer': true,
+    'bg-white': hasSelect,
+    'bg-smoke2': !hasSelect,
+  }"
+>
+  <div class="flex gap-2 justify-between items-center">
+    <span [ngClass]="{
+      'w-1.5 py-3 rounded-e-full visible': true,
+      'bg-blue02': node.type === 'root',
+      'bg-gray01': node.type === 'environment',
+      'bg-cyan': node.type === 'machine',
+      'bg-green': node.type === 'engine',
+      'bg-green2': node.type === 'spot',
+      'bg-gray03': node.type === 'route'
+    }">&nbsp;</span>
+    <mat-icon class="!text-gray01">grid_view</mat-icon>
+    <p class="font-poppins text-gray01 py-3">
+      <ng-content select="[label]"></ng-content>
+    </p>
+  </div>
+  <div class="flex items-center">
+    <button mat-ripple class="rounded-[50%] w-10 h-10 flex justify-center items-center">
+      <mat-icon>
+        add
+      </mat-icon>
+    </button>
+    <ng-content select="[buttonExpanded]"></ng-content>
+  </div>
+</div>
