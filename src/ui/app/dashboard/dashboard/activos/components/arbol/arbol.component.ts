@@ -41,7 +41,7 @@ export class ArbolComponent {
       type: activo.type,
       level: level,
       expandable: !!activo.hijos.length,
-      isExpanded: false,
+      isExpanded: true,
     };
     nodes.push(node);
     if (activo.hijos.length > 0) {
