@@ -10,31 +10,22 @@
       <mat-icon>search</mat-icon>
     </div>
   </div>
-  <div class="bg-white rounded shadow-expand-ams w-full flex-1 h-0 overflow-auto">
-    <cdk-tree [dataSource]="dataSource" [treeControl]="treeControl" class="flex flex-col gap-4 p-8" body>
+  <div class="bg-white rounded shadow-expand-ams w-full flex-1 flex max-h-[36rem] md:max-h-none py-8 px-4 overflow-auto">
+    <cdk-tree [dataSource]="dataSource" [treeControl]="treeControl" class="flex flex-col w-0 flex-1 gap-4" body>
       <cdk-tree-node 
         *cdkTreeNodeDef="let node;" cdkTreeNodePadding
-        [style.display]="shouldRender(node) ? 'flex' : 'none'"
-        class="activo-node">
-        <activos-arbol-item [hasSelect]="nodoSeleccionado === node" (seleccion)="seleccion($event)" [node]="node">
-          <ng-container label>
-            {{ node.name }}
-          </ng-container>
-        </activos-arbol-item>
+        [style.display]="shouldRender(node) ? 'flex' : 'none'">
+        <activos-arbol-item [node]="node"></activos-arbol-item>
       </cdk-tree-node>
       <cdk-tree-node 
         *cdkTreeNodeDef="let node; when: hasChild" cdkTreeNodePadding
-        [style.display]="shouldRender(node) ? 'flex' : 'none'"
-        class="activo-node">
-        <activos-arbol-item [hasSelect]="nodoSeleccionado === node" (seleccion)="seleccion($event)" [node]="node">
-          <ng-container label>
-            {{ node.name }}
-          </ng-container>
+        [style.display]="shouldRender(node) ? 'flex' : 'none'">
+        <activos-arbol-item [node]="node">
           <button mat-ripple [ngClass]="{
             'rounded-[50%] w-10 h-10 flex justify-center items-center transition-transform': true,
             '!-rotate-180': node.isExpanded
           }" cdkTreeNodeToggle
-                [attr.aria-label]="'Toggle ' + node.name"
+                [attr.aria-label]="'Toggle ' + node.nombre"
                 (click)="node.isExpanded = !node.isExpanded"
                 [style.visibility]="node.expandable ? 'visible' : 'hidden'" buttonExpanded>
             <mat-icon>

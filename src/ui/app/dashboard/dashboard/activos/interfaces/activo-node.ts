@@ -1,7 +1,10 @@
+import { IActivoModel } from "@data/activos/models/activo.model";
+
 export interface IActivoNode {
-  expandable: boolean;
-  name: string;
+  id: IActivoModel["id"],
+  nombre: IActivoModel["nombre"];
+  type: IActivoModel["type"],
   level: number;
-  type?: 'root' | 'environment' | 'machine' | 'engine' | 'spot' | 'route',
+  expandable: boolean;
   isExpanded?: boolean;
 }

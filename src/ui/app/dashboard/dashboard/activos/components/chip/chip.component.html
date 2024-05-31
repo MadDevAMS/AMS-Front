@@ -1,0 +1,40 @@
+<div class="flex w-full gap-2 justify-start items-center relative">
+  <span
+    [ngClass]="{
+      'w-1.5 absolute top-0 bottom-0 left-0 rounded-e-full visible': true,
+      'bg-blue02': node.type === 'entidad',
+      'bg-gray01': node.type === 'folder',
+      'bg-cyan': node.type === 'maquina',
+      'bg-green': node.type === 'componente',
+      'bg-green2': node.type === 'punto_monitoreo',
+      'bg-gray03': node.type === 'metrica'
+    }"
+    >&nbsp;</span
+  >
+  <span class="invisible block w-1.5"></span>
+  <mat-icon class="!text-gray01">
+    @switch (node.type) {
+      @case('entidad') {
+        apartment
+      }
+      @case('folder') {
+        folder
+      }
+      @case('maquina') {
+        precision_manufacturing
+      }
+      @case('componente') {
+        power
+      }
+      @case('punto_monitoreo') {
+        location_searching
+      }
+      @case('metrica') {
+        analytics
+      }
+    }
+  </mat-icon>
+  <p class="font-poppins truncate text-gray01 py-3">
+    {{ node.nombre }}
+  </p>
+</div>

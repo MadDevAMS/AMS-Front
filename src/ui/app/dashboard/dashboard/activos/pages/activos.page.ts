@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivosModule } from '../activos.module';
+import { ActivosFormService } from '../services/activos-form.service';
 
 @Component({
   selector: 'activos-page',
@@ -7,4 +8,8 @@ import { ActivosModule } from '../activos.module';
   imports: [ ActivosModule ],
   templateUrl: './activos.page.html',
 })
-export class ActivosPage {}
+export class ActivosPage {
+  constructor(
+    public formService: ActivosFormService<any>
+  ) {}
+}

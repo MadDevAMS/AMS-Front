@@ -1,132 +1,65 @@
 import { ArrayDataSource } from '@angular/cdk/collections';
-import { Component, OnInit } from '@angular/core';
-import {FlatTreeControl} from '@angular/cdk/tree';
-import { animate, state, style, transition, trigger } from '@angular/animations';
+import { Component } from '@angular/core';
+import { FlatTreeControl } from '@angular/cdk/tree';
 import { IActivoNode } from '../../interfaces/activo-node';
-
-const TREE_DATA: IActivoNode[] = [
-  {
-    name: 'Fruit',
-    expandable: true,
-    type: 'root',
-    level: 0,
-  },
-  {
-    name: 'Apple',
-    expandable: false,
-    type: 'environment',
-    level: 1,
-  },
-  {
-    name: 'Banana',
-    expandable: false,
-    type: 'environment',
-    level: 1,
-  },
-  {
-    name: 'Fruit loops',
-    expandable: false,
-    type: 'environment',
-    level: 1,
-  },
-  {
-    name: 'Vegetables',
-    expandable: true,
-    type: 'root',
-    level: 0,
-  },
-  {
-    name: 'Green',
-    expandable: true,
-    type: 'environment',
-    level: 1,
-  },
-  {
-    name: 'Broccoli',
-    expandable: false,
-    type: 'machine',
-    level: 2,
-  },
-  {
-    name: 'Brussels sprouts',
-    expandable: true,
-    type: 'machine',
-    level: 2,
-  },
-  {
-    name: 'Example',
-    expandable: true,
-    type: 'engine',
-    level: 3
-  },
-  {
-    name: 'Example',
-    expandable: true,
-    type: 'spot',
-    level: 4
-  },
-  {
-    name: 'Example',
-    expandable: true,
-    type: 'route',
-    level: 5
-  },
-  {
-    name: 'Orange',
-    expandable: true,
-    type: 'environment',
-    level: 1,
-  },
-  {
-    name: 'Pumpkins',
-    expandable: false,
-    type: 'machine',
-    level: 2,
-  },
-  {
-    name: 'Carrots',
-    expandable: false,
-    type: 'machine',
-    level: 2,
-  },
-];
+import { ActivosUsecaseService } from '../../services/activos-usecase.service';
+import { IActivoModel } from '@data/activos/models/activo.model';
+import { ActivosFormService } from '../../services/activos-form.service';
 
 @Component({
   selector: 'activos-arbol',
   styleUrls: ['arbol.component.scss'],
   templateUrl: './arbol.component.html',
-  animations: [
-    trigger('expandCollapse', [
-      state('expanded', style({ height: '*', opacity: 1, visibility: 'visible' })),
-      state('collapsed', style({ height: '0px', opacity: 0, visibility: 'hidden' })),
-      transition('expanded <=> collapsed', [
-        animate('300ms ease-in-out')
-      ])
-    ])
-  ]
+  animations: []
 })
 export class ArbolComponent {
-  nodoSeleccionado: IActivoNode = TREE_DATA[0]
+  activosListado: IActivoNode[] = []
+  nombreActivoSearch: string = ""
 
+  dataSource!: ArrayDataSource<IActivoNode>;
   treeControl = new FlatTreeControl<IActivoNode>(
     node => node.level,
     node => node.expandable,
   );
 
-  dataSource = new ArrayDataSource(TREE_DATA);
+  constructor(
+    public serviceUsecase: ActivosUsecaseService,
+    private formService: ActivosFormService<any>
+  ) {
+    if (this.serviceUsecase.activos) {
+      this.activosListado = this.buildTree(this.serviceUsecase.activos, 0);
+      this.formService.seleccionar(this.activosListado[0])
+      this.dataSource = new ArrayDataSource(this.activosListado);
+    }
+  }
+
+  buildTree(activo: IActivoModel, level: number): IActivoNode[] {
+    let nodes: IActivoNode[] = [];
+    const node: IActivoNode = {
+      id: activo.id,
+      nombre: activo.nombre,
+      type: activo.type,
+      level: level,
+      expandable: !!activo.hijos.length,
+      isExpanded: false,
+    };
+    nodes.push(node);
+    if (activo.hijos.length > 0) {
+      activo.hijos.forEach(activo => {
+        nodes = nodes.concat(this.buildTree(activo, level + 1));
+      })
+    }
+    return nodes;
+  }
 
   hasChild = (_: number, node: IActivoNode) => node.expandable;
 
-  seleccion(node: IActivoNode) {
-    this.nodoSeleccionado = node
-  }
-
   getParentNode(node: IActivoNode) {
-    const nodeIndex = TREE_DATA.indexOf(node);
+    const nodeIndex = this.activosListado.indexOf(node);
 
     for (let i = nodeIndex - 1; i >= 0; i--) {
-      if (TREE_DATA[i].level === node.level - 1) {
-        return TREE_DATA[i];
+      if (this.activosListado[i].level === node.level - 1) {
+        return this.activosListado[i];
       }
     }
 

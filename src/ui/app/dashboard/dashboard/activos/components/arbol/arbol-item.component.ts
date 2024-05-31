@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { IActivoNode } from '../../interfaces/activo-node';
+import { ActivosFormService } from '../../services/activos-form.service';
 
 @Component({
   selector: 'activos-arbol-item',
@@ -9,10 +10,12 @@ import { IActivoNode } from '../../interfaces/activo-node';
 })
 export class ArbolItemComponent {
   @Input() node!: IActivoNode
-  @Input() hasSelect: boolean = false
-  @Output() seleccion = new EventEmitter<IActivoNode>()
+  @ViewChild('arbolItem') arbolItem!: ElementRef;
+
+  constructor(public serviceForm: ActivosFormService<any>) {}
 
   seleccionar() {
-    this.seleccion.emit(this.node)
+    this.serviceForm.seleccionar(this.node)
+    this.arbolItem.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 }

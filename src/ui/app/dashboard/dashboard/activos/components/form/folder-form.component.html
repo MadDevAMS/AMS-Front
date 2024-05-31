@@ -1,0 +1,104 @@
+<div class="h-full flex flex-col gap-3">
+  <card-layout class="flex-1 h-0">
+    <p class="text-gray01 text-base font-semibold" header>
+      Entidad {{ serviceForm.nodoSeleccionado?.nombre }}
+    </p>
+    <div class="flex flex-col gap-4" body>
+      <div class="flex flex-col sm:flex-row gap-4">
+        <mat-form-field
+          appearance="outline"
+          class="h-full !text-sm sm:!text-base"
+        >
+          <mat-label class="!text-sm sm:!text-base">RUC</mat-label>
+          <mat-icon matPrefix>badge</mat-icon>
+          <input
+            type="text"
+            formControlName="ruc"
+            name="ruc"
+            matInput
+          />
+        </mat-form-field>
+        <mat-form-field
+          appearance="outline"
+          class="h-full !text-sm sm:!text-base"
+        >
+          <mat-label class="!text-sm sm:!text-base">Nombre</mat-label>
+          <mat-icon matPrefix
+            >apartment</mat-icon
+          >
+          <input
+            type="text"
+            formControlName="nombre"
+            name="nombre"
+            matInput
+          />
+        </mat-form-field>
+      </div>
+      <mat-form-field
+        appearance="outline"
+        class="h-full !text-sm sm:!text-base"
+      >
+        <mat-label class="!text-sm sm:!text-base">Razón social</mat-label>
+        <mat-icon matPrefix>people</mat-icon>
+        <mat-select
+          name="razonSocial"
+          formControlName="razonSocial"
+        >
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field
+        appearance="outline"
+        class="h-full !text-sm sm:!text-base"
+      >
+        <mat-label class="!text-sm sm:!text-base">Teléfono</mat-label>
+        <mat-icon matPrefix>phone</mat-icon>
+        <input
+          type="tel"
+          formControlName="telefono"
+          name="telefono"
+          matInput
+        />
+      </mat-form-field>
+      <mat-form-field
+        appearance="outline"
+        class="h-full !text-sm sm:!text-base"
+      >
+        <mat-label class="!text-sm sm:!text-base">Correo</mat-label>
+        <mat-icon matPrefix>email</mat-icon>
+        <input
+          type="email"
+          formControlName="email"
+          name="email"
+          matInput
+        />
+      </mat-form-field>
+      <div class="flex gap-4">
+        <img class="w-1/2 h-full" src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRpnbimo6uFOVd1hEur1Q882tAe4qusnckKxZPKtXwN2rHHIK31" alt="imagen-{{serviceForm.dataNodo?.nombre}}">
+        <div class="flex flex-col gap-2 w-1/2">
+          @for (hijo of serviceForm.dataNodoHijos; track $index) {
+            <div class="border-gray04 border-opacity-50 border-[0.25px] w-full flex justify-between items-center shadow-sm-ams-01">
+              <activos-chip class="text-nowrap text-ellipsis overflow-clip" [node]="{
+                id: '',
+                nombre: hijo.nombre,
+                type: hijo.tipo,
+                level: 1,
+                expandable: false,
+                isExpanded: false
+              }"></activos-chip>
+              <p class="px-4">{{ hijo.cantidad }}</p>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </card-layout>
+  <div class="w-full flex flex-col xl:flex-row-reverse gap-2">
+    <button
+      color="primary"
+      class="!shadow-expand-ams !rounded !py-6 !font-semibold text-sm xl:w-1/2"
+      mat-raised-button
+    >      
+      Actualizar
+    </button>
+  </div>
+</div>
