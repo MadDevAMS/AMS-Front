@@ -3,11 +3,11 @@
     <p class="text-gray01 text-base font-semibold" header>
       Entidad {{ serviceForm.nodoSeleccionado?.nombre }}
     </p>
-    <div class="flex flex-col gap-4" body>
+    <div class="flex flex-col gap-4" [formGroup]="serviceForm.formDataUpdate" body>
       <div class="flex flex-col sm:flex-row gap-4">
         <mat-form-field
           appearance="outline"
-          class="h-full !text-sm sm:!text-base sm:!flex-1"
+          class="h-full !text-sm sm:!text-base"
         >
           <mat-label class="!text-sm sm:!text-base">RUC</mat-label>
           <mat-icon matPrefix>badge</mat-icon>
@@ -17,10 +17,17 @@
             name="ruc"
             matInput
           />
+          @if(serviceForm.hasError('ruc', 'required')) {
+          <mat-error>El RUC es requerido</mat-error> }
+          @if(serviceForm.hasError('ruc', 'pattern')) {
+            <mat-error>Ingrese un RUC valido</mat-error> }
+          @for (error of serviceForm.getErrorsApi('ruc'); track $index) {
+            <mat-error>{{ error }}</mat-error>
+          }
         </mat-form-field>
         <mat-form-field
           appearance="outline"
-          class="h-full !text-sm sm:!text-base sm:!flex-1"
+          class="h-full !text-sm sm:!text-base"
         >
           <mat-label class="!text-sm sm:!text-base">Nombre</mat-label>
           <mat-icon matPrefix
@@ -32,6 +39,11 @@
             name="nombre"
             matInput
           />
+          @if(serviceForm.hasError('nombre', 'required')) {
+          <mat-error>El nombre de su empresa es requerido</mat-error> }
+          @for (error of serviceForm.getErrorsApi('nombre'); track $index) {
+            <mat-error>{{ error }}</mat-error>
+          }
         </mat-form-field>
       </div>
       <mat-form-field
@@ -44,7 +56,15 @@
           name="razonSocial"
           formControlName="razonSocial"
         >
+          @for (razonSocial of razonesSociales; track $index) {
+            <mat-option [value]="razonSocial">{{razonSocial}}</mat-option>
+          }
         </mat-select>
+        @if(serviceForm.hasError('razonSocial', 'required')) {
+        <mat-error>La razón social es requerida</mat-error> }
+        @for (error of serviceForm.getErrorsApi('razonSocial'); track $index) {
+          <mat-error>{{ error }}</mat-error>
+        }
       </mat-form-field>
       <mat-form-field
         appearance="outline"
@@ -58,6 +78,11 @@
           name="telefono"
           matInput
         />
+        @if(serviceForm.hasError('telefono', 'required')) {
+        <mat-error>Debe ingresar el teléfono de su empresa</mat-error> }
+        @for (error of serviceForm.getErrorsApi('telefono'); track $index) {
+          <mat-error>{{ error }}</mat-error>
+        }
       </mat-form-field>
       <mat-form-field
         appearance="outline"
@@ -71,9 +96,16 @@
           name="email"
           matInput
         />
+        @if(serviceForm.hasError('email', 'required')) {
+        <mat-error>Debe ingresar el correo de su empresa</mat-error> }
+        @if(serviceForm.hasError('email', 'email')) {
+          <mat-error>Debe ingresar un correo valido</mat-error> }
+        @for (error of serviceForm.getErrorsApi('email'); track $index) {
+          <mat-error>{{ error }}</mat-error>
+        }
       </mat-form-field>
       <div class="flex flex-col sm:flex-row md:flex-col min-[1664px]:flex-row gap-4">
-        <img class="sm:w-1/2 md:w-full h-full" src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRpnbimo6uFOVd1hEur1Q882tAe4qusnckKxZPKtXwN2rHHIK31" alt="imagen-{{serviceForm.dataNodo?.nombre}}">
+        <img class="sm:w-1/2 md:w-full xl:w-1/2 h-full" src="{{ serviceForm.dataNodo?.imagen }}" alt="imagen-{{serviceForm.dataNodo?.id}}">
         <div class="flex flex-col gap-2 sm:w-1/2 md:w-full">
           @for (hijo of serviceForm.dataNodoHijos; track $index) {
             <div class="border-gray04 border-opacity-50 border-[0.25px] w-full flex items-center shadow-sm-ams-01">
@@ -94,9 +126,11 @@
   </card-layout>
   <div class="w-full flex flex-col xl:flex-row-reverse gap-2">
     <button
+      (click)="serviceForm.updateNodo()"
       color="primary"
       class="!shadow-expand-ams !rounded !py-6 !font-semibold text-sm xl:w-1/2"
       mat-raised-button
+      [disabled]="!serviceForm.dataNodo"
     >      
       Actualizar
     </button>

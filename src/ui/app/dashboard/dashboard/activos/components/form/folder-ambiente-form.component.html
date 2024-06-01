@@ -1,0 +1,119 @@
+<div class="h-full flex flex-col gap-3">
+  <card-layout class="flex-1 h-0">
+    <p class="text-gray01 text-base font-semibold" header>
+      Entidad {{ serviceForm.nodoSeleccionado?.nombre }}
+    </p>
+    <div class="flex flex-col gap-4" [formGroup]="serviceForm.formDataUpdate" body>
+      <mat-form-field
+        appearance="outline"
+        class="h-full !text-sm sm:!text-base"
+      >
+        <mat-label class="!text-sm sm:!text-base">Nombre de ambiente</mat-label>
+        <mat-icon matPrefix>folder</mat-icon>
+        <input
+          type="text"
+          name="nombre"
+          formControlName="nombre"
+          matInput
+        />
+        @if(serviceForm.hasError('nombre', 'required')) {
+        <mat-error>El nombre de ambiente es requerido</mat-error> }
+        @for (error of serviceForm.getErrorsApi('nombre'); track $index) {
+          <mat-error>{{ error }}</mat-error>
+        }
+      </mat-form-field>
+      <div class="flex flex-col sm:flex-row gap-4">
+        <mat-form-field
+          appearance="outline"
+          class="h-full !text-sm sm:!text-base"
+        >
+          <mat-label class="!text-sm sm:!text-base">Sector</mat-label>
+          <mat-icon matPrefix>badge</mat-icon>
+          <input
+            type="text"
+            formControlName="sector"
+            name="sector"
+            matInput
+          />
+          @if(serviceForm.hasError('sector', 'required')) {
+          <mat-error>El sector del ambiente es requerido</mat-error> }
+          @for (error of serviceForm.getErrorsApi('sector'); track $index) {
+            <mat-error>{{ error }}</mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field
+          appearance="outline"
+          class="h-full !text-sm sm:!text-base"
+        >
+          <mat-label class="!text-sm sm:!text-base">Tipo</mat-label>
+          <mat-icon matPrefix>apartment</mat-icon>
+          <input
+            type="text"
+            formControlName="tipo"
+            name="tipo"
+            matInput
+          />
+          @if(serviceForm.hasError('tipo', 'required')) {
+          <mat-error>El tipo de ambiente es requerido</mat-error> }
+          @for (error of serviceForm.getErrorsApi('tipo'); track $index) {
+            <mat-error>{{ error }}</mat-error>
+          }
+        </mat-form-field>
+      </div>
+      <mat-form-field
+        appearance="outline"
+        class="h-full !text-sm sm:!text-base"
+      >
+        <mat-label class="!text-sm sm:!text-base">Responsable</mat-label>
+        <mat-icon matPrefix>person</mat-icon>
+        <input
+          type="text"
+          formControlName="responsable"
+          name="responsable"
+          matInput
+        />
+        @if(serviceForm.hasError('responsable', 'required')) {
+        <mat-error>El responsable de ambiente es requerido</mat-error> }
+        @for (error of serviceForm.getErrorsApi('responsable'); track $index) {
+          <mat-error>{{ error }}</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field
+        appearance="outline"
+        class="h-full !text-sm sm:!text-base"
+      >
+        <mat-label class="!text-sm sm:!text-base">Descripcion</mat-label>
+        <textarea
+          formControlName="descripcion"
+          name="descripcion"
+          matInput
+        ></textarea>
+      </mat-form-field>
+      <div class="flex flex-col gap-4">
+        @for (hijo of serviceForm.dataNodoHijos; track $index) {
+          <div class="border-gray04 border-opacity-50 border-[0.25px] w-full flex justify-between items-center shadow-sm-ams-01">
+            <activos-chip class="text-nowrap text-ellipsis overflow-clip" [node]="{
+              id: '',
+              nombre: hijo.nombre,
+              type: hijo.tipo,
+              level: 1,
+              expandable: false,
+              isExpanded: false
+            }"></activos-chip>
+            <p class="px-4">{{ hijo.cantidad }}</p>
+          </div>
+        }
+      </div>
+    </div>
+  </card-layout>
+  <div class="w-full flex flex-col xl:flex-row-reverse gap-2">
+    <button
+      (click)="serviceForm.updateNodo()"
+      color="primary"
+      class="!shadow-expand-ams !rounded !py-6 !font-semibold text-sm xl:w-1/2"
+      mat-raised-button
+    >      
+      Actualizar
+    </button>
+  </div>
+</div>

@@ -3,7 +3,7 @@
     <p class="text-gray01 text-base font-semibold" header>
       Componente {{ serviceForm.nodoSeleccionado?.nombre }}
     </p>
-    <div class="flex flex-col gap-4" body>
+    <div class="flex flex-col gap-4" [formGroup]="serviceForm.formDataUpdate" body>
       <mat-form-field
         appearance="outline"
         class="h-full !text-sm sm:!text-base"
@@ -16,6 +16,11 @@
           name="nombre"
           matInput
         />
+        @if(serviceForm.hasError('nombre', 'required')) {
+        <mat-error>El nombre es requerido</mat-error> }
+        @for (error of serviceForm.getErrorsApi('nombre'); track $index) {
+          <mat-error>{{ error }}</mat-error>
+        }
       </mat-form-field>
       <mat-form-field
         appearance="outline"
@@ -27,6 +32,9 @@
           name="descripcion"
           matInput
         ></textarea>
+        @for (error of serviceForm.getErrorsApi('descripcion'); track $index) {
+          <mat-error>{{ error }}</mat-error>
+        }
       </mat-form-field>
       <mat-form-field
         appearance="outline"
@@ -34,12 +42,17 @@
       >
         <mat-label class="!text-sm sm:!text-base">Clase</mat-label>
         <mat-icon matPrefix>category</mat-icon>
-        <mat-select
+        <input
+          type="text"
           name="clase"
           formControlName="clase"
           matInput
-        >
-        </mat-select>
+        />
+        @if(serviceForm.hasError('clase', 'required')) {
+        <mat-error>La clase de componente es requerida</mat-error> }
+        @for (error of serviceForm.getErrorsApi('clase'); track $index) {
+          <mat-error>{{ error }}</mat-error>
+        }
       </mat-form-field>
       <div class="flex flex-col sm:flex-row gap-4">
         <mat-form-field
@@ -54,6 +67,13 @@
             name="potencia"
             matInput
           />
+          @if(serviceForm.hasError('potencia', 'required')) {
+          <mat-error>La potencia es requerida</mat-error> }
+          @if(serviceForm.hasError('potencia', 'min')) {
+            <mat-error>Ingrese una potencia válida</mat-error> }
+          @for (error of serviceForm.getErrorsApi('potencia'); track $index) {
+            <mat-error>{{ error }}</mat-error>
+          }
         </mat-form-field>
         <mat-form-field
           appearance="outline"
@@ -67,6 +87,13 @@
             name="velocidad"
             matInput
           />
+          @if(serviceForm.hasError('velocidad', 'required')) {
+          <mat-error>La velocidad es requerida</mat-error> }
+          @if(serviceForm.hasError('velocidad', 'min')) {
+          <mat-error>Ingrese una velocidad válida</mat-error> }
+          @for (error of serviceForm.getErrorsApi('velocidad'); track $index) {
+            <mat-error>{{ error }}</mat-error>
+          }
         </mat-form-field>
       </div>
       <div class="flex flex-col sm:flex-row md:flex-col min-[1664px]:flex-row gap-4">
@@ -91,6 +118,7 @@
   </card-layout>
   <div class="w-full flex flex-col xl:flex-row gap-2">
     <button
+      (click)="serviceForm.updateNodo()"
       color="primary"
       class="!shadow-expand-ams !rounded !py-6 !font-semibold text-sm xl:w-1/2"
       mat-raised-button

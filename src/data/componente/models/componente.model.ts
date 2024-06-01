@@ -1,7 +1,7 @@
 export interface IComponenteModel {
   id: string,
   nombre: string,
-  detalle: string,
+  descripcion: string,
   potencia: number,
   velocidad: number,
   clase: string

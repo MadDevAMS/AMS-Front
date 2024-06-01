@@ -7,7 +7,7 @@ export class ComponenteMapper extends Mapper<IComponenteEntity, IComponenteModel
     return {
       id: param.id,
       nombre: param.nombre,
-      detalle: param.detalle,
+      descripcion: param.detalle,
       potencia: param.potencia,
       velocidad: param.velocidad,
       clase: param.clase
@@ -17,7 +17,7 @@ export class ComponenteMapper extends Mapper<IComponenteEntity, IComponenteModel
     return {
       id: param.id,
       nombre: param.nombre,
-      detalle: param.detalle,
+      detalle: param.descripcion,
       potencia: param.potencia,
       velocidad: param.velocidad,
       clase: param.clase

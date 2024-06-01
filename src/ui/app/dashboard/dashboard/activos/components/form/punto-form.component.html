@@ -3,7 +3,7 @@
     <p class="text-gray01 text-base font-semibold" header>
       Componente {{ serviceForm.nodoSeleccionado?.nombre }}
     </p>
-    <div class="flex flex-col gap-4" body>
+    <div class="flex flex-col gap-4" [formGroup]="serviceForm.formDataUpdate" body>
       <mat-form-field
         appearance="outline"
         class="h-full !text-sm sm:!text-base"
@@ -16,6 +16,11 @@
           name="nombre"
           matInput
         />
+        @if(serviceForm.hasError('nombre', 'required')) {
+        <mat-error>El nombre del punto de medición es requerido</mat-error> }
+        @for (error of serviceForm.getErrorsApi('nombre'); track $index) {
+          <mat-error>{{ error }}</mat-error>
+        }
       </mat-form-field>
       <mat-form-field
         appearance="outline"
@@ -33,19 +38,28 @@
           appearance="outline"
           class="h-full !text-sm sm:!text-base sm:!flex-1"
         >
-          <mat-label class="!text-sm sm:!text-base">Direccion de medida</mat-label>
+          <mat-label class="!text-sm sm:!text-base">Direccion</mat-label>
           <mat-icon matPrefix>explore</mat-icon>
           <mat-select
             formControlName="direccion"
             name="direccion"
             matInput
-          ></mat-select>
+          >
+            @for (direccion of direccionesMedida; track $index) {
+              <mat-option [value]="direccion">{{ direccion }}</mat-option>
+            }
+          </mat-select>
+          @if(serviceForm.hasError('direccion', 'required')) {
+          <mat-error>La direccion de medida es requerida</mat-error> }
+          @for (error of serviceForm.getErrorsApi('direccion'); track $index) {
+            <mat-error>{{ error }}</mat-error>
+          }
         </mat-form-field>
         <mat-form-field
           appearance="outline"
           class="h-full !text-sm sm:!text-base sm:!flex-1"
         >
-          <mat-label class="!text-sm sm:!text-base">Angulo de direccion</mat-label>
+          <mat-label class="!text-sm sm:!text-base">Angulo</mat-label>
           <mat-icon matPrefix>square_foot</mat-icon>
           <input
             type="number"
@@ -53,6 +67,13 @@
             name="angulo"
             matInput
           />
+          @if(serviceForm.hasError('angulo', 'required')) {
+          <mat-error>El angulo de medición es requerido</mat-error> }
+          @if(serviceForm.hasError('angulo', 'min')) {
+            <mat-error>Ingrese un angulo valido</mat-error> }
+          @for (error of serviceForm.getErrorsApi('angulo'); track $index) {
+            <mat-error>{{ error }}</mat-error>
+          }
         </mat-form-field>
       </div>
       <div class="flex flex-col sm:flex-row md:flex-col min-[1664px]:flex-row gap-4">
@@ -77,6 +98,7 @@
   </card-layout>
   <div class="w-full flex flex-col xl:flex-row gap-2">
     <button
+      (click)="serviceForm.updateNodo()"
       color="primary"
       class="!shadow-expand-ams !rounded !py-6 !font-semibold text-sm xl:w-1/2"
       mat-raised-button

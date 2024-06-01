@@ -7,7 +7,7 @@ import { ActivosUsecaseService } from './services/activos-usecase.service';
 import { ActivosFormService } from './services/activos-form.service';
 import { ComponenteFormComponent } from './components/form/componente-form.component';
 import { EntidadFormComponent } from './components/form/entidad-form.component';
-import { FolderFormComponent } from './components/form/folder-form.component';
+import { FolderProcesoFormComponent } from './components/form/folder-proceso-form.component';
 import { MaquinaFormComponent } from './components/form/maquina-form.component';
 import { PuntoFormComponent } from './components/form/punto-form.component';
 import { ActivosFormUsecaseService } from './services/activos-form-usecase.service';
@@ -18,14 +18,20 @@ import { ComponenteDataModule } from '@data/componente/componente.data.module';
 import { ChipComponent } from './components/chip/chip.component';
 import { incidenciaComponent } from './components/incidencias/incidencia.component';
 import { InicidenciasListComponent } from './components/incidencias/incidencias-list.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ModalActivosModule } from './components/modal/modal.module';
+import { ActivosUpdateUsecaseService } from './services/activos-update.usecase.service';
+import { FolderAmbienteDataModule } from '@data/folder/folder-ambiente/folder-ambiente.data.module';
+import { FolderProcesoDataModule } from '@data/folder/folder-proceso/folder-proceso.data.module';
+import { FolderAmbienteFormComponent } from './components/form/folder-ambiente-form.component';
 
 const declarations = [
   ArbolComponent, 
   ArbolItemComponent,
   ComponenteFormComponent,
   EntidadFormComponent,
-  FolderFormComponent,
+  FolderProcesoFormComponent,
+  FolderAmbienteFormComponent,
   MaquinaFormComponent,
   PuntoFormComponent,
   incidenciaComponent,
@@ -35,11 +41,18 @@ const declarations = [
 
 const commonModules = [
   SharedModule,
+  
   ActivosDataModule,
   EntidadDataModule,
   MaquinaDataModule,
+  ComponenteDataModule,
   PuntoDataModule,
-  ComponenteDataModule
+  FolderAmbienteDataModule,
+  FolderProcesoDataModule,
+
+  ModalActivosModule,
+  FormsModule,
+  ReactiveFormsModule
 ]
 
 @NgModule({
@@ -51,6 +64,7 @@ const commonModules = [
   ],
   providers: [
     ActivosUsecaseService,
+    ActivosUpdateUsecaseService,
     ActivosFormService,
     ActivosFormUsecaseService
   ],

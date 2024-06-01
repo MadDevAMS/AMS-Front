@@ -11,57 +11,57 @@ export class ActivosImplementationRepository extends ActivoRepository {
   mapper = new  ActivosMapper();
 
   dataFalsa: IActivoEntity = {
-    id: 'abcdefg',
+    id: 'entidad1',
     nombre: 'AMS-Entity',
     type: 'entidad',
     hijos: [
       {
-        id: 'abcdefh',
+        id: 'folder1',
         nombre: 'AMS-Folder',
-        type: 'folder',
+        type: 'folder_ambiente',
         hijos: [
           {
-            id: 'abcdefi',
+            id: 'folder2',
             nombre: 'AMS-Folder',
-            type: 'folder',
+            type: 'folder_ambiente',
             hijos: []
           },
         ]
       },
       {
-        id: 'abcdefgj',
+        id: 'folder3',
         nombre: 'AMS-Folder',
-        type: 'folder',
+        type: 'folder_proceso',
         hijos: [
           {
-            id: 'abcdefi1',
+            id: 'maquina1',
             nombre: 'AMS-Maquina',
             type: 'maquina',
             hijos: [
               {
-                id: 'abcdefi2',
+                id: 'comp1',
                 nombre: 'AMS-Componente',
                 type: 'componente',
                 hijos: [
                   {
-                    id: 'abcdefi5',
+                    id: 'punto1',
                     nombre: 'AMS-Punto',
                     type: 'punto_monitoreo',
                     hijos: [
                       {
-                        id: 'abcdef11',
+                        id: 'metrica1',
                         nombre: 'AMS-Metrica1',
                         type: 'metrica',
                         hijos: []
                       },
                       {
-                        id: 'abcdef12',
+                        id: 'metrica2',
                         nombre: 'AMS-Metrica2',
                         type: 'metrica',
                         hijos: []
                       },
                       {
-                        id: 'abcdef13',
+                        id: 'metrica3',
                         nombre: 'AMS-Metrica3',
                         type: 'metrica',
                         hijos: []
@@ -75,39 +75,39 @@ export class ActivosImplementationRepository extends ActivoRepository {
         ]
       },
       {
-        id: 'abcdefgj',
+        id: 'folder9',
         nombre: 'AMS-Folder',
-        type: 'folder',
+        type: 'folder_ambiente',
         hijos: [
           {
-            id: 'abcdefi1',
+            id: 'maquina4',
             nombre: 'AMS-Maquina',
             type: 'maquina',
             hijos: [
               {
-                id: 'abcdefi2',
+                id: 'comp4',
                 nombre: 'AMS-Componente',
                 type: 'componente',
                 hijos: [
                   {
-                    id: 'abcdefi5',
+                    id: 'punto9',
                     nombre: 'AMS-Punto',
                     type: 'punto_monitoreo',
                     hijos: [
                       {
-                        id: 'abcdef11',
+                        id: 'metrica5',
                         nombre: 'AMS-Metrica1',
                         type: 'metrica',
                         hijos: []
                       },
                       {
-                        id: 'abcdef12',
+                        id: 'metrica6',
                         nombre: 'AMS-Metrica2',
                         type: 'metrica',
                         hijos: []
                       },
                       {
-                        id: 'abcdef13',
+                        id: 'metrica7',
                         nombre: 'AMS-Metrica3',
                         type: 'metrica',
                         hijos: []

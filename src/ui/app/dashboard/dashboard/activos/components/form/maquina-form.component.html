@@ -3,7 +3,7 @@
     <p class="text-gray01 text-base font-semibold" header>
       Maquina {{ serviceForm.nodoSeleccionado?.nombre }}
     </p>
-    <div class="flex flex-col gap-4" body>
+    <div class="flex flex-col gap-4" [formGroup]="serviceForm.formDataUpdate" body>
       <mat-form-field
         appearance="outline"
         class="h-full !text-sm sm:!text-base"
@@ -16,6 +16,11 @@
           name="nombre"
           matInput
         />
+        @if(serviceForm.hasError('nombre', 'required')) {
+        <mat-error>El nombre de la máquina es requerida</mat-error> }
+        @for (error of serviceForm.getErrorsApi('nombre'); track $index) {
+          <mat-error>{{ error }}</mat-error>
+        }
       </mat-form-field>
       <mat-form-field
         appearance="outline"
@@ -35,11 +40,17 @@
         <mat-label class="!text-sm sm:!text-base">Tipo de máquina</mat-label>
         <mat-icon matPrefix>category</mat-icon>
         <mat-select
-          name="tipo_maquina"
-          formControlName="tipo_maquina"
+          name="tipoMaquina"
+          formControlName="tipoMaquina"
           matInput
         >
+          <mat-option [value]="'default'">Default</mat-option>
         </mat-select>
+        @if(serviceForm.hasError('tipoMaquina', 'required')) {
+        <mat-error>El tipo de máquina es requerido</mat-error> }
+        @for (error of serviceForm.getErrorsApi('tipoMaquina'); track $index) {
+          <mat-error>{{ error }}</mat-error>
+        }
       </mat-form-field>
       <mat-form-field
         appearance="outline"
@@ -53,6 +64,11 @@
           name="fundacion"
           matInput
         />
+        @if(serviceForm.hasError('fundacion', 'required')) {
+        <mat-error>La fundacion o tipo de suelo es requerida</mat-error> }
+        @for (error of serviceForm.getErrorsApi('fundacion'); track $index) {
+          <mat-error>{{ error }}</mat-error>
+        }
       </mat-form-field>
       <div class="flex flex-col sm:flex-row md:flex-col min-[1664px]:flex-row gap-4">
         <img class="sm:w-1/2 md:w-full h-full" src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRpnbimo6uFOVd1hEur1Q882tAe4qusnckKxZPKtXwN2rHHIK31" alt="imagen-{{serviceForm.dataNodo?.nombre}}">
@@ -76,6 +92,7 @@
   </card-layout>
   <div class="w-full flex flex-col xl:flex-row gap-2">
     <button
+      (click)="serviceForm.updateNodo()"
       color="primary"
       class="!shadow-expand-ams !rounded !py-6 !font-semibold text-sm xl:w-1/2"
       mat-raised-button
