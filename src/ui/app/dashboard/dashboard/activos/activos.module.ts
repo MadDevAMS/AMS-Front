@@ -5,11 +5,6 @@ import { ArbolItemComponent } from './components/arbol/arbol-item.component';
 import { ActivosDataModule } from '@data/activos/activos.data.module';
 import { ActivosUsecaseService } from './services/activos-usecase.service';
 import { ActivosFormService } from './services/activos-form.service';
-import { ComponenteFormComponent } from './components/form/componente-form.component';
-import { EntidadFormComponent } from './components/form/entidad-form.component';
-import { FolderProcesoFormComponent } from './components/form/folder-proceso-form.component';
-import { MaquinaFormComponent } from './components/form/maquina-form.component';
-import { PuntoFormComponent } from './components/form/punto-form.component';
 import { ActivosFormUsecaseService } from './services/activos-form-usecase.service';
 import { EntidadDataModule } from '@data/entidad/entidad.data.module';
 import { MaquinaDataModule } from '@data/maquina/maquina.data.module';
@@ -19,24 +14,31 @@ import { ChipComponent } from './components/chip/chip.component';
 import { incidenciaComponent } from './components/incidencias/incidencia.component';
 import { InicidenciasListComponent } from './components/incidencias/incidencias-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ModalActivosModule } from './components/modal/modal.module';
 import { ActivosUpdateUsecaseService } from './services/activos-update.usecase.service';
-import { FolderAmbienteDataModule } from '@data/folder/folder-ambiente/folder-ambiente.data.module';
-import { FolderProcesoDataModule } from '@data/folder/folder-proceso/folder-proceso.data.module';
-import { FolderAmbienteFormComponent } from './components/form/folder-ambiente-form.component';
+import { AreaDataModule } from '@data/area/area.data.module';
+import { EntidadCardComponent } from './components/cards/entidad-card.component';
+import { ComponenteCardComponent } from './components/cards/componente-card.component';
+import { AreaCardComponent } from './components/cards/area-card.component';
+import { MaquinaCardComponent } from './components/cards/maquina-card.component';
+import { PuntoCardComponent } from './components/cards/punto-card.component';
+import { MetricaDataModule } from '@data/metrica/metrica.data.module';
+import { MetricaCardComponent } from './components/cards/metrica-card.component';
+import { ModalAreaComponent } from './components/modal/modal-area.component';
+import { ActivosFormModule } from './components/form/activos-form.module';
 
 const declarations = [
   ArbolComponent, 
   ArbolItemComponent,
-  ComponenteFormComponent,
-  EntidadFormComponent,
-  FolderProcesoFormComponent,
-  FolderAmbienteFormComponent,
-  MaquinaFormComponent,
-  PuntoFormComponent,
+
+  ComponenteCardComponent,
+  EntidadCardComponent,
+  AreaCardComponent,
+  MaquinaCardComponent,
+  PuntoCardComponent,
+  MetricaCardComponent,
+
   incidenciaComponent,
   InicidenciasListComponent,
-  ChipComponent
 ]
 
 const commonModules = [
@@ -47,10 +49,13 @@ const commonModules = [
   MaquinaDataModule,
   ComponenteDataModule,
   PuntoDataModule,
-  FolderAmbienteDataModule,
-  FolderProcesoDataModule,
+  AreaDataModule,
+  MetricaDataModule,
+  
+  ChipComponent,
+  ModalAreaComponent,
+  ActivosFormModule,
 
-  ModalActivosModule,
   FormsModule,
   ReactiveFormsModule
 ]

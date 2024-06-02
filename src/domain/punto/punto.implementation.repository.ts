@@ -25,4 +25,8 @@ export class PuntoImplementationRepository extends PuntoRepository {
   override updatePunto(params: IPuntoModel): Observable<IApiResponse<void>> {
     return this.http.put<IApiResponse<void>>(`${API_URL}/Punto/${params.id}`, this.mapper.mapTo(params))
   }
+
+  override createPunto(params: IPuntoModel): Observable<IApiResponse<void>> {
+    return this.http.post<IApiResponse<void>>(`${API_URL}/Punto`, this.mapper.mapTo(params))
+  }
 }

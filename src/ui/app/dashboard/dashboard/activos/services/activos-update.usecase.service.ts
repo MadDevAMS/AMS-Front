@@ -1,16 +1,12 @@
 import { Injectable } from "@angular/core";
-import { GetEntidadUsecase } from "@data/entidad/usecases/get-entidad.usecase";
 import { IActivoNode } from "../interfaces/activo-node";
 import { Observable } from "rxjs";
-import { GetMaquinaUsecase } from "@data/maquina/usecases/get-maquina.usecase";
-import { GetComponenteUsecase } from "@data/componente/usecases/get-componente.usecase";
-import { GetPuntoUsecase } from "@data/punto/usecases/get-punto.usecase";
 import { UpdateEntidadUsecase } from "@data/entidad/usecases/update-entidad.usecase";
 import { UpdateMaquinaUsecase } from "@data/maquina/usecases/update-maquina.usecase";
 import { UpdatePuntoUsecase } from "@data/punto/usecases/update-punto.usecase";
 import { UpdateComponenteUsecase } from "@data/componente/usecases/update-componente.usecase";
-import { UpdateFolderAmbienteUsecase } from "@data/folder/folder-ambiente/usecases/update-folder-ambiente.usecase";
-import { UpdateFolderProcesoUsecase } from "@data/folder/folder-proceso/usecases/update-folder-proceso.usecase";
+import { UpdateAreaUsecase } from "@data/area/usecases/update-area.usecase";
+import { UpdateMetricaUsecase } from "@data/metrica/usecases/update-metrica.usecase";
 
 @Injectable({
   providedIn: 'platform'
@@ -18,13 +14,12 @@ import { UpdateFolderProcesoUsecase } from "@data/folder/folder-proceso/usecases
 export class ActivosUpdateUsecaseService {
 
   usecaseNode: Record<IActivoNode["type"], any> = {
-    componente: this.updateComponenteUsecase,
     entidad: this.updateEntidadUsecase,
-    folder_ambiente: this.updateFolderAmbienteUsecase,
-    folder_proceso: this.updateFolderProcesoUsecase,
+    area: this.updateAreaUsecase,
     maquina: this.updateMaquinaUsecase,
-    metrica: this.updateEntidadUsecase,
+    componente: this.updateComponenteUsecase,
     punto_monitoreo: this.updatePuntoUsecase,
+    metrica: this.updateMetricaUsecase,
   }
 
   constructor(
@@ -32,8 +27,8 @@ export class ActivosUpdateUsecaseService {
     private updateMaquinaUsecase: UpdateMaquinaUsecase,
     private updateComponenteUsecase: UpdateComponenteUsecase,
     private updatePuntoUsecase: UpdatePuntoUsecase,
-    private updateFolderAmbienteUsecase: UpdateFolderAmbienteUsecase,
-    private updateFolderProcesoUsecase: UpdateFolderProcesoUsecase,
+    private updateAreaUsecase: UpdateAreaUsecase,
+    private updateMetricaUsecase: UpdateMetricaUsecase,
   ) {}
 
   execute(node: IActivoNode, params: any): Observable<any> {

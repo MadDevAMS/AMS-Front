@@ -3,5 +3,4 @@ export interface IMaquinaModel {
   nombre: string,
   descripcion: string,
   tipoMaquina: string,
-  fundacion: string,
 }

@@ -25,4 +25,8 @@ export class ComponenteImplementationRepository extends ComponenteRepository {
   override updateComponente(params: IComponenteModel): Observable<IApiResponse<void>> {
     return this.http.put<IApiResponse<void>>(`${API_URL}/Componente/${params.id}`, this.mapper.mapTo(params))
   }
+
+  override createComponente(params: IComponenteModel): Observable<IApiResponse<void>> {
+    return this.http.post<IApiResponse<void>>(`${API_URL}/Componente`, this.mapper.mapTo(params))
+  }
 }

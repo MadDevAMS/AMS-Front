@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>Creación de punto de monitoreo</h2>
+<mat-dialog-content>
+  <activos-punto-form 
+    [formData]="formCreate"
+    [hasError]="hasError"
+    [getErrorsApi]="getErrorsApi"
+  />
+</mat-dialog-content>
+<mat-dialog-actions>
+  <div class="w-full flex flex-col xl:flex-row gap-2">
+    <button
+      (click)="onSubmit()"
+      color="primary"
+      class="!shadow-expand-ams !rounded !py-6 !font-semibold text-sm xl:w-1/2"
+      mat-raised-button
+    >      
+      Añadir
+    </button>
+    <button
+      (click)="onNoClick()"
+      class="!shadow-expand-ams !rounded !py-6 !font-semibold text-sm xl:w-1/2"
+      mat-raised-button
+    >      
+      Cancelar
+    </button>
+  </div>
+</mat-dialog-actions>

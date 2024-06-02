@@ -4,5 +4,4 @@ export interface IComponenteModel {
   descripcion: string,
   potencia: number,
   velocidad: number,
-  clase: string
 }

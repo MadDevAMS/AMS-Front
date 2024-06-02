@@ -18,12 +18,12 @@ export class ActivosImplementationRepository extends ActivoRepository {
       {
         id: 'folder1',
         nombre: 'AMS-Folder',
-        type: 'folder_ambiente',
+        type: 'area',
         hijos: [
           {
             id: 'folder2',
             nombre: 'AMS-Folder',
-            type: 'folder_ambiente',
+            type: 'area',
             hijos: []
           },
         ]
@@ -31,7 +31,7 @@ export class ActivosImplementationRepository extends ActivoRepository {
       {
         id: 'folder3',
         nombre: 'AMS-Folder',
-        type: 'folder_proceso',
+        type: 'area',
         hijos: [
           {
             id: 'maquina1',
@@ -77,7 +77,7 @@ export class ActivosImplementationRepository extends ActivoRepository {
       {
         id: 'folder9',
         nombre: 'AMS-Folder',
-        type: 'folder_ambiente',
+        type: 'area',
         hijos: [
           {
             id: 'maquina4',
@@ -138,6 +138,10 @@ export class ActivosImplementationRepository extends ActivoRepository {
       errors: null
     })
     // return this.http.get<IApiResponse<IActivoEntity>>(`${API_URL}/Activos`)
+  }
+
+  override deleteActivos(id: string): Observable<IApiResponse<void>> {
+    return this.http.delete<IApiResponse<void>>(`${API_URL}/Activos/${id}`)
   }
   
 }

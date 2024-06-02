@@ -7,20 +7,18 @@ export class ComponenteMapper extends Mapper<IComponenteEntity, IComponenteModel
     return {
       id: param.id,
       nombre: param.nombre,
-      descripcion: param.detalle,
+      descripcion: param.descripcion,
       potencia: param.potencia,
       velocidad: param.velocidad,
-      clase: param.clase
     }
   }
   override mapTo(param: IComponenteModel): IComponenteEntity {
     return {
       id: param.id,
       nombre: param.nombre,
-      detalle: param.descripcion,
+      descripcion: param.descripcion,
       potencia: param.potencia,
       velocidad: param.velocidad,
-      clase: param.clase
     }
   }
 }

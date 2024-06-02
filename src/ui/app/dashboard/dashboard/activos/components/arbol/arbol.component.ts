@@ -14,7 +14,6 @@ import { ActivosFormService } from '../../services/activos-form.service';
 })
 export class ArbolComponent {
   activosListado: IActivoNode[] = []
-  nombreActivoSearch: string = ""
 
   dataSource!: ArrayDataSource<IActivoNode>;
   treeControl = new FlatTreeControl<IActivoNode>(
@@ -31,6 +30,12 @@ export class ArbolComponent {
       this.formService.seleccionar(this.activosListado[0])
       this.dataSource = new ArrayDataSource(this.activosListado);
     }
+  }
+
+  changeSearch(e: any) {
+    const search = e.target.value
+    const listadoFilter = this.activosListado.filter(activo => activo.nombre.toLowerCase().includes(search.toLowerCase()))
+    this.dataSource = new ArrayDataSource(listadoFilter)
   }
 
   buildTree(activo: IActivoModel, level: number): IActivoNode[] {

@@ -9,7 +9,6 @@ export class MaquinaMapper extends Mapper<IMaquinaEntity, IMaquinaModel> {
       nombre: param.nombre,
       descripcion: param.descripcion,
       tipoMaquina: param.tipoMaquina,
-      fundacion: param.fundacion
     }
   }
   override mapTo(param: IMaquinaModel): IMaquinaEntity {
@@ -18,7 +17,6 @@ export class MaquinaMapper extends Mapper<IMaquinaEntity, IMaquinaModel> {
       nombre: param.nombre,
       descripcion: param.descripcion,
       tipoMaquina: param.tipoMaquina,
-      fundacion: param.fundacion
     }
   }
 }

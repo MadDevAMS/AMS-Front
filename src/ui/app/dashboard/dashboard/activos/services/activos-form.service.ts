@@ -7,8 +7,10 @@ import { IActivoModel } from '@data/activos/models/activo.model';
 import { FormGroup } from '@angular/forms';
 import { IErrorResponse } from '@base/response';
 import { ActivosUpdateUsecaseService } from './activos-update.usecase.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalDeleteComponent } from '../components/modal/modal-delete.component';
 
-interface IDataNodoHijo {
+export interface IDataNodoHijo {
   tipo: IActivoNode["type"],
   nombre: string,
   cantidad: number
@@ -26,8 +28,7 @@ export class ActivosFormService<T> {
   nameDataNodes: Record<IActivoNode["type"], string> = {
     componente: 'Componentes',
     entidad: 'Entidades',
-    folder_ambiente: 'Ambientes',
-    folder_proceso: 'Procesos',
+    area: 'Areas',
     maquina: 'Maquinas',
     metrica: 'Metricas',
     punto_monitoreo: 'Puntos de monitoreo',
@@ -37,15 +38,25 @@ export class ActivosFormService<T> {
     private activosUsecaseService: ActivosUsecaseService,
     private activosUpdateUsecaseService: ActivosUpdateUsecaseService,
     private usecaseService: ActivosFormUsecaseService,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private dialog: MatDialog
   ) {}
 
-  hasError(field: string, type: string): boolean {
-    return this.formDataUpdate.get(field)?.getError(type)
+  openModalDelete() {
+    this.dialog.open(ModalDeleteComponent, {
+      data: {
+        nodoSeleccionado: this.nodoSeleccionado,
+        dataNodoHijos: this.dataNodoHijos
+      }
+    });
   }
 
-  getErrorsApi(field: string): string[] {
-    return this.formDataUpdate.get(field)?.getError('errors')
+  hasError(formData: FormGroup, field: string, type: string): boolean {
+    return formData?.get(field)?.getError(type)
+  }
+
+  getErrorsApi(formData: FormGroup, field: string): string[] {
+    return formData?.get(field)?.getError('errors')
   }
 
   updateNodo() {
@@ -67,6 +78,10 @@ export class ActivosFormService<T> {
               })
             } else {
               this.dataNodo = res.data as T
+              this.snackbarService.open({ 
+                mensaje: res.message,
+                type: 'success'
+              })
             }
           },
           error: (err) => {
@@ -82,7 +97,7 @@ export class ActivosFormService<T> {
   seleccionar(nodo: IActivoNode) {
     this.nodoSeleccionado = nodo
     this.dataNodoHijos = []
-    let activoBuscado = this.buscarNodo(this.activosUsecaseService.activos, nodo)
+    let activoBuscado = this.buscarNodo(this.activosUsecaseService.activos, nodo.id)
     if (activoBuscado) this.extraerInfoNodo(activoBuscado)
     this.usecaseService.execute(nodo).subscribe({
       next: (res) => {
@@ -104,13 +119,13 @@ export class ActivosFormService<T> {
     })
   }
 
-  buscarNodo(activos: IActivoModel, nodo: IActivoNode): IActivoModel | undefined {
-    if (activos.id === nodo.id) {
+  buscarNodo(activos: IActivoModel, id: string): IActivoModel | undefined {
+    if (activos.id === id) {
       return activos
     } 
     
     for (let hijo of activos.hijos) {
-      const resultado = this.buscarNodo(hijo, nodo);
+      const resultado = this.buscarNodo(hijo, id);
       if (resultado) {
         return resultado;
       }

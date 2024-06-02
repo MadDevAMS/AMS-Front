@@ -6,25 +6,22 @@
     <div class="xl:w-1/2">
       @switch (formService.nodoSeleccionado?.type) {
         @case ('entidad') {
-          <activos-entidad-form></activos-entidad-form>
+          <activos-entidad-card></activos-entidad-card>
         }
-        @case ('folder_ambiente') {
-          <activos-folder-ambiente-form></activos-folder-ambiente-form>
-        }
-        @case ('folder_proceso') {
-          <activos-folder-proceso-form></activos-folder-proceso-form>
+        @case ('area') {
+          <activos-area-card></activos-area-card>
         }
         @case ('maquina') {
-          <activos-maquina-form></activos-maquina-form>
+          <activos-maquina-card></activos-maquina-card>
         }
         @case ('componente') {
-          <activos-componente-form></activos-componente-form>
+          <activos-componente-card></activos-componente-card>
         }
         @case ('punto_monitoreo') {
-          <activos-punto-form></activos-punto-form>
+          <activos-punto-card></activos-punto-card>
         }
         @case ('metrica') {
-          Graficos de metrica
+          <activos-metrica-card></activos-metrica-card>
         }
       }
     </div>

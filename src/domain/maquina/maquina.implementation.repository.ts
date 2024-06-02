@@ -25,4 +25,8 @@ export class MaquinaImplementationRepository extends MaquinaRepository {
   override updateMaquina(params: IMaquinaModel): Observable<IApiResponse<void>> {
     return this.http.put<IApiResponse<void>>(`${API_URL}/Maquina/${params.id}`, this.mapper.mapTo(params))
   }
+
+  override createMaquina(params: IMaquinaModel): Observable<IApiResponse<void>> {
+    return this.http.post<IApiResponse<void>>(`${API_URL}/Maquina`, this.mapper.mapTo(params))
+  }
 }

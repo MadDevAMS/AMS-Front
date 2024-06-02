@@ -3,6 +3,7 @@ import { GetComponenteUsecase } from './usecases/get-componente.usecase';
 import { ComponenteRepository } from './repository/componente.repository';
 import { ComponenteDomainModule } from '@domain/componente/componente.domain.module';
 import { UpdateComponenteUsecase } from './usecases/update-componente.usecase';
+import { CreateComponenteUsecase } from './usecases/create-componente.usecase';
 
 @NgModule({
   declarations: [],
@@ -17,6 +18,11 @@ import { UpdateComponenteUsecase } from './usecases/update-componente.usecase';
     { 
       provide: UpdateComponenteUsecase,
       useFactory: (componenteRepo: ComponenteRepository) => new UpdateComponenteUsecase(componenteRepo),
+      deps: [ComponenteRepository]
+    },
+    { 
+      provide: CreateComponenteUsecase,
+      useFactory: (componenteRepo: ComponenteRepository) => new CreateComponenteUsecase(componenteRepo),
       deps: [ComponenteRepository]
     },
   ],

@@ -25,6 +25,10 @@ const materialModules = [
   MatSelectModule,
   MatExpansionModule,
   MatProgressBarModule,
+  MatDialogTitle,
+  MatDialogContent,
+  MatDialogActions,
+  MatDialogClose,
   CdkStepperModule
 ]
 

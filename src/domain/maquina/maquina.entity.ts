@@ -3,5 +3,4 @@ export interface IMaquinaEntity {
   nombre: string,
   descripcion: string,
   tipoMaquina: string,
-  fundacion: string
 }
