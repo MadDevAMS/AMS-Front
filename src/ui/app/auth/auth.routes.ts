@@ -25,6 +25,6 @@ export const authRoutes: Routes = [
   },
   {
     path: '**',
-    redirectTo: '',
+    redirectTo: '/',
   },
 ];

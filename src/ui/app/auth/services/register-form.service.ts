@@ -1,23 +1,18 @@
 import { Injectable } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { MatSnackBar } from "@angular/material/snack-bar";
 import { RegisterUsuarioEntidadUsecase } from "@data/register/usecases/register-usuario-entidad.usecase";
+import { SnackbarService } from "@ui/shared/services/snackbar.service";
+import { razonesSociales } from "@ui/shared/variables/razonesSociales";
 
 @Injectable({ providedIn: 'platform' })
 export class RegisterFormService {
   formUser: FormGroup;
   formEntity: FormGroup;
-  razonesSociales: string[] = [
-    "SAC",
-    "SA",
-    "EIRL",
-    "SAA",
-    "SRL"
-  ];
+  razonesSociales = razonesSociales
 
   constructor(
     private registerUsecase: RegisterUsuarioEntidadUsecase,
-    private _snackBar: MatSnackBar
+    private snackbarService: SnackbarService
   ) {
     this.formUser = new FormGroup({
       firstName: new FormControl('', [Validators.required]),
@@ -57,23 +52,27 @@ export class RegisterFormService {
         ...this.formUser.value
       }).subscribe({
         next: (res) => {
-          if (res.Status !== 201) {
-            res.Errors?.forEach((err) => {
-              this.formEntity.get(err.PropertyName)?.setErrors({ errors: err.PropertyName })
-              this.formUser.get(err.PropertyName)?.setErrors({ errors: err.PropertyName })
+          if (res.status !== 201) {
+            res.errors?.forEach((err) => {
+              this.formEntity.get(err.propertyName)?.setErrors({ errors: err.errorMessage })
+              this.formUser.get(err.propertyName)?.setErrors({ errors: err.errorMessage })
             })
-            res.Message && this._snackBar.open(res.Message, 'Aceptar', {
-              panelClass: ['error-snackbar'],
-              duration: 3000,
-              horizontalPosition: 'center',
-              verticalPosition: 'top',
-            });
+            this.snackbarService.open({ 
+              mensaje: res.message || 'Ha ocurrido un error al intentar registrarse, revise sus datos',
+              type: 'error'
+            })
           } else {
-            console.log(res);
+            this.snackbarService.open({ 
+              mensaje: 'Registro exitoso',
+              type: 'success'
+            })
           }
         },
         error: (err) => {
-          console.error(err);
+          this.snackbarService.open({ 
+            mensaje: err.message || 'Ha ocurrido un error, revise su conexión a internet o inténtelo más tarde',
+            type: 'error'
+          })
         }
       })
     }

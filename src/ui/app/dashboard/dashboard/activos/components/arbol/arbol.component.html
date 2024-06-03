@@ -1,0 +1,40 @@
+<div class="w-full h-full flex flex-col gap-3">
+  <div class="flex flex-col sm:flex-row justify-between gap-3">
+    <div class="rounded-lg bg-white py-3 px-6 flex items-center text-base shadow-expand-ams w-full sm:w-auto">
+      <input
+        (input)="changeSearch($event)"
+        type="text"
+        placeholder="Buscar activo"
+        class="focus:outline-none w-full"
+        search
+      />
+      <mat-icon>search</mat-icon>
+    </div>
+  </div>
+  <div class="bg-white rounded shadow-expand-ams w-full flex-1 flex max-h-[36rem] md:max-h-none py-8 px-4 overflow-auto">
+    <cdk-tree [dataSource]="dataSource" [treeControl]="treeControl" class="flex flex-col w-0 flex-1 gap-4" body>
+      <cdk-tree-node 
+        *cdkTreeNodeDef="let node;" cdkTreeNodePadding
+        [style.display]="shouldRender(node) ? 'flex' : 'none'">
+        <activos-arbol-item [node]="node"></activos-arbol-item>
+      </cdk-tree-node>
+      <cdk-tree-node 
+        *cdkTreeNodeDef="let node; when: hasChild" cdkTreeNodePadding
+        [style.display]="shouldRender(node) ? 'flex' : 'none'">
+        <activos-arbol-item [node]="node">
+          <button mat-ripple [ngClass]="{
+            'rounded-[50%] w-10 h-10 flex justify-center items-center transition-transform': true,
+            '!-rotate-180': node.isExpanded
+          }" cdkTreeNodeToggle
+                [attr.aria-label]="'Toggle ' + node.nombre"
+                (click)="node.isExpanded = !node.isExpanded"
+                [style.visibility]="node.expandable ? 'visible' : 'hidden'" buttonExpanded>
+            <mat-icon>
+              expand_more
+            </mat-icon>
+          </button>
+        </activos-arbol-item>
+      </cdk-tree-node>
+    </cdk-tree>
+  </div>
+</div>

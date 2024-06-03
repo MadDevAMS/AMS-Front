@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { LoginRepository } from '@data/login/repository/login.repository';
 import { LoginImplementationRepository } from './repository/login.implementation.repository';
 
 @NgModule({
   declarations: [],
-  imports: [ CommonModule, HttpClientModule ],
+  imports: [ HttpClientModule ],
   exports: [],
   providers: [
     {
