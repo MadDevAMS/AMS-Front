@@ -1,0 +1,20 @@
+<form [formGroup]="formData" class="flex flex-col gap-4">
+  <mat-form-field appearance="outline" class="h-full !text-sm sm:!text-base">
+    <mat-label class="!text-sm sm:!text-base">Nombre de area</mat-label>
+    <mat-icon matPrefix>folder</mat-icon>
+    <input type="text" name="nombre" formControlName="nombre" matInput />
+    @if(hasError(formData, 'nombre', 'required')) {
+    <mat-error>El nombre de area es requerido</mat-error> } @for (error of
+    getErrorsApi(formData, 'nombre'); track $index) {
+    <mat-error>{{ error }}</mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="h-full !text-sm sm:!text-base">
+    <mat-label class="!text-sm sm:!text-base">Descripcion</mat-label>
+    <textarea
+      formControlName="descripcion"
+      name="descripcion"
+      matInput
+    ></textarea>
+  </mat-form-field>
+</form>

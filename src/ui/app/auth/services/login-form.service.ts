@@ -33,7 +33,7 @@ export class LoginFormService {
         next: (res) => {
           if (res.status !== 201) {
             res.errors?.forEach((err) => {
-              this.formUser.get(err.propertyName)?.setErrors({ errors: err.propertyName })
+              this.formUser.get(err.propertyName)?.setErrors({ errors: err.errorMessage })
             })
             this.snackbarService.open({ 
               mensaje: res.message || 'Ha ocurrido un error al intentar iniciar sesión, revise sus credenciales',

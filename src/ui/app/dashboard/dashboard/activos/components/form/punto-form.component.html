@@ -1,0 +1,54 @@
+<form [formGroup]="formData" class="flex flex-col gap-4">
+  <mat-form-field appearance="outline" class="h-full !text-sm sm:!text-base">
+    <mat-label class="!text-sm sm:!text-base">Nombre</mat-label>
+    <mat-icon matPrefix>location_searching</mat-icon>
+    <input type="text" formControlName="nombre" name="nombre" matInput />
+    @if(hasError(formData, 'nombre', 'required')) {
+    <mat-error>El nombre del punto de medición es requerido</mat-error> } @for
+    (error of getErrorsApi(formData, 'nombre'); track $index) {
+    <mat-error>{{ error }}</mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="h-full !text-sm sm:!text-base">
+    <mat-label class="!text-sm sm:!text-base">Descripción</mat-label>
+    <textarea
+      formControlName="descripcion"
+      name="descripcion"
+      matInput
+    ></textarea>
+  </mat-form-field>
+  <div class="flex flex-col sm:flex-row gap-4">
+    <mat-form-field
+      appearance="outline"
+      class="h-full !text-sm sm:!text-base sm:!flex-1"
+    >
+      <mat-label class="!text-sm sm:!text-base">Direccion</mat-label>
+      <mat-icon matPrefix>explore</mat-icon>
+      <mat-select formControlName="direccion" name="direccion" matInput>
+        @for (direccion of direccionesMedida; track $index) {
+        <mat-option [value]="direccion">{{ direccion }}</mat-option>
+        }
+      </mat-select>
+      @if(hasError(formData, 'direccion', 'required')) {
+      <mat-error>La direccion de medida es requerida</mat-error> } @for (error
+      of getErrorsApi(formData, 'direccion'); track $index) {
+      <mat-error>{{ error }}</mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field
+      appearance="outline"
+      class="h-full !text-sm sm:!text-base sm:!flex-1"
+    >
+      <mat-label class="!text-sm sm:!text-base">Angulo</mat-label>
+      <mat-icon matPrefix>square_foot</mat-icon>
+      <input type="number" formControlName="angulo" name="angulo" matInput />
+      @if(hasError(formData, 'angulo', 'required')) {
+      <mat-error>El angulo de medición es requerido</mat-error> }
+      @if(hasError(formData, 'angulo', 'min')) {
+      <mat-error>Ingrese un angulo valido</mat-error> } @for (error of
+      getErrorsApi(formData, 'angulo'); track $index) {
+      <mat-error>{{ error }}</mat-error>
+      }
+    </mat-form-field>
+  </div>
+</form>

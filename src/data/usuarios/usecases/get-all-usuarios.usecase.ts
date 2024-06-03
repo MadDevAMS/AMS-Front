@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { UsuarioRepository } from '../repository/usuario.repository';
 import { Observable } from 'rxjs';
-import { UseCase } from '../../../base/use-case';
+import { UseCase } from '@base/use-case';
 import { IUsuarioModel } from '../models/usuario.model';
 
 @Injectable({

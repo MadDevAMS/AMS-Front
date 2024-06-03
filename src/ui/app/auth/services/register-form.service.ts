@@ -2,18 +2,13 @@ import { Injectable } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { RegisterUsuarioEntidadUsecase } from "@data/register/usecases/register-usuario-entidad.usecase";
 import { SnackbarService } from "@ui/shared/services/snackbar.service";
+import { razonesSociales } from "@ui/shared/variables/razonesSociales";
 
 @Injectable({ providedIn: 'platform' })
 export class RegisterFormService {
   formUser: FormGroup;
   formEntity: FormGroup;
-  razonesSociales: string[] = [
-    "SAC",
-    "SA",
-    "EIRL",
-    "SAA",
-    "SRL"
-  ];
+  razonesSociales = razonesSociales
 
   constructor(
     private registerUsecase: RegisterUsuarioEntidadUsecase,
@@ -59,8 +54,8 @@ export class RegisterFormService {
         next: (res) => {
           if (res.status !== 201) {
             res.errors?.forEach((err) => {
-              this.formEntity.get(err.propertyName)?.setErrors({ errors: err.propertyName })
-              this.formUser.get(err.propertyName)?.setErrors({ errors: err.propertyName })
+              this.formEntity.get(err.propertyName)?.setErrors({ errors: err.errorMessage })
+              this.formUser.get(err.propertyName)?.setErrors({ errors: err.errorMessage })
             })
             this.snackbarService.open({ 
               mensaje: res.message || 'Ha ocurrido un error al intentar registrarse, revise sus datos',

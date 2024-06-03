@@ -1,0 +1,61 @@
+<form [formGroup]="formData" class="flex flex-col gap-4">
+  <div class="flex flex-col sm:flex-row gap-4">
+    <mat-form-field appearance="outline" class="h-full !text-sm sm:!text-base">
+      <mat-label class="!text-sm sm:!text-base">RUC</mat-label>
+      <mat-icon matPrefix>badge</mat-icon>
+      <input type="text" formControlName="ruc" name="ruc" matInput />
+      @if(hasError(formData, 'ruc', 'required')) {
+      <mat-error>El RUC es requerido</mat-error> } @if(hasError(formData, 'ruc',
+      'pattern')) { <mat-error>Ingrese un RUC valido</mat-error> } @for (error
+      of getErrorsApi(formData, 'ruc'); track $index) {
+      <mat-error>{{ error }}</mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="h-full !text-sm sm:!text-base">
+      <mat-label class="!text-sm sm:!text-base">Nombre</mat-label>
+      <mat-icon matPrefix>apartment</mat-icon>
+      <input type="text" formControlName="nombre" name="nombre" matInput />
+      @if(hasError(formData, 'nombre', 'required')) {
+      <mat-error>El nombre de su empresa es requerido</mat-error> } @for (error
+      of getErrorsApi(formData, 'nombre'); track $index) {
+      <mat-error>{{ error }}</mat-error>
+      }
+    </mat-form-field>
+  </div>
+  <mat-form-field appearance="outline" class="h-full !text-sm sm:!text-base">
+    <mat-label class="!text-sm sm:!text-base">Razón social</mat-label>
+    <mat-icon matPrefix>people</mat-icon>
+    <mat-select name="razonSocial" formControlName="razonSocial">
+      @for (razonSocial of razonesSociales; track $index) {
+      <mat-option [value]="razonSocial">{{ razonSocial }}</mat-option>
+      }
+    </mat-select>
+    @if(hasError(formData, 'razonSocial', 'required')) {
+    <mat-error>La razón social es requerida</mat-error> } @for (error of
+    getErrorsApi(formData, 'razonSocial'); track $index) {
+    <mat-error>{{ error }}</mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="h-full !text-sm sm:!text-base">
+    <mat-label class="!text-sm sm:!text-base">Teléfono</mat-label>
+    <mat-icon matPrefix>phone</mat-icon>
+    <input type="tel" formControlName="telefono" name="telefono" matInput />
+    @if(hasError(formData, 'telefono', 'required')) {
+    <mat-error>Debe ingresar el teléfono de su empresa</mat-error> } @for (error
+    of getErrorsApi(formData, 'telefono'); track $index) {
+    <mat-error>{{ error }}</mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="h-full !text-sm sm:!text-base">
+    <mat-label class="!text-sm sm:!text-base">Correo</mat-label>
+    <mat-icon matPrefix>email</mat-icon>
+    <input type="email" formControlName="email" name="email" matInput />
+    @if(hasError(formData, 'email', 'required')) {
+    <mat-error>Debe ingresar el correo de su empresa</mat-error> }
+    @if(hasError(formData, 'email', 'email')) {
+    <mat-error>Debe ingresar un correo valido</mat-error> } @for (error of
+    getErrorsApi(formData, 'email'); track $index) {
+    <mat-error>{{ error }}</mat-error>
+    }
+  </mat-form-field>
+</form>

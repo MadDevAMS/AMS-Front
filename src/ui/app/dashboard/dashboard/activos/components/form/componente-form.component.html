@@ -1,0 +1,64 @@
+<form [formGroup]="formData" class="flex flex-col gap-4">
+  <mat-form-field appearance="outline" class="h-full !text-sm sm:!text-base">
+    <mat-label class="!text-sm sm:!text-base">Nombre</mat-label>
+    <mat-icon matPrefix>power</mat-icon>
+    <input type="text" formControlName="nombre" name="nombre" matInput />
+    @if(hasError(formData, 'nombre', 'required')) {
+    <mat-error>El nombre es requerido</mat-error> } @for (error of
+    getErrorsApi(formData, 'nombre'); track $index) {
+    <mat-error>{{ error }}</mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="h-full !text-sm sm:!text-base">
+    <mat-label class="!text-sm sm:!text-base">Descripción</mat-label>
+    <textarea
+      formControlName="descripcion"
+      name="descripcion"
+      matInput
+    ></textarea>
+    @for (error of getErrorsApi(formData, 'descripcion'); track $index) {
+    <mat-error>{{ error }}</mat-error>
+    }
+  </mat-form-field>
+  <div class="flex flex-col sm:flex-row gap-4">
+    <mat-form-field
+      appearance="outline"
+      class="h-full !text-sm sm:!text-base sm:!flex-1"
+    >
+      <mat-label class="!text-sm sm:!text-base">Potencia</mat-label>
+      <mat-icon matPrefix>bolt</mat-icon>
+      <input
+        type="number"
+        formControlName="potencia"
+        name="potencia"
+        matInput
+      />
+      @if(hasError(formData, 'potencia', 'required')) {
+      <mat-error>La potencia es requerida</mat-error> } @if(hasError(formData, 'potencia',
+      'min')) { <mat-error>Ingrese una potencia válida</mat-error> } @for (error
+      of getErrorsApi(formData, 'potencia'); track $index) {
+      <mat-error>{{ error }}</mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field
+      appearance="outline"
+      class="h-full !text-sm sm:!text-base sm:!flex-1"
+    >
+      <mat-label class="!text-sm sm:!text-base">Velocidad</mat-label>
+      <mat-icon matPrefix>speed</mat-icon>
+      <input
+        type="number"
+        formControlName="velocidad"
+        name="velocidad"
+        matInput
+      />
+      @if(hasError(formData, 'velocidad', 'required')) {
+      <mat-error>La velocidad es requerida</mat-error> }
+      @if(hasError(formData, 'velocidad', 'min')) {
+      <mat-error>Ingrese una velocidad válida</mat-error> } @for (error of
+      getErrorsApi(formData, 'velocidad'); track $index) {
+      <mat-error>{{ error }}</mat-error>
+      }
+    </mat-form-field>
+  </div>
+</form>
