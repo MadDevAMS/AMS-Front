@@ -9,13 +9,12 @@
       [submitText]="'Siguiente'"
       [formGroup]="serviceForm.formUser"
       (submit)="submit()"
-      [loading]="serviceForm.isSending"
     >
       <ng-template #inputs>
         <div class="flex flex-col sm:flex-row gap-4">
           <mat-form-field
             appearance="outline"
-            class="h-full !text-sm sm:!text-base"
+            class="h-full !text-sm sm:!text-base sm:w-1/2"
           >
             <mat-label class="!text-sm sm:!text-base">Nombres</mat-label>
             <mat-icon matPrefix>people</mat-icon>
@@ -30,7 +29,7 @@
           </mat-form-field>
           <mat-form-field
             appearance="outline"
-            class="h-full !text-sm sm:!text-base"
+            class="h-full !text-sm sm:!text-base sm:w-1/2"
           >
             <mat-label class="!text-sm sm:!text-base">Apellidos</mat-label>
             <mat-icon matPrefix>people</mat-icon>
@@ -142,13 +141,14 @@
         [submitText]="'Registrarse'"
         [formGroup]="serviceForm.formEntity"
         (submit)="serviceForm.register()"
+        [loading]="serviceForm.isSending"
       >
         <!-- Input -->
         <ng-template #inputs>
           <div class="flex flex-col sm:flex-row gap-4">
             <mat-form-field
               appearance="outline"
-              class="h-full !text-sm sm:!text-base"
+              class="h-full !text-sm sm:!text-base sm:w-1/2"
             >
               <mat-label class="!text-sm sm:!text-base">RUC</mat-label>
               <mat-icon matPrefix>badge</mat-icon>
@@ -168,7 +168,7 @@
             </mat-form-field>
             <mat-form-field
               appearance="outline"
-              class="h-full !text-sm sm:!text-base"
+              class="h-full !text-sm sm:!text-base sm:w-1/2"
             >
               <mat-label class="!text-sm sm:!text-base">Nombre</mat-label>
               <mat-icon matPrefix

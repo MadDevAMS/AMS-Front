@@ -47,7 +47,6 @@ export class RegisterFormService {
   }
 
   register() {
-    this.formEntity.markAllAsTouched()
     this.formUser.markAllAsTouched()
     if (this.formEntity.valid && this.formUser.valid) {
       this.isSending = true;
@@ -61,7 +60,6 @@ export class RegisterFormService {
               this.formEntity.get(err.propertyName)?.setErrors({ errors: err.errorMessage })
               this.formUser.get(err.propertyName)?.setErrors({ errors: err.errorMessage })
             })
-            console.log(res);
             this.snackbarService.open({ 
               mensaje: res.message || 'Ha ocurrido un error al intentar registrarse, revise sus datos',
               type: 'error'
