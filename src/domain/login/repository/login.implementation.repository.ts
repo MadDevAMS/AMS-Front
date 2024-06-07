@@ -17,7 +17,7 @@ export class LoginImplementationRepository extends LoginRepository {
   }
 
   override loginUser(param: IFormLoginModel): Observable<IApiResponse<string>> {
-    return this.http.post<IApiResponse<string>>(`${API_URL}/User/login`, this.mapper.mapTo(param))
+    return this.http.post<IApiResponse<string>>(`${API_URL}/login`, this.mapper.mapTo(param))
   }
   
 }

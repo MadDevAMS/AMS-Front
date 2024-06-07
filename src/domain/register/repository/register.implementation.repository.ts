@@ -17,7 +17,7 @@ export class RegisterImplementationRepository extends RegisterRepository {
   }
 
   override registerUser(param: IFormRegisterModel): Observable<IApiResponse<null>> {
-    return this.http.post<IApiResponse<null>>(`${API_URL}/Entidad`, this.mapper.mapTo(param))
+    return this.http.post<IApiResponse<null>>(`${API_URL}/entidades`, this.mapper.mapTo(param))
   }
   
 }

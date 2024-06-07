@@ -7,6 +7,7 @@
   [submitText]="'Iniciar sesión'"
   [formGroup]="serviceForm.formUser"
   (submit)="serviceForm.login()"
+  [loading]="serviceForm.isSending"
 >
   <ng-template #inputs>
     <mat-form-field appearance="outline" class="h-full !text-sm sm:!text-base">

@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
 import { LoginUsecase } from "@data/login/usecases/login.usecase";
 import { SnackbarService } from "@ui/shared/services/snackbar.service";
 
@@ -7,10 +8,12 @@ import { SnackbarService } from "@ui/shared/services/snackbar.service";
 export class LoginFormService {
 
   formUser: FormGroup
+  isSending = false;
 
   constructor(
     public loginUsecase: LoginUsecase,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private route: Router
   ) { 
     this.formUser = new FormGroup({
       correo: new FormControl('', [Validators.required, Validators.email]),
@@ -29,9 +32,10 @@ export class LoginFormService {
 
   login() {
     if (this.formUser.valid) {
+      this.isSending = true
       this.loginUsecase.execute(this.formUser.value).subscribe({
         next: (res) => {
-          if (res.status !== 201) {
+          if (res.status !== 200) {
             res.errors?.forEach((err) => {
               this.formUser.get(err.propertyName)?.setErrors({ errors: err.errorMessage })
             })
@@ -44,13 +48,19 @@ export class LoginFormService {
               mensaje: 'Inicio de sesión exitoso',
               type: 'success'
             })
+            if (res.data) {
+              localStorage.setItem('token', res.data!);
+              this.route.navigate(['/dashboard'])
+            }
           }
+          this.isSending = false
         },
         error: (err) => {
           this.snackbarService.open({ 
             mensaje: err.message || 'Ha ocurrido un error, revise su conexión a internet o inténtelo más tarde',
             type: 'error'
           })
+          this.isSending = false
         }
       })
     }

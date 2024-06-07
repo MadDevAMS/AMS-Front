@@ -9,6 +9,7 @@
       [submitText]="'Siguiente'"
       [formGroup]="serviceForm.formUser"
       (submit)="submit()"
+      [loading]="serviceForm.isSending"
     >
       <ng-template #inputs>
         <div class="flex flex-col sm:flex-row gap-4">
