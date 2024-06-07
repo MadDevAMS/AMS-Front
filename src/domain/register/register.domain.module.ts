@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RegisterRepository } from '@data/register/repository/register.repository';
 import { RegisterImplementationRepository } from './repository/register.implementation.repository';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { SharedDomainModule } from '@domain/shared-domain.module';
 
 @NgModule({
   declarations: [],
-  imports: [ HttpClientModule ],
+  imports: [ SharedDomainModule ],
   exports: [],
   providers: [
     {

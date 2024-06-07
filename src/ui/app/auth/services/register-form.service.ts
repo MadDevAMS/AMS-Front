@@ -61,6 +61,7 @@ export class RegisterFormService {
               this.formEntity.get(err.propertyName)?.setErrors({ errors: err.errorMessage })
               this.formUser.get(err.propertyName)?.setErrors({ errors: err.errorMessage })
             })
+            console.log(res);
             this.snackbarService.open({ 
               mensaje: res.message || 'Ha ocurrido un error al intentar registrarse, revise sus datos',
               type: 'error'
