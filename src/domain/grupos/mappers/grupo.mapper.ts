@@ -1,6 +1,6 @@
-import { Mapper } from '../../base/mapper';
-import { IGrupoModel } from '../../data/grupos/models/grupo.model';
-import { IGrupoEntity } from './grupo.entity';
+import { Mapper } from '../../../base/mapper';
+import { IGrupoModel } from '../../../data/grupos/models/grupo.model';
+import { IGrupoEntity } from '../entities/grupo.entity';
 
 export class GrupoMapper extends Mapper<IGrupoEntity, IGrupoModel> {
   override mapFrom(param: IGrupoEntity): IGrupoModel {

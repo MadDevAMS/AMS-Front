@@ -1,6 +1,4 @@
-import { UsuarioRepository } from '../../../data/usuarios/repository/usuario.repository';
-import { Observable, filter, from, map, of } from 'rxjs';
-import { IUsuarioModel } from '../../../data/usuarios/models/usuario.model';
+import { Observable, map } from 'rxjs';
 import { UsuarioMapper } from '../mappers/usuario.mapper';
 import { HttpClient } from '@angular/common/http';
 import { API_URL } from '@base/environment';
@@ -11,6 +9,8 @@ import { IApiResponsePagination } from '@base/response/responsePagination';
 import { IUsuarioPaginateRequest } from '../request/usuarioPaginate.request';
 import { IUsuarioCreateModel } from '@data/usuarios/models/usuario-create.model';
 import { UsuarioCreateMapper } from '../mappers/usuario-create.mapper';
+import { UsuarioRepository } from '@data/usuarios/repository/usuario.repository';
+import { IUsuarioModel } from '@data/usuarios/models/usuario.model';
 
 export class UsuarioImplementationRepository extends UsuarioRepository {
 

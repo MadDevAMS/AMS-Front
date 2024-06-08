@@ -26,7 +26,7 @@ export class UsuarioFormService {
       correo: new FormControl<string>('', [Validators.required, Validators.email]),
       password: new FormControl<string>(''),
       confirmPassword: new FormControl<string>(''),
-      grupos: new FormControl<IGrupoModel[]>([]),
+      grupos: new FormControl<number[]>([]),
     });
     this.setValidators();
   }
@@ -68,16 +68,16 @@ export class UsuarioFormService {
   onCheckboxChange(e: any, grupo: IGrupoModel) {
     const grupos = this.formUsuario.get('grupos');
     if (e.checked) {
-      grupos?.value.push(grupo)
+      grupos?.value.push(grupo.id)
     } else {
-      const index = grupos?.value.findIndex((x: IGrupoModel) => x.id === grupo.id);
+      const index = grupos?.value.findIndex((x: number) => x === grupo.id);
       grupos?.value.splice(index, 1);
     }
   }
 
   isChecked(grupo: IGrupoModel): boolean {
     const grupos = this.formUsuario.get('grupos');
-    return grupos?.value?.some((x: IGrupoModel) => x.id === grupo.id);
+    return grupos?.value?.some((x: number) => x === grupo.id);
   }
 
   toggleSeleccionar(usuario: IUsuarioModel) {
@@ -93,7 +93,7 @@ export class UsuarioFormService {
         correo: usuario.correo,
         password: '',
         confirmPassword: '',
-        grupos: []
+        grupos: usuario.grupos.map(g => g.id)
       });
       this.setValidators();
     }
@@ -151,7 +151,6 @@ export class UsuarioFormService {
             }
           },
           error: (err) => {
-            console.log(err);
             this.snackbarService.open({
               mensaje: err.message,
               type: 'error'
@@ -161,7 +160,6 @@ export class UsuarioFormService {
       } else {
         this.createUsuarioUsecase.execute(this.formUsuario.value).subscribe({
           next: (res) => {
-            console.log(res);
             if (res.status !== 201) {
               res.errors?.forEach((err) => {
                 this.formUsuario.get(err.propertyName)?.setErrors({ errors: err.errorMessage })
@@ -178,6 +176,7 @@ export class UsuarioFormService {
             }
           },
           error: (err) => {
+            console.log(err);
             this.snackbarService.open({
               mensaje: err.message,
               type: 'error'

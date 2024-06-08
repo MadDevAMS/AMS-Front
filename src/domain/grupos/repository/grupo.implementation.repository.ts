@@ -1,23 +1,35 @@
 import { Observable, map } from 'rxjs';
-import { GrupoMapper } from './grupo.mapper';
-import { IGrupoEntity } from './grupo.entity';
-import { GrupoRepository } from '../../data/grupos/repository/grupo.repository';
-import { IGrupoModel } from '../../data/grupos/models/grupo.model';
+import { GrupoMapper } from '../mappers/grupo.mapper';
+import { IGrupoEntity } from '../entities/grupo.entity';
 import { HttpClient } from '@angular/common/http';
 import { IApiResponse } from '@base/response/response';
 import { IApiResponsePagination } from '@base/response/responsePagination';
 import { API_URL } from '@base/environment';
 import { responseMapper, responsePaginationMapper } from '@base/response/response.mapper';
 import { IRequestPagination } from '@base/request/requestPagination';
+import { IGrupoCreateModel } from '@data/grupos/models/grupo-create.model';
+import { GrupoCreateMapper } from '../mappers/grupo-create.mapper';
+import { GrupoRepository } from '@data/grupos/repository/grupo.repository';
+import { IGrupoModel } from '@data/grupos/models/grupo.model';
 
 export class GrupoImplementationRepository extends GrupoRepository {
 
   mapper = new GrupoMapper();
+  mapperCreate = new GrupoCreateMapper();
 
   constructor(
     private http: HttpClient
   ) {
     super()
+  }
+
+  override updateGrupo(params: IGrupoCreateModel): Observable<IApiResponse<void>> {
+    return this.http.put<IApiResponse<void>>(`${API_URL}/groups`, this.mapperCreate.mapTo(params))
+  }
+
+  override createGrupo(params: IGrupoCreateModel): Observable<IApiResponse<void>> {
+    console.log(this.mapperCreate.mapTo(params));
+    return this.http.post<IApiResponse<void>>(`${API_URL}/groups`, this.mapperCreate.mapTo(params))
   }
 
   override getGrupoById(id: number): Observable<IApiResponse<IGrupoModel>> {

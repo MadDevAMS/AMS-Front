@@ -1,8 +1,11 @@
 import { Injectable } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { IGrupoModel } from "@data/grupos/models/grupo.model";
+import { CreateGrupoUsecase } from "@data/grupos/usecases/create-grupo.usecase";
+import { UpdateGrupoUsecase } from "@data/grupos/usecases/update-grupo.usecase";
 import { IPermisoModel } from "@data/permisos/models/permiso.model";
 import { IUsuarioModel } from "@data/usuarios/models/usuario.model";
+import { SnackbarService } from "@ui/shared/services/snackbar.service";
 
 @Injectable({ 
   providedIn: 'platform' 
@@ -11,12 +14,16 @@ export class GrupoFormService {
   grupoSeleccionado: IGrupoModel | null = null;
   formGrupo: FormGroup;
 
-  constructor() {
+  constructor(
+    private updateGrupoUsecase: UpdateGrupoUsecase,
+    private createGrupoUsecase: CreateGrupoUsecase,
+    private snackbarService: SnackbarService
+  ) {
     this.formGrupo = new FormGroup({
       nombre: new FormControl<string>('', [Validators.required]),
       descripcion: new FormControl<string>(''),
-      permisos: new FormControl<IPermisoModel[]>([]),
-      usuarios: new FormControl<IUsuarioModel[]>([])
+      idPermisos: new FormControl<IPermisoModel[]>([]),
+      idUsuarios: new FormControl<IUsuarioModel[]>([])
     });
   }
 
@@ -82,9 +89,59 @@ export class GrupoFormService {
     this.formGrupo.markAllAsTouched();
     if (this.formGrupo.valid) {
       if (this.grupoSeleccionado) {
-        console.log("ACTUALIZAR", this.formGrupo);
+        this.updateGrupoUsecase.execute({
+          id: this.grupoSeleccionado.id,
+          ...this.formGrupo.value
+        }).subscribe({
+          next: (res) => {
+            if (res.status !== 200) {
+              res.errors?.forEach((err) => {
+                this.formGrupo.get(err.propertyName)?.setErrors({ errors: err.errorMessage })
+              })
+              this.snackbarService.open({ 
+                mensaje: res.message || 'Ha ocurrido un error al intentar actualizar el grupo, revise sus datos o consulte a su administrador',
+                type: 'error'
+              })
+            } else {
+              this.snackbarService.open({
+                mensaje: res.message || 'Grupo actualizado exitosamente',
+                type: 'success'
+              })
+            }
+          },
+          error: (err) => {
+            this.snackbarService.open({
+              mensaje: err.message,
+              type: 'error'
+            })
+          }
+        })
       } else {
-        console.log("GENERAR", this.formGrupo);
+        this.createGrupoUsecase.execute(this.formGrupo.value).subscribe({
+          next: (res) => {
+            if (res.status !== 201) {
+              res.errors?.forEach((err) => {
+                this.formGrupo.get(err.propertyName)?.setErrors({ errors: err.errorMessage })
+              })
+              this.snackbarService.open({ 
+                mensaje: res.message || 'Ha ocurrido un error al intentar crear el grupo, revise sus datos o consulte a su administrador',
+                type: 'error'
+              })
+            } else {
+              this.snackbarService.open({
+                mensaje: res.message || 'Grupo generado exitosamente',
+                type: 'success'
+              })
+            }
+          },
+          error: (err) => {
+            console.log(err);
+            this.snackbarService.open({
+              mensaje: err.message,
+              type: 'error'
+            })
+          }
+        })
       }
     }
   }

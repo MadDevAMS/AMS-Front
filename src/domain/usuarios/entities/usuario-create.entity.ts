@@ -1,7 +1,3 @@
-export interface IGroupUserEntity {
-  id: number,
-}
-
 export interface IUsuarioCreateEntity {
   id?: number,
   firstName: string,
@@ -9,6 +5,6 @@ export interface IUsuarioCreateEntity {
   email: string,
   password: string,
   confirmPassword: string,
-  groups: IGroupUserEntity[],
+  groups: number[],
   updatePassword: boolean
 }

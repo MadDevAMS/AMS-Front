@@ -1,5 +1,3 @@
-import { IGrupoModel } from "@data/grupos/models/grupo.model";
-
 export interface IUsuarioCreateModel {
   id?: number,
   nombres: string,
@@ -7,6 +5,6 @@ export interface IUsuarioCreateModel {
   correo: string,
   password: string,
   confirmPassword: string,
-  grupos: IGrupoModel[],
+  grupos: number[],
   updatePassword: boolean
 }
