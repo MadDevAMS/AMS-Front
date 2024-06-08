@@ -8,5 +8,6 @@ export interface IGrupoModel {
   nombre: string,
   descripcion: string | null,
   permisos: IGrupoPermisoModel[],
+  usuarios: number[],
   fecha_creacion: Date
 }

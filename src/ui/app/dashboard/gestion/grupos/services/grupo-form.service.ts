@@ -6,6 +6,8 @@ import { UpdateGrupoUsecase } from "@data/grupos/usecases/update-grupo.usecase";
 import { IPermisoModel } from "@data/permisos/models/permiso.model";
 import { IUsuarioModel } from "@data/usuarios/models/usuario.model";
 import { SnackbarService } from "@ui/shared/services/snackbar.service";
+import { MatDialog } from "@angular/material/dialog";
+import { ModalDeleteComponent } from "../components/modal/modal-delete.component";
 
 @Injectable({ 
   providedIn: 'platform' 
@@ -17,56 +19,65 @@ export class GrupoFormService {
   constructor(
     private updateGrupoUsecase: UpdateGrupoUsecase,
     private createGrupoUsecase: CreateGrupoUsecase,
+    private dialog: MatDialog,
     private snackbarService: SnackbarService
   ) {
     this.formGrupo = new FormGroup({
       nombre: new FormControl<string>('', [Validators.required]),
       descripcion: new FormControl<string>(''),
-      idPermisos: new FormControl<IPermisoModel[]>([]),
-      idUsuarios: new FormControl<IUsuarioModel[]>([])
+      idPermisos: new FormControl<number[]>([]),
+      idUsuarios: new FormControl<number[]>([])
     });
   }
 
   onCheckboxChange(e: any, permiso: IPermisoModel) {
-    const permisos = this.formGrupo.get('permisos');
+    const permisos = this.formGrupo.get('idPermisos');
     if (e.checked) {
-      permisos?.value.push(permiso)
+      permisos?.value.push(permiso.id)
     } else {
-      const index = permisos?.value.findIndex((x: IPermisoModel) => x.id === permiso.id);
+      const index = permisos?.value.findIndex((x: number) => x === permiso.id);
       permisos?.value.splice(index, 1);
     }
   }
 
+  openDialog() {
+    this.dialog.open(ModalDeleteComponent, {
+      data: {
+        id: this.grupoSeleccionado?.id
+      }
+    })
+  }
+
   isChecked(permiso: IPermisoModel): boolean {
-    const permisos = this.formGrupo.get('permisos');
-    return permisos?.value?.some((x: IPermisoModel) => x.id === permiso.id);
+    const permisos = this.formGrupo.get('idPermisos');
+    return permisos?.value?.some((x: number) => x === permiso.id);
   }
 
   toggleSeleccionar(grupo: IGrupoModel) {
-    if (this.grupoSeleccionado && this.grupoSeleccionado === grupo) {
+    if (this.grupoSeleccionado && this.grupoSeleccionado.id === grupo.id) {
       this.limpiar();
     } else {
       this.grupoSeleccionado = grupo;
       this.formGrupo.reset({
         nombre: grupo.nombre,
         descripcion: grupo.descripcion,
-        permisos: grupo.permisos,
-        usuarios: [],
+        idPermisos: grupo.permisos.map(p => p.id),
+        idUsuarios: Array.from(grupo.usuarios),
       });
     }
   }
 
   isSelectedUsuario(usuario: IUsuarioModel): boolean {
-    const usuarios = this.formGrupo.get('usuarios');
-    return usuarios?.value?.some((x: IUsuarioModel) => x.id === usuario.id);
+    const usuarios = this.formGrupo.get('idUsuarios');
+    return usuarios?.value?.some((x: number) => x === usuario.id);
   }
 
   toggleSeleccionarUsuario(usuario: IUsuarioModel) {
-    const usuarios = this.formGrupo.get('usuarios');
-    if (!usuarios?.value.some((u: IUsuarioModel) => u.id === usuario.id)) {
-      usuarios?.value.push(usuario)
+    const usuarios = this.formGrupo.get('idUsuarios');
+    if (!usuarios?.value.some((u: number) => u === usuario.id)) {
+      usuarios?.value.push(usuario.id)
     } else {
-      const index = usuarios?.value.findIndex((x: IUsuarioModel) => x.id === usuario.id);
+      const index = usuarios?.value.findIndex((x: number) => x === usuario.id);
       usuarios?.value.splice(index, 1);
     }
   }
@@ -80,8 +91,8 @@ export class GrupoFormService {
     this.formGrupo.reset({
       nombre: '',
       descripcion: '',
-      permisos: [],
-      usuarios: []
+      idPermisos: [],
+      idUsuarios: []
     });
   }
 

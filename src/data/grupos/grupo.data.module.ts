@@ -5,6 +5,7 @@ import { GrupoDomainModule } from '../../domain/grupos/grupo.domain.module';
 import { CreateGrupoUsecase } from './usecases/create-grupo.usecase';
 import { UpdateGrupoUsecase } from './usecases/update-grupo.usecase';
 import { GetGrupoByIdUsecase } from './usecases/get-grupo-by-id.usecase';
+import { DeleteGrupoUsecase } from './usecases/delete-grupo.usecase';
 
 @NgModule({
   declarations: [],
@@ -24,6 +25,11 @@ import { GetGrupoByIdUsecase } from './usecases/get-grupo-by-id.usecase';
     { 
       provide: UpdateGrupoUsecase,
       useFactory: (usuarioRepo: GrupoRepository) => new UpdateGrupoUsecase(usuarioRepo),
+      deps: [GrupoRepository]
+    },
+    { 
+      provide: DeleteGrupoUsecase,
+      useFactory: (usuarioRepo: GrupoRepository) => new DeleteGrupoUsecase(usuarioRepo),
       deps: [GrupoRepository]
     },
     { 

@@ -5,7 +5,7 @@ import { IGrupoCreateEntity } from '../entities/grupo-create.entity';
 export class GrupoCreateMapper extends Mapper<IGrupoCreateEntity, IGrupoCreateModel> {
   override mapFrom(param: IGrupoCreateEntity): IGrupoCreateModel {
     return {
-      id: param.id,
+      id: param.groupId,
       nombre: param.name,
       descripcion: param.description,
       idPermisos: param.permissions,
@@ -14,11 +14,12 @@ export class GrupoCreateMapper extends Mapper<IGrupoCreateEntity, IGrupoCreateMo
   }
   override mapTo(param: IGrupoCreateModel): IGrupoCreateEntity {
     return {
-      id: param.id,
+      groupId: param.id,
       name: param.nombre,
       description: param.descripcion,
       permissions: param.idPermisos,
-      users: param.idUsuarios
+      users: param.idUsuarios,
+      state: 1
     }
   }
 }

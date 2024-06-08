@@ -11,6 +11,7 @@ export class GrupoMapper extends Mapper<IGrupoEntity, IGrupoModel> {
         id: p.permissionId,
         nombre: p.name
       })),
+      usuarios: param.users,
       descripcion: param.description,
       fecha_creacion: new Date()
     }

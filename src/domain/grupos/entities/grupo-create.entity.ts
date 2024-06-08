@@ -1,7 +1,8 @@
 export interface IGrupoCreateEntity {
-  id?: number,
+  groupId?: number,
   name: string,
   description: string,
   permissions: number[],
-  users: number[]
+  users: number[],
+  state: number
 }

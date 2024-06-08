@@ -28,8 +28,11 @@ export class GrupoImplementationRepository extends GrupoRepository {
   }
 
   override createGrupo(params: IGrupoCreateModel): Observable<IApiResponse<void>> {
-    console.log(this.mapperCreate.mapTo(params));
     return this.http.post<IApiResponse<void>>(`${API_URL}/groups`, this.mapperCreate.mapTo(params))
+  }
+
+  override deleteGrupo(id: number): Observable<IApiResponse<void>> {
+    return this.http.delete<IApiResponse<void>>(`${API_URL}/groups?id=${id}`)
   }
 
   override getGrupoById(id: number): Observable<IApiResponse<IGrupoModel>> {

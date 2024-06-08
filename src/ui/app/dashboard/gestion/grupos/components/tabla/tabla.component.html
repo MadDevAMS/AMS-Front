@@ -12,6 +12,14 @@
     class="focus:outline-none w-full"
     search
   />
+  @if (serviceForm.grupoSeleccionado) {
+    <button 
+      (click)="serviceForm.openDialog()"
+      class="shadow-expand-ams !rounded !p-6 !font-semibold text-sm"
+      mat-raised-button actions>
+      Eliminar
+    </button>
+  }
   <ng-container body>
     @for(grupo of filtrarGrupos(); track grupo.id) {
       <div (click)="seleccionar(grupo)" [ngClass]="{
