@@ -120,7 +120,7 @@
             </mat-expansion-panel-header>
             <mat-chip-set class="!overflow-auto">
               @for(permiso of grupo.permisos; track $index) {
-              <mat-chip>{{ permiso }}</mat-chip>
+              <mat-chip>{{ permiso.nombre }}</mat-chip>
               }
             </mat-chip-set>
           </mat-expansion-panel>
