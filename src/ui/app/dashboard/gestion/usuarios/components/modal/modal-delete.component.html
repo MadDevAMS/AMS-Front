@@ -1,0 +1,25 @@
+<h2 mat-dialog-title>
+  ¿Está seguro de eliminar este elemento?
+</h2>
+<mat-dialog-content>
+  <p class="text-center">Esta acción será permanente</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <div class="w-full flex flex-col xl:flex-row gap-2">
+    <button
+      (click)="onSubmit()"
+      class="!shadow-expand-ams !m-0 !rounded !py-6 !font-semibold text-sm xl:w-1/2"
+      mat-raised-button
+    >      
+      Eliminar
+    </button>
+    <button
+      (click)="onNoClick()"
+      color="primary"
+      class="!shadow-expand-ams !m-0 !rounded !py-6 !font-semibold text-sm xl:w-1/2"
+      mat-raised-button
+    >      
+      Cancelar
+    </button>
+  </div>
+</mat-dialog-actions>

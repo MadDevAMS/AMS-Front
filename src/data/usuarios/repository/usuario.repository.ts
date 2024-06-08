@@ -8,6 +8,7 @@ import { IUsuarioCreateModel } from '../models/usuario-create.model';
 export abstract class UsuarioRepository {
   abstract updateUsuario(params: IUsuarioCreateModel): Observable<IApiResponse<void>>;
   abstract createUsuario(params: IUsuarioCreateModel): Observable<IApiResponse<void>>;
+  abstract deleteUsuario(id: number): Observable<IApiResponse<void>>;
   abstract getUsuarioById(id: number): Observable<IApiResponse<IUsuarioModel>>;
   abstract getAllUsuarios(params: IRequestPagination): Observable<IApiResponsePagination<IUsuarioModel>>;
 }

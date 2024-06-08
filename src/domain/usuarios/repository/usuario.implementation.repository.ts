@@ -31,6 +31,10 @@ export class UsuarioImplementationRepository extends UsuarioRepository {
     return this.http.post<IApiResponse<void>>(`${API_URL}/users`, this.mapperCreate.mapTo(params))
   }
 
+  override deleteUsuario(id: number): Observable<IApiResponse<void>> {
+    return this.http.delete<IApiResponse<void>>(`${API_URL}/users?id=${id}`)
+  }
+
   override getUsuarioById(id: number): Observable<IApiResponse<IUsuarioModel>> {
     return this.http.get<IApiResponse<IUsuarioEntity>>(`${API_URL}/users?idUser=${id}`)
       .pipe(map(responseMapper(this.mapper)))

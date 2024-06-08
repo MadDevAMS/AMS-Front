@@ -1,10 +1,12 @@
 import { Injectable } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { MatDialog } from "@angular/material/dialog";
 import { IGrupoModel } from "@data/grupos/models/grupo.model";
 import { IUsuarioModel } from "@data/usuarios/models/usuario.model";
 import { CreateUsuarioUsecase } from "@data/usuarios/usecases/create-usuario.usecase";
 import { UpdateUsuarioUsecase } from "@data/usuarios/usecases/update-usuario.usecase";
 import { SnackbarService } from "@ui/shared/services/snackbar.service";
+import { ModalDeleteComponent } from "../components/modal/modal-delete.component";
 
 @Injectable({ 
   providedIn: 'platform' 
@@ -18,6 +20,7 @@ export class UsuarioFormService {
   constructor(
     private updateUsuarioUsecase: UpdateUsuarioUsecase,
     private createUsuarioUsecase: CreateUsuarioUsecase,
+    private dialog: MatDialog,
     private snackbarService: SnackbarService
   ) {
     this.formUsuario = new FormGroup({
@@ -59,6 +62,14 @@ export class UsuarioFormService {
 
     passwordControl?.updateValueAndValidity();
     confirmPasswordControl?.updateValueAndValidity();
+  }
+
+  openDialog() {
+    this.dialog.open(ModalDeleteComponent, {
+      data: {
+        id: this.usuarioSeleccionado?.id
+      }
+    })
   }
 
   isDisabled(field: string): boolean {
