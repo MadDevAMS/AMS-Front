@@ -1,12 +1,12 @@
 import { HttpClient } from "@angular/common/http";
 import { API_URL } from "@base/environment";
-import { IApiResponse } from "@base/response";
-import { responseMapper } from "@base/responseMapper";
+import { IApiResponse } from "@base/response/response";
 import { PuntoRepository } from "@data/punto/repository/punto.repository";
 import { PuntoMapper } from "./punto.mapper";
 import { IPuntoModel } from "@data/punto/models/punto.model";
 import { Observable, map } from "rxjs";
 import { IPuntoEntity } from "./punto.entity";
+import { responseMapper } from "@base/response/response.mapper";
 
 export class PuntoImplementationRepository extends PuntoRepository {
   mapper = new PuntoMapper()

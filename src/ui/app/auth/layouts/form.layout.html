@@ -11,30 +11,25 @@
       </div>
       <!-- Button -->
       <div class="flex flex-col gap-2">
-        <button
-          type="submit"
-          mat-flat-button
-          color="primary"
-          class="bg-blue01 !rounded-lg !h-auto"
-        >
-          <div
-            class="text-center !py-[0.625rem] !px-5 font-semibold text-sm sm:text-base"
-          >
+        <button type="submit" mat-flat-button color="primary"
+          class="bg-blue01 !rounded-lg !h-11 disabled:!bg-blue01 disabled:!bg-opacity-80" [disabled]="loading">
+          @if (loading) {
+          <div class="text-center !py-[0.625rem] !px-5 font-semibold text-sm sm:text-base">
+            <mat-spinner class="!stroke-white" diameter="36"></mat-spinner>
+          </div>
+          } @else {
+          <div class="text-center !py-[0.625rem] !px-5 font-semibold text-sm sm:text-base">
             {{ submitText }}
           </div>
+          }
         </button>
         <ng-content select="[secondaryButton]"></ng-content>
       </div>
     </div>
   </div>
-  <footer
-    class="flex flex-col items-center min-[420px]:flex-row min-[420px]:justify-center gap-3"
-  >
+  <footer class="flex flex-col items-center min-[420px]:flex-row min-[420px]:justify-center gap-3">
     <p class="font-normal text-sm sm:text-base">{{ footerText }}</p>
-    <a
-      class="text-green2 font-semibold text-sm sm:text-base"
-      [routerLink]="footerLinkRouter"
-    >
+    <a class="text-green2 font-semibold text-sm sm:text-base" [routerLink]="footerLinkRouter">
       {{ footerTextLink }}
     </a>
   </footer>

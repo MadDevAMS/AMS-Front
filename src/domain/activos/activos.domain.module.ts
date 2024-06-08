@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { ActivoRepository } from '@data/activos/repository/activos.repository';
 import { ActivosImplementationRepository } from './repository/activos.simplementation.repository';
+import { SharedDomainModule } from '@domain/shared-domain.module';
 
 @NgModule({
   declarations: [],
-  imports: [ HttpClientModule ],
+  imports: [ SharedDomainModule ],
   exports: [],
   providers: [
     {

@@ -4,7 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { ActivosFormModule } from '../form/activos-form.module';
 import { MaterialModule } from '@ui/shared/modules/material.module';
 import { SnackbarService } from '@ui/shared/services/snackbar.service';
-import { IErrorResponse } from '@base/response';
+import { IErrorResponse } from '@base/response/response';
 import { ComponenteDataModule } from '@data/componente/componente.data.module';
 import { CreateComponenteUsecase } from '@data/componente/usecases/create-componente.usecase';
 

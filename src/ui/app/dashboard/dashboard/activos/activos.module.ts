@@ -11,8 +11,6 @@ import { MaquinaDataModule } from '@data/maquina/maquina.data.module';
 import { PuntoDataModule } from '@data/punto/punto.data.module';
 import { ComponenteDataModule } from '@data/componente/componente.data.module';
 import { ChipComponent } from './components/chip/chip.component';
-import { incidenciaComponent } from './components/incidencias/incidencia.component';
-import { InicidenciasListComponent } from './components/incidencias/incidencias-list.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivosUpdateUsecaseService } from './services/activos-update.usecase.service';
 import { AreaDataModule } from '@data/area/area.data.module';
@@ -36,9 +34,6 @@ const declarations = [
   MaquinaCardComponent,
   PuntoCardComponent,
   MetricaCardComponent,
-
-  incidenciaComponent,
-  InicidenciasListComponent,
 ]
 
 const commonModules = [

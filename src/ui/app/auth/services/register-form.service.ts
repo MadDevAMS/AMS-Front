@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
 import { RegisterUsuarioEntidadUsecase } from "@data/register/usecases/register-usuario-entidad.usecase";
 import { SnackbarService } from "@ui/shared/services/snackbar.service";
 import { razonesSociales } from "@ui/shared/variables/razonesSociales";
@@ -8,11 +9,13 @@ import { razonesSociales } from "@ui/shared/variables/razonesSociales";
 export class RegisterFormService {
   formUser: FormGroup;
   formEntity: FormGroup;
-  razonesSociales = razonesSociales
+  razonesSociales = razonesSociales;
+  isSending = false;
 
   constructor(
     private registerUsecase: RegisterUsuarioEntidadUsecase,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private router: Router,
   ) {
     this.formUser = new FormGroup({
       firstName: new FormControl('', [Validators.required]),
@@ -44,9 +47,9 @@ export class RegisterFormService {
   }
 
   register() {
-    this.formEntity.markAllAsTouched()
     this.formUser.markAllAsTouched()
     if (this.formEntity.valid && this.formUser.valid) {
+      this.isSending = true;
       this.registerUsecase.execute({
         ...this.formEntity.value,
         ...this.formUser.value
@@ -66,13 +69,16 @@ export class RegisterFormService {
               mensaje: 'Registro exitoso',
               type: 'success'
             })
+            this.router.navigate(["/auth/login"])
           }
+          this.isSending = false;
         },
         error: (err) => {
           this.snackbarService.open({ 
-            mensaje: err.message || 'Ha ocurrido un error, revise su conexión a internet o inténtelo más tarde',
+            mensaje: err.message,
             type: 'error'
           })
+          this.isSending = false;
         }
       })
     }

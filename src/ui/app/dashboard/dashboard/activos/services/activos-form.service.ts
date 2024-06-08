@@ -5,7 +5,7 @@ import { SnackbarService } from '@ui/shared/services/snackbar.service';
 import { ActivosUsecaseService } from './activos-usecase.service';
 import { IActivoModel } from '@data/activos/models/activo.model';
 import { FormGroup } from '@angular/forms';
-import { IErrorResponse } from '@base/response';
+import { IErrorResponse } from '@base/response/response';
 import { ActivosUpdateUsecaseService } from './activos-update.usecase.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalDeleteComponent } from '../components/modal/modal-delete.component';
@@ -86,7 +86,7 @@ export class ActivosFormService<T> {
           },
           error: (err) => {
             this.snackbarService.open({
-              mensaje: err.message || 'Ha ocurrido un error, revise su conexión a internet o inténtelo más tarde',
+              mensaje: err.message,
               type: 'error',
             })  
           }
@@ -112,7 +112,7 @@ export class ActivosFormService<T> {
       },
       error: (err) => {
         this.snackbarService.open({
-          mensaje: err.message || 'Ha ocurrido un error, revise su conexión a internet o inténtelo más tarde',
+          mensaje: err.message,
           type: 'error',
         })
       }

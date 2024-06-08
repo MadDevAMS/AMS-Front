@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { PuntoImplementationRepository } from './punto.implementation.repository';
 import { PuntoRepository } from '@data/punto/repository/punto.repository';
+import { SharedDomainModule } from '@domain/shared-domain.module';
 
 @NgModule({
   declarations: [],
-  imports: [ HttpClientModule ],
+  imports: [ SharedDomainModule ],
   exports: [],
   providers: [
     {

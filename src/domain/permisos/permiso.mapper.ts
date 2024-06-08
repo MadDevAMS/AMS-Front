@@ -14,7 +14,7 @@ export class PermisoMapper extends Mapper<IPermisoEntity, IPermisoModel> {
     return {
       id: param.id,
       description: param.descripcion,
-      name: param.nombre
+      name: param.nombre,
     }
   }
 }

@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { EntidadRepository } from '@data/entidad/repository/entidad.repository';
 import { EntidadImplementationRepository } from './entidad.implementation.repository';
+import { SharedDomainModule } from '@domain/shared-domain.module';
 
 @NgModule({
   declarations: [],
-  imports: [ HttpClientModule ],
+  imports: [ SharedDomainModule ],
   exports: [],
   providers: [
     {

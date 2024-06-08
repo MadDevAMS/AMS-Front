@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { IApiResponse } from '@base/response';
+import { IApiResponse } from '@base/response/response';
 import { IMetricaModel } from '../models/metrica.model';
 
 export abstract class MetricaRepository {
