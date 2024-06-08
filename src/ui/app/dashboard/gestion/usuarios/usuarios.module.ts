@@ -5,6 +5,7 @@ import { UsuarioDataModule } from '@data/usuarios/usuario.data.module';
 import { UsuarioUsecaseService } from './services/usuario-usecase.service';
 import { SharedModule } from '../shared/shared.module';
 import { UsuarioFormService } from './services/usuario-form.service';
+import { UserService } from '@ui/shared/services/user.service';
 
 const commonModules = [
   SharedModule,
@@ -26,7 +27,8 @@ const declarations = [
   ],
   providers: [ 
     UsuarioUsecaseService,
-    UsuarioFormService
+    UsuarioFormService,
+    UserService
   ],
 })
 export class UsuariosModule { }

@@ -1,0 +1,43 @@
+<div class="h-full w-full flex flex-col gap-3">
+  <card-layout class="flex-1 h-0">
+    <p class="text-gray01 text-base font-semibold" header>
+      Entidad {{ serviceForm.nodoSeleccionado?.nombre }}
+    </p>
+    <div class="flex flex-col gap-4" body>
+      <activos-entidad-form 
+        [formData]="serviceForm.formDataUpdate"
+        [hasError]="serviceForm.hasError"
+        [getErrorsApi]="serviceForm.getErrorsApi"
+      />
+      <div class="flex flex-col sm:flex-row md:flex-col min-[1664px]:flex-row gap-4">
+        <img class="sm:w-1/2 md:w-full xl:w-1/2 h-full" src="{{ serviceForm.dataNodo?.imagen }}" alt="imagen-{{serviceForm.dataNodo?.id}}">
+        <div class="flex flex-col gap-2 sm:w-1/2 md:w-full">
+          @for (hijo of serviceForm.dataNodoHijos; track $index) {
+            <div class="border-gray04 border-opacity-50 border-[0.25px] w-full flex items-center shadow-sm-ams-01">
+              <activos-chip class="flex-1 w-0" [node]="{
+                id: '',
+                nombre: hijo.nombre,
+                type: hijo.tipo,
+                level: 1,
+                expandable: false,
+                isExpanded: false
+              }"></activos-chip>
+              <p class="px-4 text-end whitespace-nowrap">{{ hijo.cantidad }}</p>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </card-layout>
+  <div class="w-full flex flex-col xl:flex-row-reverse gap-2">
+    <button
+      (click)="serviceForm.updateNodo()"
+      color="primary"
+      class="!shadow-expand-ams !rounded !py-6 !font-semibold text-sm xl:w-1/2"
+      mat-raised-button
+      [disabled]="!serviceForm.dataNodo"
+    >      
+      Actualizar
+    </button>
+  </div>
+</div>

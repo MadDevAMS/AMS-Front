@@ -1,0 +1,38 @@
+<div class="flex flex-col md:flex-row gap-3 md:h-full font-poppins">
+  <div class="flex-1 w-full md:w-1/2 xl:w-1/3">
+    <activos-arbol></activos-arbol>
+  </div>
+  <div class="flex flex-col md:w-1/2 md:flex-1 xl:flex-none xl:w-2/3 xl:flex-row md:overflow-auto gap-3">
+    <div class="xl:w-1/2">
+      @switch (formService.nodoSeleccionado?.type) {
+        @case ('entidad') {
+          <activos-entidad-card></activos-entidad-card>
+        }
+        @case ('area') {
+          <activos-area-card></activos-area-card>
+        }
+        @case ('maquina') {
+          <activos-maquina-card></activos-maquina-card>
+        }
+        @case ('componente') {
+          <activos-componente-card></activos-componente-card>
+        }
+        @case ('punto_monitoreo') {
+          <activos-punto-card></activos-punto-card>
+        }
+        @case ('metrica') {
+          <activos-metrica-card></activos-metrica-card>
+        }
+      }
+    </div>
+    <div class="flex flex-col gap-3 xl:w-1/2">
+      <card-layout class="max-h-96 xl:h-1/2 overflow-auto">
+        <p class="text-gray01 text-base font-semibold" header>Incidencias</p>
+        <activos-incidencias-list body></activos-incidencias-list>
+      </card-layout>
+      <card-layout class="xl:h-1/2">
+        <p class="text-gray01 text-base font-semibold" header>Diagnóstico</p>
+      </card-layout>
+    </div>
+  </div>
+</div>

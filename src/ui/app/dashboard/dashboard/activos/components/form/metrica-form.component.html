@@ -1,0 +1,32 @@
+<form [formGroup]="formData" class="flex flex-col gap-4">
+  <mat-form-field appearance="outline" class="h-full !text-sm sm:!text-base">
+    <mat-label class="!text-sm sm:!text-base">Nombre</mat-label>
+    <mat-icon matPrefix>analytics</mat-icon>
+    <input type="text" formControlName="nombre" name="nombre" matInput />
+    @if(hasError(formData, 'nombre', 'required')) {
+    <mat-error>El nombre de la métrica es requerido</mat-error> } @for (error of
+    getErrorsApi(formData, 'nombre'); track $index) {
+    <mat-error>{{ error }}</mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="h-full !text-sm sm:!text-base">
+    <mat-label class="!text-sm sm:!text-base">Tipo de métrica</mat-label>
+    <mat-icon matPrefix>category</mat-icon>
+    <mat-select name="tipoMetrica" formControlName="tipoMetrica" matInput>
+      <mat-option [value]="'default'">Default</mat-option>
+    </mat-select>
+    @if(hasError(formData, 'tipoMetrica', 'required')) {
+    <mat-error>El tipo de metrica es requerido</mat-error> } @for (error of
+    getErrorsApi(formData, 'tipoMetrica'); track $index) {
+    <mat-error>{{ error }}</mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="h-full !text-sm sm:!text-base">
+    <mat-label class="!text-sm sm:!text-base">Descripción</mat-label>
+    <textarea
+      formControlName="descripcion"
+      name="descripcion"
+      matInput
+    ></textarea>
+  </mat-form-field>
+</form>

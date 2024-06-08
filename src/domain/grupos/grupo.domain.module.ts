@@ -1,16 +1,18 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { GrupoRepository } from '../../data/grupos/repository/grupo.repository';
-import { GrupoImplementationRepository } from './grupo.implementation.repository';
+import { GrupoImplementationRepository } from './repository/grupo.implementation.repository';
+import { SharedDomainModule } from '@domain/shared-domain.module';
+import { HttpClient } from '@angular/common/http';
 
 @NgModule({
   declarations: [],
-  imports: [ CommonModule ],
+  imports: [ SharedDomainModule ],
   exports: [],
   providers: [
     {
       provide: GrupoRepository,
-      useClass: GrupoImplementationRepository
+      useFactory: (httpClient: HttpClient) => new GrupoImplementationRepository(httpClient),
+      deps: [HttpClient]
     }
   ],
 })
