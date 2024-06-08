@@ -5,7 +5,7 @@ import { ActivosFormModule } from '../form/activos-form.module';
 import { MaterialModule } from '@ui/shared/modules/material.module';
 import { CreateAreaUsecase } from '@data/area/usecases/create-area.usecase';
 import { SnackbarService } from '@ui/shared/services/snackbar.service';
-import { IErrorResponse } from '@base/response';
+import { IErrorResponse } from '@base/response/response';
 import { AreaDataModule } from '@data/area/area.data.module';
 
 @Component({

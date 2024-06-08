@@ -3,7 +3,7 @@
     'Nombres',
     'Apellidos',
     'Correo',
-    'Último inicio',
+    'Fecha de creación',
   ]"
 >
   <input
@@ -24,7 +24,7 @@
           <tabla-col>{{ usuario.nombres }}</tabla-col>
           <tabla-col>{{ usuario.apellidos }}</tabla-col>
           <tabla-col>{{ usuario.correo }}</tabla-col>
-          <tabla-col>{{ usuario.inicio_sesion | date: 'short' }}</tabla-col>
+          <tabla-col>{{ usuario.fechaCreacion| date: 'short' }}</tabla-col>
         </div>
       </div>
     }

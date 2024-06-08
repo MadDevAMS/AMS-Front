@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { IApiResponse, IErrorResponse } from '@base/response';
+import { IApiResponse, IErrorResponse } from '@base/response/response';
 import { map } from 'rxjs/operators';
 import camelcaseKeys from 'camelcase-keys';
 import camelcase from 'camelcase';

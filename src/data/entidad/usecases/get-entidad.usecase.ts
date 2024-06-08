@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { UseCase } from '@base/use-case';
 import { Observable } from 'rxjs';
-import { IApiResponse } from '@base/response';
+import { IApiResponse } from '@base/response/response';
 import { IEntidadModel } from '../models/entidad.model';
 import { EntidadRepository } from '../repository/entidad.repository';
 

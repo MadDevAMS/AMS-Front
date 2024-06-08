@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { IApiResponse } from '@base/response';
+import { IApiResponse } from '@base/response/response';
 import { IEntidadModel } from '../models/entidad.model';
 
 export abstract class EntidadRepository {

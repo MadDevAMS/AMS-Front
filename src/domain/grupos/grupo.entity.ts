@@ -1,5 +1,13 @@
+export interface IGrupoPermissionEntity {
+  permissionId: number,
+  name: string
+}
+
 export interface IGrupoEntity {
-  id: number,
+  groupId: number,
   name: string,
-  description: string | null
+  description: string | null,
+  fechaCreacion: Date,
+  permissions: IGrupoPermissionEntity[],
+  users: number[]
 }

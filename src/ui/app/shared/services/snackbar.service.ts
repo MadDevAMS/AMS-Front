@@ -13,7 +13,8 @@ export class SnackbarService {
 
   open({ mensaje, type, action }: ISnackbarProps) {
     this._snackBar.open(
-      mensaje, action || 'Aceptar',{
+      mensaje || 'Ha ocurrido un error, revise su conexión a internet o inténtelo más tarde', 
+      action || 'Aceptar',{
       panelClass: [
         type === 'error' ? 'error-snackbar' :
         type === 'success' ? 'success-snackbar' :

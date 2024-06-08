@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { API_URL } from "@base/environment";
-import { IApiResponse } from "@base/response";
-import { responseMapper } from "@base/responseMapper";
+import { IApiResponse } from "@base/response/response";
+import { responseMapper } from "@base/response/response.mapper";
 import { Observable, map } from "rxjs";
 import { IMetricaEntity } from "./metrica.entity";
 import { MetricaRepository } from "@data/metrica/repository/metrica.repository";

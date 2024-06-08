@@ -4,7 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { ActivosFormModule } from '../form/activos-form.module';
 import { MaterialModule } from '@ui/shared/modules/material.module';
 import { SnackbarService } from '@ui/shared/services/snackbar.service';
-import { IErrorResponse } from '@base/response';
+import { IErrorResponse } from '@base/response/response';
 import { MetricaDataModule } from '@data/metrica/metrica.data.module';
 import { CreateMetricaUsecase } from '@data/metrica/usecases/create-metrica.usecase';
 

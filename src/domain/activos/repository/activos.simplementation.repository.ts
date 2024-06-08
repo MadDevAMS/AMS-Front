@@ -2,7 +2,7 @@ import { Observable, of } from 'rxjs';
 import { ActivosMapper } from '../mappers/activos.mapper';
 import { HttpClient } from '@angular/common/http';
 import { API_URL } from '@base/environment';
-import { IApiResponse } from '@base/response';
+import { IApiResponse } from '@base/response/response';
 import { ActivoRepository } from '@data/activos/repository/activos.repository';
 import { IActivoEntity } from '../entities/activo.entity';
 

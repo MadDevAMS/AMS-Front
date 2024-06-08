@@ -1,8 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { API_URL } from "@base/environment";
-import { IApiResponse } from "@base/response";
+import { IApiResponse } from "@base/response/response";
 import { Observable, map, of } from "rxjs";
-import { responseMapper } from "@base/responseMapper";
+import { responseMapper } from "@base/response/response.mapper";
 import { IAreaEntity } from "./areaç.entity";
 import { AreaMapper } from "./area.mapper";
 import { AreaRepository } from "@data/area/repository/area.repository";
@@ -19,7 +19,6 @@ export class AreaImplementationRepository extends AreaRepository {
     errors: null,
     message: 'Entidad recuperada con exito',
     status: 200,
-    totalRecords: 1,
   }
 
   mapper = new AreaMapper()

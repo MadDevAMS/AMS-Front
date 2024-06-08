@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { IApiResponse } from '@base/response';
+import { IApiResponse } from '@base/response/response';
 import { IMaquinaModel } from '../models/maquina.model';
 
 export abstract class MaquinaRepository {

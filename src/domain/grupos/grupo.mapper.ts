@@ -5,18 +5,17 @@ import { IGrupoEntity } from './grupo.entity';
 export class GrupoMapper extends Mapper<IGrupoEntity, IGrupoModel> {
   override mapFrom(param: IGrupoEntity): IGrupoModel {
     return {
-      id: param.id,
+      id: param.groupId,
       nombre: param.name,
-      permisos: [],
+      permisos: param.permissions.map(p => ({
+        id: p.permissionId,
+        nombre: p.name
+      })),
       descripcion: param.description,
       fecha_creacion: new Date()
     }
   }
   override mapTo(param: IGrupoModel): IGrupoEntity {
-    return {
-      id: param.id,
-      description: param.descripcion,
-      name: param.nombre
-    }
+    return {} as any
   }
 }

@@ -75,7 +75,7 @@ export class RegisterFormService {
         },
         error: (err) => {
           this.snackbarService.open({ 
-            mensaje: err.message || 'Ha ocurrido un error, revise su conexión a internet o inténtelo más tarde',
+            mensaje: err.message,
             type: 'error'
           })
           this.isSending = false;

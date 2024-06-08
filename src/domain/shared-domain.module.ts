@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { CamelCaseInterceptor } from '@base/interceptors/cammel-case.interceptor';
+import { TokenInterceptor } from '@base/interceptors/token.interceptor';
 
 @NgModule({
   declarations: [],
@@ -10,6 +11,11 @@ import { CamelCaseInterceptor } from '@base/interceptors/cammel-case.interceptor
     {
       provide: HTTP_INTERCEPTORS,
       useClass: CamelCaseInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
       multi: true,
     },
   ],

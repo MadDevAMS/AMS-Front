@@ -5,7 +5,7 @@ import { ActivosFormModule } from '../form/activos-form.module';
 import { MaterialModule } from '@ui/shared/modules/material.module';
 import { CreateMaquinaUsecase } from '@data/maquina/usecases/create-maquina.usecase';
 import { SnackbarService } from '@ui/shared/services/snackbar.service';
-import { IErrorResponse } from '@base/response';
+import { IErrorResponse } from '@base/response/response';
 import { MaquinaDataModule } from '@data/maquina/maquina.data.module';
 
 @Component({

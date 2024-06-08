@@ -2,6 +2,9 @@ import { NgModule } from '@angular/core';
 import { UsuarioRepository } from './repository/usuario.repository';
 import { GetAllUsuariosUsecase } from './usecases/get-all-usuarios.usecase';
 import { UsuarioDomainModule } from '../../domain/usuarios/usuario.domain.module';
+import { GetUsuarioByIdUsecase } from './usecases/get-usuario-by-id.usecase';
+import { CreateUsuarioUsecase } from './usecases/create-usuario.usecase';
+import { UpdateUsuarioUsecase } from './usecases/update-usuario.usecase';
 
 @NgModule({
   declarations: [],
@@ -11,6 +14,21 @@ import { UsuarioDomainModule } from '../../domain/usuarios/usuario.domain.module
     { 
       provide: GetAllUsuariosUsecase,
       useFactory: (usuarioRepo: UsuarioRepository) => new GetAllUsuariosUsecase(usuarioRepo),
+      deps: [UsuarioRepository]
+    },
+    { 
+      provide: GetUsuarioByIdUsecase,
+      useFactory: (usuarioRepo: UsuarioRepository) => new GetUsuarioByIdUsecase(usuarioRepo),
+      deps: [UsuarioRepository]
+    },
+    { 
+      provide: CreateUsuarioUsecase,
+      useFactory: (usuarioRepo: UsuarioRepository) => new CreateUsuarioUsecase(usuarioRepo),
+      deps: [UsuarioRepository]
+    },
+    { 
+      provide: UpdateUsuarioUsecase,
+      useFactory: (usuarioRepo: UsuarioRepository) => new UpdateUsuarioUsecase(usuarioRepo),
       deps: [UsuarioRepository]
     },
   ],
