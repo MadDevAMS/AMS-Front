@@ -1,21 +1,21 @@
-<div (click)="seleccionar()" class="px-4 min-w-96" #arbolItem>
+<div (click)="seleccionar()" class="px-4 min-w-[22.5rem]" #arbolItem>
   <div
     [ngClass]="{
-    'border-gray04 border-opacity-50 border-[0.25px] w-full flex justify-between shadow-sm-ams-01 rounded-e-md arbol-item transition-colors cursor-pointer': true,
-    'bg-white': node.id === serviceForm.nodoSeleccionado?.id,
-    'bg-smoke2': !(node.id === serviceForm.nodoSeleccionado?.id),
+    'border-gray04 border-opacity-50 border-[0.25px] w-full flex justify-between shadow-sm-ams-01 rounded-e-md arbol-item transition-colors cursor-pointer pe-2': true,
+    'bg-white': node.id === serviceForm.nodoSeleccionado?.id && node.type === serviceForm.nodoSeleccionado?.type,
+    'bg-smoke2': !(node.id === serviceForm.nodoSeleccionado?.id && node.type === serviceForm.nodoSeleccionado?.type),
   }"
   >
     <activos-chip [node]="node"></activos-chip>
     <div class="flex items-center">
-      @if (modalesOption[node.type]) {
+      @if (modalesOption[node.type].length > 0) {
         @if (openOptions) {
           @for (option of modalesOption[node.type]; track $index) {
             <button
               mat-ripple
               (click)="openDialog($index)"
               [ngClass]="{
-                'w-10 h-10 rounded-[50%] bg-opacity-80 flex justify-center items-center': true,
+                'w-8 h-8 rounded-[50%] bg-opacity-80 flex justify-center items-center': true,
                 'bg-blue02': option.type === 'entidad',
                 'bg-blue01': option.type === 'area',
                 'bg-cyan': option.type === 'maquina',
@@ -24,7 +24,7 @@
                 'bg-gray03': option.type === 'metrica'
               }"
             >
-              <mat-icon class="text-white">
+              <mat-icon class="text-white icon-sm">
                 @switch (option.type) {
                   @case('entidad') {
                     apartment
@@ -52,9 +52,9 @@
           <button
             mat-ripple
             (click)="openOptions = !openOptions"
-            class="w-10 h-10 flex justify-center items-center"
+            class="w-8 h-8 flex justify-center items-center rounded-[50%]"
           >
-            <mat-icon>add</mat-icon>
+            <mat-icon class="icon-sm">add</mat-icon>
           </button>
         }
       }

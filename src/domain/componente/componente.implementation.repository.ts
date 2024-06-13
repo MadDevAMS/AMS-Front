@@ -18,15 +18,19 @@ export class ComponenteImplementationRepository extends ComponenteRepository {
   }
 
   override getComponente(id: string): Observable<IApiResponse<IComponenteModel>> {
-    return this.http.get<IApiResponse<IComponenteEntity>>(`${API_URL}/Componente/${id}`)
+    return this.http.get<IApiResponse<IComponenteEntity>>(`${API_URL}/componentes?idComponente=${id}`)
       .pipe(map(responseMapper(this.mapper)))
   }
 
   override updateComponente(params: IComponenteModel): Observable<IApiResponse<void>> {
-    return this.http.put<IApiResponse<void>>(`${API_URL}/Componente/${params.id}`, this.mapper.mapTo(params))
+    return this.http.put<IApiResponse<void>>(`${API_URL}/componentes`, this.mapper.mapTo(params))
   }
 
   override createComponente(params: IComponenteModel): Observable<IApiResponse<void>> {
-    return this.http.post<IApiResponse<void>>(`${API_URL}/Componente`, this.mapper.mapTo(params))
+    return this.http.post<IApiResponse<void>>(`${API_URL}/componentes`, this.mapper.mapTo(params))
+  }
+
+  override deleteComponente(id: number): Observable<IApiResponse<void>> {
+    return this.http.delete<IApiResponse<void>>(`${API_URL}/componentes?id=${id}`)
   }
 }

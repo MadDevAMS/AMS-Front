@@ -1,4 +1,4 @@
-<div class="p-5 relative bg-white rounded h-full shadow-expand-ams">
+<div class="p-5 w-full relative bg-white rounded h-full shadow-expand-ams">
 	<span [ngClass]="{
 		'w-1.5 absolute top-0 bottom-0 left-0 rounded-e-full bg-blue01': true,
 		'bg-blue02': type === 'entidad',
@@ -10,29 +10,27 @@
 	}">&nbsp;</span>
 	<div class="flex gap-3 items-center">
 		<div class="flex gap-2 flex-1">
-			<mat-icon>
-				<mat-icon class="!text-gray01">
-					@switch (type) {
-					@case('entidad') {
-					apartment
-					}
-					@case('area') {
-					folder
-					}
-					@case('maquina') {
-					precision_manufacturing
-					}
-					@case('componente') {
-					power
-					}
-					@case('punto_monitoreo') {
-					location_searching
-					}
-					@case('metrica') {
-					analytics
-					}
-					}
-				</mat-icon>
+			<mat-icon class="!text-gray01">
+				@switch (type) {
+				@case('entidad') {
+				apartment
+				}
+				@case('area') {
+				folder
+				}
+				@case('maquina') {
+				precision_manufacturing
+				}
+				@case('componente') {
+				power
+				}
+				@case('punto_monitoreo') {
+				location_searching
+				}
+				@case('metrica') {
+				analytics
+				}
+				}
 			</mat-icon>
 			<p class="truncate">{{ title }}</p>
 		</div>

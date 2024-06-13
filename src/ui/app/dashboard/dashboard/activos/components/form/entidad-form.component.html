@@ -2,7 +2,7 @@
   <div class="flex flex-col sm:flex-row gap-4">
     <mat-form-field appearance="outline" class="h-full w-full sm:w-1/2 !text-sm sm:!text-base">
       <mat-label class="!text-sm sm:!text-base">RUC</mat-label>
-      <mat-icon matPrefix>badge</mat-icon>
+      <mat-icon class="!text-gray03" matPrefix>badge</mat-icon>
       <input type="text" formControlName="ruc" name="ruc" matInput />
       @if(hasError(formData, 'ruc', 'required')) {
       <mat-error>El RUC es requerido</mat-error> } @if(hasError(formData, 'ruc',
@@ -13,7 +13,7 @@
     </mat-form-field>
     <mat-form-field appearance="outline" class="h-full w-full sm:w-1/2 !text-sm sm:!text-base">
       <mat-label class="!text-sm sm:!text-base">Nombre</mat-label>
-      <mat-icon matPrefix>apartment</mat-icon>
+      <mat-icon class="!text-gray03" matPrefix>apartment</mat-icon>
       <input type="text" formControlName="nombre" name="nombre" matInput />
       @if(hasError(formData, 'nombre', 'required')) {
       <mat-error>El nombre de su empresa es requerido</mat-error> } @for (error
@@ -24,7 +24,7 @@
   </div>
   <mat-form-field appearance="outline" class="h-full !text-sm sm:!text-base">
     <mat-label class="!text-sm sm:!text-base">Razón social</mat-label>
-    <mat-icon matPrefix>people</mat-icon>
+    <mat-icon class="!text-gray03" matPrefix>people</mat-icon>
     <mat-select name="razonSocial" formControlName="razonSocial">
       @for (razonSocial of razonesSociales; track $index) {
       <mat-option [value]="razonSocial">{{ razonSocial }}</mat-option>
@@ -55,6 +55,14 @@
     @if(hasError(formData, 'email', 'email')) {
     <mat-error>Debe ingresar un correo valido</mat-error> } @for (error of
     getErrorsApi(formData, 'email'); track $index) {
+    <mat-error>{{ error }}</mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="h-full !text-sm sm:!text-base">
+    <mat-label class="!text-sm sm:!text-base">Direccion</mat-label>
+    <mat-icon matPrefix>place</mat-icon>
+    <input type="tel" formControlName="direccion" name="direccion" matInput />
+    @for (error of getErrorsApi(formData, 'direccion'); track $index) {
     <mat-error>{{ error }}</mat-error>
     }
   </mat-form-field>

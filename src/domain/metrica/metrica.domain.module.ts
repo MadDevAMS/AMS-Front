@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MetricaRepository } from '@data/metrica/repository/metrica.repository';
-import { MetricaImplementationRepository } from './maquina.implementation.repository';
+import { MetricaImplementationRepository } from './metrica.implementation.repository';
 import { SharedDomainModule } from '@domain/shared-domain.module';
 
 @NgModule({

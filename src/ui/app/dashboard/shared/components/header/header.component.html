@@ -1,52 +1,56 @@
-<header class="flex justify-between items-center py-3 px-6 bg-white shadow-sm-ams-01">
-  <button (click)="handleOpen()" mat-icon-button>
-    <mat-icon class="text-gray01 !text-[32px] !w-8 !h-8">menu</mat-icon>
+<header class="flex justify-between items-center py-2 px-6 bg-white shadow-sm-ams-01">
+  <button (click)="handleOpen()" mat-icon-button class="!flex">
+    <mat-icon class="text-gray01 !text-[24px] !w-8 !h-8">menu</mat-icon>
   </button>
   <div class="flex items-center gap-2">
     <button mat-icon-button [matMenuTriggerFor]="notificaciones">
-      <mat-icon class="text-gray01 !text-[32px] !w-8 !h-8" matBadge="2" matBadgeColor="warn" aria-hidden="false">notifications</mat-icon>
+      <mat-icon class="text-gray01 !text-[24px] !w-8 !h-8" matBadge="2" matBadgeColor="warn" aria-hidden="false">notifications</mat-icon>
     </button>
     <button mat-icon-button [matMenuTriggerFor]="cuenta">
-      <mat-icon class="text-gray01 !text-[32px] !w-8 !h-8">person</mat-icon>
+      <mat-icon class="text-gray01 !text-[24px] !w-8 !h-8">person</mat-icon>
     </button>
   </div>
 </header>
 
 <mat-menu #notificaciones="matMenu">
-  <span mat-menu-item>Notificacion 1</span>
-  <span mat-menu-item>Notificacion 2</span>
+  <span mat-menu-item>
+    <p class="text-sm">Notificacion 1</p>
+  </span>
+  <span mat-menu-item>
+    <p class="text-sm">Notificacion 2</p>
+  </span>
 </mat-menu>
 
 <mat-menu #cuenta="matMenu" class="!shadow-sm-ams-01">
-  <section class="!py-2" mat-menu-item>
-    <div class="flex items-center w-64">
+  <section class="!py-1" mat-menu-item>
+    <div class="flex items-center w-44">
       <mat-icon>person</mat-icon>
       <div class="flex flex-col">
-        <p class="font-medium text-base">Admin 1</p>
-        <p class="font-light text-sm">admin&#64;gmail.com</p>
+        <p class="font-medium text-sm">Admin 1</p>
+        <p class="font-light text-xs">admin&#64;gmail.com</p>
       </div>
     </div>
   </section>
   <hr />
-  <section class="py-2">
+  <section class="py-1">
     <a [routerLink]="'/dashboard/'" mat-menu-item>
       <mat-icon icon>grid_view</mat-icon>
-      Dashboard
+      <p class="text-sm">Dashboard</p>
     </a>
     <a [routerLink]="'/dashboard/activos'" mat-menu-item>
       <mat-icon icon>lan</mat-icon>
-      Activos
+      <p class="text-sm">Activos</p>
     </a>
   </section>
   <hr />
-  <section class="py-2">
+  <section class="py-1">
     <a [routerLink]="'/dashboard/configuracion'" mat-menu-item>
       <mat-icon icon>settings</mat-icon>
-      Configuracion
+      <p class="text-sm">Configuracion</p>
     </a>
     <a [routerLink]="'/auth'" mat-menu-item>
       <mat-icon icon>logout</mat-icon>
-      Cerrar sesión
+      <p class="text-sm">Cerrar sesión</p>
     </a>
   </section>
 </mat-menu>

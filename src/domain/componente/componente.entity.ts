@@ -1,7 +1,8 @@
 export interface IComponenteEntity {
-  id: string,
-  nombre: string,
-  descripcion: string,
+  idComponente: string,
+  idMaquina?: number,
+  name: string,
+  description: string,
   potencia: number,
   velocidad: number,
 }

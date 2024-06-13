@@ -4,6 +4,7 @@ import { ComponenteRepository } from './repository/componente.repository';
 import { ComponenteDomainModule } from '@domain/componente/componente.domain.module';
 import { UpdateComponenteUsecase } from './usecases/update-componente.usecase';
 import { CreateComponenteUsecase } from './usecases/create-componente.usecase';
+import { DeleteComponenteUsecase } from './usecases/delete-componente.usecase';
 
 @NgModule({
   declarations: [],
@@ -23,6 +24,11 @@ import { CreateComponenteUsecase } from './usecases/create-componente.usecase';
     { 
       provide: CreateComponenteUsecase,
       useFactory: (componenteRepo: ComponenteRepository) => new CreateComponenteUsecase(componenteRepo),
+      deps: [ComponenteRepository]
+    },
+    { 
+      provide: DeleteComponenteUsecase,
+      useFactory: (componenteRepo: ComponenteRepository) => new DeleteComponenteUsecase(componenteRepo),
       deps: [ComponenteRepository]
     },
   ],

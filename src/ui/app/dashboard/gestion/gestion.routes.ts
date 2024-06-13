@@ -1,19 +1,16 @@
 import { Routes } from "@angular/router";
-import { ReportesPage } from "./reportes/reportes.page";
-import { UsuariosPage } from "./usuarios/pages/usuarios.page";
-import { GruposPage } from "./grupos/pages/grupos.page";
 
 export const gestionRoutes: Routes = [
   {
     path: 'reportes',
-    component: ReportesPage,
+    loadComponent: () => import('./reportes/reportes.page').then(m => m.ReportesPage)
   },
   {
     path: 'usuarios',
-    component: UsuariosPage,
+    loadComponent: () => import('./usuarios/pages/usuarios.page').then(m => m.UsuariosPage)
   },
   {
     path: 'grupos',
-    component: GruposPage,
+    loadComponent: () => import('./grupos/pages/grupos.page').then(m => m.GruposPage)
   },
 ]

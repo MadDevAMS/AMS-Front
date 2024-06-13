@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivosModule } from '../activos.module';
 import { ActivosFormService } from '../services/activos-form.service';
 

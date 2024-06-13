@@ -4,6 +4,7 @@ import { MaquinaRepository } from './repository/maquina.repository';
 import { MaquinaDomainModule } from '@domain/maquina/maquina.domain.module';
 import { UpdateMaquinaUsecase } from './usecases/update-maquina.usecase';
 import { CreateMaquinaUsecase } from './usecases/create-maquina.usecase';
+import { DeleteMaquinaUsecase } from './usecases/delete-maquina.usecase';
 
 @NgModule({
   declarations: [],
@@ -23,6 +24,11 @@ import { CreateMaquinaUsecase } from './usecases/create-maquina.usecase';
     { 
       provide: CreateMaquinaUsecase,
       useFactory: (maquinaRepo: MaquinaRepository) => new CreateMaquinaUsecase(maquinaRepo),
+      deps: [MaquinaRepository]
+    },
+    { 
+      provide: DeleteMaquinaUsecase,
+      useFactory: (maquinaRepo: MaquinaRepository) => new DeleteMaquinaUsecase(maquinaRepo),
       deps: [MaquinaRepository]
     },
   ],
