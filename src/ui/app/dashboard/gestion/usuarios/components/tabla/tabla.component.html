@@ -15,7 +15,7 @@
       <mat-icon>delete</mat-icon>
     </button>
   }
-  <ng-container body>
+  <div class="overflow-auto max-h-96 md:flex-1 md:h-0 md:max-h-full" body>
     @for(usuario of filtrarUsuarios(); track usuario.id) {
     <div (click)="seleccionar(usuario)" [ngClass]="{
         'px-6 py-5 flex items-center font-light text-sm cursor-pointer transition-colors hover:bg-smoke2': true,
@@ -30,5 +30,5 @@
       </div>
     </div>
     }
-  </ng-container>
+  </div>
 </tabla-layout>

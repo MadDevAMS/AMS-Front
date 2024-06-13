@@ -6,8 +6,8 @@
     </div>
     <ng-content select="[actions]"></ng-content>
   </div>
-  <div class="bg-white rounded flex-1">
-    <header class="px-6 py-3 flex text-gray01 shadow-expand-ams">
+  <div class="bg-white rounded flex-1 h-0 flex flex-col">
+    <header class="px-6 py-3 flex text-gray01 shadow-expand-ams sticky">
       <span class="w-14 text-sm">Nro</span>
       <div class="grid grid-cols-[repeat(auto-fit,minmax(0,1fr))] flex-1 gap-2 text-sm">
         @for(head of header; track $index) {
