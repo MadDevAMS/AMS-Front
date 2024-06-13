@@ -8,18 +8,20 @@
   @if (serviceForm.usuarioSeleccionado) {
     <button 
       (click)="serviceForm.openDialog()"
-      class="!shadow-expand-ams !rounded !p-6 !font-semibold !text-sm"
-      mat-raised-button actions>
-      Eliminar
+      class="bg-white !shadow-expand-ams !rounded-lg !p-3 !font-semibold !text-sm"
+      mat-ripple
+      actions
+    >
+      <mat-icon>delete</mat-icon>
     </button>
   }
   <ng-container body>
     @for(usuario of filtrarUsuarios(); track usuario.id) {
     <div (click)="seleccionar(usuario)" [ngClass]="{
-        'px-6 py-6 flex items-center   font-light text-sm cursor-pointer transition-colors hover:bg-smoke2': true,
+        'px-6 py-5 flex items-center   font-light text-sm cursor-pointer transition-colors hover:bg-smoke2': true,
         '!bg-slate-200': serviceForm.usuarioSeleccionado && serviceForm.usuarioSeleccionado.id === usuario.id
       }" matRipple>
-      <span class="w-14">{{ $index | number: '3.0' }}</span>
+      <span class="w-14 text-sm">{{ $index | number: '3.0' }}</span>
       <div class="grid grid-cols-[repeat(auto-fit,minmax(0,1fr))] flex-1 gap-2">
         <tabla-col>{{ usuario.nombres }}</tabla-col>
         <tabla-col>{{ usuario.apellidos }}</tabla-col>
