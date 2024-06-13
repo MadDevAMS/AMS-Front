@@ -1,6 +1,6 @@
 <div class="w-full h-full flex flex-col gap-3">
-  <div class="flex flex-col sm:flex-row justify-between gap-3">
-    <div class="rounded-lg bg-white py-2 px-4 flex items-center text-sm shadow-expand-ams w-full sm:w-auto">
+  <div class="flex flex-row justify-between gap-3">
+    <div class="rounded-lg bg-white py-2 px-4 flex items-center text-sm shadow-expand-ams sm:w-auto">
       <input
         (input)="changeSearch($event)"
         type="text"
@@ -17,8 +17,8 @@
       </button>
     </div>
   </div>
-  <div class="bg-white rounded shadow-expand-ams w-full flex-1 flex max-h-[36rem] md:max-h-none py-8 px-4 overflow-auto">
-    <cdk-tree [dataSource]="dataSource" [treeControl]="treeControl" class="flex flex-col w-0 flex-1 gap-4" body>
+  <div class="bg-white rounded shadow-expand-ams w-full flex-1 flex py-4 max-h-[36rem] md:max-h-full overflow-auto">
+    <cdk-tree [dataSource]="dataSource" [treeControl]="treeControl" class="flex flex-col w-0 gap-3 h-full" body>
       <cdk-tree-node 
         *cdkTreeNodeDef="let node;" cdkTreeNodePadding
         [style.display]="shouldRender(node) ? 'flex' : 'none'">
