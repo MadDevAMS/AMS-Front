@@ -1,7 +1,9 @@
 export interface IPuntoModel {
-  id: string,
+  id: number,
+  idComponente?: number,
   nombre: string,
   descripcion: string,
   direccion: string,
-  angulo: number,
+  angulo: string,
+  datosMedicion?: string
 }

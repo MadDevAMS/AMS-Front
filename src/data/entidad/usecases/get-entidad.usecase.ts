@@ -8,10 +8,10 @@ import { EntidadRepository } from '../repository/entidad.repository';
 @Injectable({
   providedIn: 'platform'
 })
-export class GetEntidadUsecase implements UseCase<string, IApiResponse<IEntidadModel>> {
+export class GetEntidadUsecase implements UseCase<void, IApiResponse<IEntidadModel>> {
   constructor(private entidadRepository: EntidadRepository) { }
 
-  execute(id: string): Observable<IApiResponse<IEntidadModel>> {
-    return this.entidadRepository.getEntidad(id);
+  execute(): Observable<IApiResponse<IEntidadModel>> {
+    return this.entidadRepository.getEntidad();
   }
 }

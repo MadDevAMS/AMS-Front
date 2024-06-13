@@ -11,12 +11,12 @@
       (submit)="submit()"
     >
       <ng-template #inputs>
-        <div class="flex flex-col sm:flex-row gap-4">
+        <div class="flex flex-col sm:flex-row gap-3">
           <mat-form-field
             appearance="outline"
-            class="h-full !text-sm sm:!text-base sm:w-1/2"
+            class="h-full sm:w-1/2"
           >
-            <mat-label class="!text-sm sm:!text-base">Nombres</mat-label>
+            <mat-label>Nombres</mat-label>
             <mat-icon matPrefix>people</mat-icon>
             <input
               type="text"
@@ -29,9 +29,9 @@
           </mat-form-field>
           <mat-form-field
             appearance="outline"
-            class="h-full !text-sm sm:!text-base sm:w-1/2"
+            class="h-full sm:w-1/2"
           >
-            <mat-label class="!text-sm sm:!text-base">Apellidos</mat-label>
+            <mat-label>Apellidos</mat-label>
             <mat-icon matPrefix>people</mat-icon>
             <input
               type="text"
@@ -45,11 +45,9 @@
         </div>
         <mat-form-field
           appearance="outline"
-          class="h-full !text-sm sm:!text-base"
+          class="h-full"
         >
-          <mat-label class="!text-sm sm:!text-base"
-            >Correo electrònico</mat-label
-          >
+          <mat-label>Correo electrònico</mat-label>
           <mat-icon matPrefix>mail</mat-icon>
           <input
             type="email"
@@ -67,9 +65,9 @@
         </mat-form-field>
         <mat-form-field
           appearance="outline"
-          class="h-full !text-sm sm:!text-base"
+          class="h-full"
         >
-          <mat-label class="!text-sm sm:!text-base">Contraseña</mat-label>
+          <mat-label>Contraseña</mat-label>
           <mat-icon matPrefix>lock</mat-icon>
           <input
             [type]="hide ? 'password' : 'text'"
@@ -97,9 +95,9 @@
         </mat-form-field>
         <mat-form-field
           appearance="outline"
-          class="h-full !text-sm sm:!text-base"
+          class="h-full"
         >
-          <mat-label class="!text-sm sm:!text-base"
+          <mat-label
             >Confirmar contraseña</mat-label
           >
           <mat-icon matPrefix>lock</mat-icon>
@@ -148,9 +146,9 @@
           <div class="flex flex-col sm:flex-row gap-4">
             <mat-form-field
               appearance="outline"
-              class="h-full !text-sm sm:!text-base sm:w-1/2"
+              class="h-full sm:w-1/2"
             >
-              <mat-label class="!text-sm sm:!text-base">RUC</mat-label>
+              <mat-label>RUC</mat-label>
               <mat-icon matPrefix>badge</mat-icon>
               <input
                 type="text"
@@ -168,9 +166,9 @@
             </mat-form-field>
             <mat-form-field
               appearance="outline"
-              class="h-full !text-sm sm:!text-base sm:w-1/2"
+              class="h-full sm:w-1/2"
             >
-              <mat-label class="!text-sm sm:!text-base">Nombre</mat-label>
+              <mat-label>Nombre</mat-label>
               <mat-icon matPrefix
                 >apartment</mat-icon
               >
@@ -189,9 +187,9 @@
           </div>
           <mat-form-field
             appearance="outline"
-            class="h-full !text-sm sm:!text-base"
+            class="h-full"
           >
-            <mat-label class="!text-sm sm:!text-base">Razón social</mat-label>
+            <mat-label>Razón social</mat-label>
             <mat-icon matPrefix>people</mat-icon>
             <mat-select
               name="razonSocial"
@@ -209,9 +207,9 @@
           </mat-form-field>
           <mat-form-field
             appearance="outline"
-            class="h-full !text-sm sm:!text-base"
+            class="h-full"
           >
-            <mat-label class="!text-sm sm:!text-base">Teléfono</mat-label>
+            <mat-label>Teléfono</mat-label>
             <mat-icon matPrefix>phone</mat-icon>
             <input
               type="tel"
@@ -227,9 +225,9 @@
           </mat-form-field>
           <mat-form-field
             appearance="outline"
-            class="h-full !text-sm sm:!text-base"
+            class="h-full"
           >
-            <mat-label class="!text-sm sm:!text-base">Correo</mat-label>
+            <mat-label>Correo</mat-label>
             <mat-icon matPrefix>email</mat-icon>
             <input
               type="email"
@@ -249,15 +247,13 @@
         <ng-container secondaryButton>
           <button
             type="button"
-            class="font-semibold text-sm !text-green2"
+            class="font-semibold !text-green2"
             (click)="volver()"
             mat-button
           >
-            <div
-              class="text-center !py-[0.625rem] !px-5 font-semibold text-base"
-            >
+            <p class="text-center !py-[0.625rem] !px-5 font-semibold text-xs sm:text-sm">
               Volver
-            </div>
+            </p>
           </button>
         </ng-container>
       </form-layout>

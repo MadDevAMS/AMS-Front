@@ -7,18 +7,20 @@ export class EntidadMapper extends Mapper<IEntidadEntity, IEntidadModel> {
     return {
       id: param.id,
       email: param.email,
-      imagen: param.imagen,
+      direccion: param.direccion,
+      imagen: param.image,
       nombre: param.nombre,
       razonSocial: param.razonSocial,
       ruc: param.ruc,
       telefono: param.telefono
     }
   }
-  override mapTo(param: IEntidadEntity): IEntidadModel {
+  override mapTo(param: IEntidadModel): IEntidadEntity {
     return {
       id: param.id,
       email: param.email,
-      imagen: param.imagen,
+      direccion: param.direccion,
+      image: param.imagen,
       nombre: param.nombre,
       razonSocial: param.razonSocial,
       ruc: param.ruc,

@@ -5,18 +5,19 @@ import { IComponenteEntity } from "./componente.entity";
 export class ComponenteMapper extends Mapper<IComponenteEntity, IComponenteModel> {
   override mapFrom(param: IComponenteEntity): IComponenteModel {
     return {
-      id: param.id,
-      nombre: param.nombre,
-      descripcion: param.descripcion,
+      id: param.idComponente,
+      nombre: param.name,
+      descripcion: param.description,
       potencia: param.potencia,
       velocidad: param.velocidad,
     }
   }
   override mapTo(param: IComponenteModel): IComponenteEntity {
     return {
-      id: param.id,
-      nombre: param.nombre,
-      descripcion: param.descripcion,
+      idComponente: param.id,
+      idMaquina: param.idMaquina,
+      name: param.nombre,
+      description: param.descripcion,
       potencia: param.potencia,
       velocidad: param.velocidad,
     }

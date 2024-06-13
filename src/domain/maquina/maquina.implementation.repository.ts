@@ -17,16 +17,20 @@ export class MaquinaImplementationRepository extends MaquinaRepository {
     super();
   }
 
-  override getMaquina(id: string): Observable<IApiResponse<IMaquinaModel>> {
-    return this.http.get<IApiResponse<IMaquinaEntity>>(`${API_URL}/Maquina/${id}`)
+  override getMaquina(id: number): Observable<IApiResponse<IMaquinaModel>> {
+    return this.http.get<IApiResponse<IMaquinaEntity>>(`${API_URL}/maquinas?idMaquina=${id}`)
       .pipe(map(responseMapper(this.mapper)))
   }
 
   override updateMaquina(params: IMaquinaModel): Observable<IApiResponse<void>> {
-    return this.http.put<IApiResponse<void>>(`${API_URL}/Maquina/${params.id}`, this.mapper.mapTo(params))
+    return this.http.put<IApiResponse<void>>(`${API_URL}/maquinas`, this.mapper.mapTo(params))
   }
 
   override createMaquina(params: IMaquinaModel): Observable<IApiResponse<void>> {
-    return this.http.post<IApiResponse<void>>(`${API_URL}/Maquina`, this.mapper.mapTo(params))
+    return this.http.post<IApiResponse<void>>(`${API_URL}/maquinas`, this.mapper.mapTo(params))
+  }
+
+  override deleteMaquina(id: number): Observable<IApiResponse<void>> {
+    return this.http.delete<IApiResponse<void>>(`${API_URL}/maquinas?id=${id}`)
   }
 }

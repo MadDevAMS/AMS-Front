@@ -18,15 +18,19 @@ export class PuntoImplementationRepository extends PuntoRepository {
   }
 
   override getPunto(id: string): Observable<IApiResponse<IPuntoModel>> {
-    return this.http.get<IApiResponse<IPuntoEntity>>(`${API_URL}/Punto/${id}`)
+    return this.http.get<IApiResponse<IPuntoEntity>>(`${API_URL}/puntosMonitoreo?idPunto=${id}`)
       .pipe(map(responseMapper(this.mapper)))
   }
 
   override updatePunto(params: IPuntoModel): Observable<IApiResponse<void>> {
-    return this.http.put<IApiResponse<void>>(`${API_URL}/Punto/${params.id}`, this.mapper.mapTo(params))
+    return this.http.put<IApiResponse<void>>(`${API_URL}/puntosMonitoreo`, this.mapper.mapTo(params))
   }
 
   override createPunto(params: IPuntoModel): Observable<IApiResponse<void>> {
-    return this.http.post<IApiResponse<void>>(`${API_URL}/Punto`, this.mapper.mapTo(params))
+    return this.http.post<IApiResponse<void>>(`${API_URL}/puntosMonitoreo`, this.mapper.mapTo(params))
+  }
+
+  override deletePunto(id: number): Observable<IApiResponse<void>> {
+    return this.http.delete<IApiResponse<void>>(`${API_URL}/puntosMonitoreo?id=${id}`)
   }
 }

@@ -6,14 +6,14 @@ import { MonitoreoPage } from "./monitoreo/pages/monitoreo.page";
 export const dashboardRoutes: Routes = [
   {
     path: '',
-    component: MainPage,
+    loadComponent: () => import('./main/pages/main.page').then(m => m.MainPage)
   },
   {
     path: 'activos',
-    component: ActivosPage,
+    loadComponent: () => import('./activos/pages/activos.page').then(m => m.ActivosPage)
   },
   {
     path: 'monitoreo',
-    component: MonitoreoPage,
+    loadComponent: () => import('./monitoreo/pages/monitoreo.page').then(m => m.MonitoreoPage)
   },
 ]

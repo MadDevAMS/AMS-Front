@@ -4,6 +4,7 @@ import { PuntoRepository } from './repository/punto.repository';
 import { UpdatePuntoUsecase } from './usecases/update-punto.usecase';
 import { PuntoDomainModule } from '@domain/punto/punto.domain.module';
 import { CreatePuntoUsecase } from './usecases/create-punto.usecase';
+import { DeletePuntoUsecase } from './usecases/delete-punto.usecase';
 
 @NgModule({
   declarations: [],
@@ -23,6 +24,11 @@ import { CreatePuntoUsecase } from './usecases/create-punto.usecase';
     { 
       provide: CreatePuntoUsecase,
       useFactory: (puntoRepo: PuntoRepository) => new CreatePuntoUsecase(puntoRepo),
+      deps: [PuntoRepository]
+    },
+    { 
+      provide: DeletePuntoUsecase,
+      useFactory: (puntoRepo: PuntoRepository) => new DeletePuntoUsecase(puntoRepo),
       deps: [PuntoRepository]
     },
   ],

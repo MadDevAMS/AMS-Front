@@ -1,8 +1,8 @@
 <div class="h-full w-full flex flex-col gap-3">
-  <card-layout class="flex-1 h-0">
-    <p class="text-gray01 text-base font-semibold" header>
-      Metrica {{ serviceForm.nodoSeleccionado?.nombre }}
-    </p>
+  <card-layout 
+    class="flex-1 h-0"
+    title="Metrica {{ serviceForm.nodoSeleccionado?.nombre }}"
+  >
     <div class="flex flex-col gap-4" body>
       <activos-metrica-form 
         [formData]="serviceForm.formDataUpdate"
@@ -18,14 +18,14 @@
     <button
       (click)="serviceForm.updateNodo()"
       color="primary"
-      class="!shadow-expand-ams !rounded !py-6 !font-semibold text-sm xl:w-1/2"
+      class="!rounded disabled:!bg-blue01 disabled:!bg-opacity-80 !py-4 !font-semibold !text-xs xl:w-1/2"
       mat-raised-button
     >      
       Actualizar
     </button>
     <button
       (click)="serviceForm.openModalDelete()"
-      class="!shadow-expand-ams !rounded !py-6 !font-semibold text-sm xl:w-1/2"
+      class="!rounded disabled:!bg-blue01 disabled:!bg-opacity-80 !py-4 !font-semibold !text-xs xl:w-1/2"
       mat-raised-button
     >      
       Eliminar

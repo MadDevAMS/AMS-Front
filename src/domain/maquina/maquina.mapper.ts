@@ -5,17 +5,18 @@ import { IMaquinaEntity } from "./maquina.entity";
 export class MaquinaMapper extends Mapper<IMaquinaEntity, IMaquinaModel> {
   override mapFrom(param: IMaquinaEntity): IMaquinaModel {
     return {
-      id: param.id,
-      nombre: param.nombre,
-      descripcion: param.descripcion,
+      id: param.idMaquina,
+      nombre: param.name,
+      descripcion: param.description,
       tipoMaquina: param.tipoMaquina,
     }
   }
   override mapTo(param: IMaquinaModel): IMaquinaEntity {
     return {
-      id: param.id,
-      nombre: param.nombre,
-      descripcion: param.descripcion,
+      idMaquina: param.id,
+      idArea: param.idArea,
+      name: param.nombre,
+      description: param.descripcion,
       tipoMaquina: param.tipoMaquina,
     }
   }

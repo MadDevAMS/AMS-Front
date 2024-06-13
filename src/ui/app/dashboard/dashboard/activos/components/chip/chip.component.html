@@ -1,7 +1,7 @@
 <div class="flex w-full gap-2 justify-start items-center relative">
   <span
     [ngClass]="{
-      'w-1.5 absolute top-0 bottom-0 left-0 rounded-e-full visible': true,
+      'w-1 absolute top-0 bottom-0 left-0 rounded-e-full visible': true,
       'bg-blue02': node.type === 'entidad',
       'bg-blue01': node.type === 'area',
       'bg-cyan': node.type === 'maquina',
@@ -11,8 +11,8 @@
     }"
     >&nbsp;</span
   >
-  <span class="invisible block w-1.5"></span>
-  <mat-icon class="!text-gray01">
+  <span class="invisible block w-1"></span>
+  <mat-icon class="!text-gray01 icon-sm">
     @switch (node.type) {
       @case('entidad') {
         apartment
@@ -34,7 +34,7 @@
       }
     }
   </mat-icon>
-  <p class="font-poppins truncate text-gray01 py-3">
+  <p class="truncate text-gray01 py-3 text-sm">
     {{ node.nombre }}
   </p>
 </div>

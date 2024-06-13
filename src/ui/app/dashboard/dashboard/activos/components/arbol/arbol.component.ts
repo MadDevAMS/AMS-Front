@@ -1,18 +1,19 @@
 import { ArrayDataSource } from '@angular/cdk/collections';
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { IActivoNode } from '../../interfaces/activo-node';
 import { ActivosUsecaseService } from '../../services/activos-usecase.service';
 import { IActivoModel } from '@data/activos/models/activo.model';
 import { ActivosFormService } from '../../services/activos-form.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'activos-arbol',
   styleUrls: ['arbol.component.scss'],
   templateUrl: './arbol.component.html',
-  animations: []
 })
-export class ArbolComponent {
+export class ArbolComponent implements OnInit, OnDestroy {
+  private activosSubscription!: Subscription;
   activosListado: IActivoNode[] = []
 
   dataSource!: ArrayDataSource<IActivoNode>;
@@ -23,13 +24,28 @@ export class ArbolComponent {
 
   constructor(
     public serviceUsecase: ActivosUsecaseService,
-    private formService: ActivosFormService<any>
-  ) {
-    if (this.serviceUsecase.activos) {
-      this.activosListado = this.buildTree(this.serviceUsecase.activos, 0);
-      this.formService.seleccionar(this.activosListado[0])
-      this.dataSource = new ArrayDataSource(this.activosListado);
+  ) { }
+
+  ngOnInit() {
+    this.serviceUsecase.loadData()
+    this.activosSubscription = this.serviceUsecase.activos$.subscribe({
+      next: (activos) => {
+        if (activos && activos.id && activos.nombre && activos.type && activos.hijos) {
+          this.construirArbol(activos);
+        }
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.activosSubscription) {
+      this.activosSubscription.unsubscribe();
     }
+  }
+
+  construirArbol(activos: IActivoModel) {
+    this.activosListado = this.buildTree(activos, 0);
+    this.dataSource = new ArrayDataSource(this.activosListado);
   }
 
   changeSearch(e: any) {

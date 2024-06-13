@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { IActivoNode } from '../../interfaces/activo-node';
 import { ActivosFormService } from '../../services/activos-form.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -13,7 +13,6 @@ import { ModalMetricaComponent } from '../modal/modal-metrica.component';
   selector: 'activos-arbol-item',
   styleUrls: ['arbol-item.component.scss'],
   templateUrl: './arbol-item.component.html',
-  encapsulation: ViewEncapsulation.None,
 })
 export class ArbolItemComponent {
   @Input() node!: IActivoNode
@@ -48,7 +47,7 @@ export class ArbolItemComponent {
     area: [this.modalesComponent.entidad, this.modalesComponent.area],
     maquina: [this.modalesComponent.maquina],
     componente: [this.modalesComponent.componente],
-    punto_monitoreo: [this.modalesComponent.punto_monitoreo],
+    punto_monitoreo: [],
     metrica: []
   }
 
@@ -62,12 +61,25 @@ export class ArbolItemComponent {
   openDialog(index: number): void {
     const Modal = this.modalesOption[this.node.type][index].modal
     if (Modal) {
-      this.dialog.open(Modal);
+      this.dialog.open(Modal, {
+        data: {
+          idParent: this.node.id
+        }
+      });
     }
   }
 
-  seleccionar() {
-    this.serviceForm.seleccionar(this.node)
+  scroll() {
     this.arbolItem.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  seleccionar() {
+    const nodo = this.serviceForm.nodoSeleccionado
+    if (!(nodo?.id === this.node.id && nodo?.type === this.node.type)) {
+      this.serviceForm.seleccionar(this.node)
+      setTimeout(() => {
+        this.scroll()
+      }, 100);
+    }
   }
 }

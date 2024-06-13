@@ -1,6 +1,6 @@
 <div class="w-full h-full flex flex-col gap-3">
   <div class="flex flex-col sm:flex-row justify-between gap-3">
-    <div class="rounded-lg bg-white py-3 px-6 flex items-center text-base shadow-expand-ams w-full sm:w-auto">
+    <div class="rounded-lg bg-white py-2 px-4 flex items-center text-sm shadow-expand-ams w-full sm:w-auto">
       <input
         (input)="changeSearch($event)"
         type="text"
@@ -8,7 +8,13 @@
         class="focus:outline-none w-full"
         search
       />
-      <mat-icon>search</mat-icon>
+      <mat-icon class="icon-sm">search</mat-icon>
+    </div>
+    <div class="h-full flex gap-3">
+      <button (click)="serviceUsecase.loadData()" 
+        class="bg-white shadow-expand-ams rounded-lg p-3 disabled:!text-gray01 disabled:bg-opacity-15" mat-ripple [disabled]="!serviceUsecase.hasAlready">
+        <mat-icon>refresh</mat-icon>
+      </button>
     </div>
   </div>
   <div class="bg-white rounded shadow-expand-ams w-full flex-1 flex max-h-[36rem] md:max-h-none py-8 px-4 overflow-auto">
@@ -23,13 +29,13 @@
         [style.display]="shouldRender(node) ? 'flex' : 'none'">
         <activos-arbol-item [node]="node">
           <button mat-ripple [ngClass]="{
-            'rounded-[50%] w-10 h-10 flex justify-center items-center transition-transform': true,
+            'rounded-[50%] w-8 h-8 flex justify-center items-center transition-transform': true,
             '!-rotate-180': node.isExpanded
           }" cdkTreeNodeToggle
                 [attr.aria-label]="'Toggle ' + node.nombre"
                 (click)="node.isExpanded = !node.isExpanded"
                 [style.visibility]="node.expandable ? 'visible' : 'hidden'" buttonExpanded>
-            <mat-icon>
+            <mat-icon class="icon-sm">
               expand_more
             </mat-icon>
           </button>

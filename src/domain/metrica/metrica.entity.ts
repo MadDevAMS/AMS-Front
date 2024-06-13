@@ -1,6 +1,7 @@
 export interface IMetricaEntity {
   id: string,
-  nombre: string,
-  descripcion: string,
-  tipoMetrica: string,
+  idPuntoMonitoreo?: number,
+  name: string,
+  description: string,
+  tipo: string,
 }

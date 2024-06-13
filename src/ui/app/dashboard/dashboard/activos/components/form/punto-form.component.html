@@ -41,7 +41,7 @@
     >
       <mat-label class="!text-sm sm:!text-base">Angulo</mat-label>
       <mat-icon matPrefix>square_foot</mat-icon>
-      <input type="number" formControlName="angulo" name="angulo" matInput />
+      <input type="text" formControlName="angulo" name="angulo" matInput />
       @if(hasError(formData, 'angulo', 'required')) {
       <mat-error>El angulo de medición es requerido</mat-error> }
       @if(hasError(formData, 'angulo', 'min')) {

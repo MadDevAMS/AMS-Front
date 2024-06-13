@@ -1,12 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ActivosFormModule } from '../form/activos-form.module';
 import { MaterialModule } from '@ui/shared/modules/material.module';
 import { CreateMaquinaUsecase } from '@data/maquina/usecases/create-maquina.usecase';
 import { SnackbarService } from '@ui/shared/services/snackbar.service';
 import { IErrorResponse } from '@base/response/response';
 import { MaquinaDataModule } from '@data/maquina/maquina.data.module';
+import { ActivosFormService } from '../../services/activos-form.service';
+import { IMaquinaModel } from '@data/maquina/models/maquina.model';
 
 @Component({
   selector: 'activo-modal-maquina',
@@ -25,13 +27,16 @@ import { MaquinaDataModule } from '@data/maquina/maquina.data.module';
 })
 export class ModalMaquinaComponent {
   formCreate!: FormGroup
+  loading = false
 
   constructor(
     private createUsecase: CreateMaquinaUsecase,
     private snackbarService: SnackbarService,
     public dialogRef: MatDialogRef<ModalMaquinaComponent>,
+    @Inject(MAT_DIALOG_DATA) private data: { idParent: number }
   ) {
     this.formCreate = new FormGroup({
+      idArea: new FormControl(this.data.idParent),
       nombre: new FormControl('', [Validators.required]),
       tipoMaquina: new FormControl('', [Validators.required]),
       descripcion: new FormControl('')
@@ -49,6 +54,7 @@ export class ModalMaquinaComponent {
   onSubmit() {
     this.formCreate.markAllAsTouched()
     if (this.formCreate.valid) {
+      this.loading = true
       this.createUsecase.execute(this.formCreate.value)
       .subscribe({
         next: (res) => {
@@ -65,13 +71,16 @@ export class ModalMaquinaComponent {
               mensaje: res.message,
               type: 'success'
             })
+            this.onNoClick()
           }
+          this.loading = false
         },
         error: (err) => {
           this.snackbarService.open({
             mensaje: err.message || 'Ha ocurrido un error, revise su conexión a internet o inténtelo más tarde',
             type: 'error',
           })  
+          this.loading = false
         }
       })
     }
