@@ -33,8 +33,8 @@
         </mat-form-field>
       </div>
     </card-layout>
-    <card-layout class="md:flex-1" title="Permisos y accesos">
-      <div class="flex flex-col gap-2" body>
+    <card-layout class="md:flex-1 md:h-0" title="Permisos y accesos">
+      <div class="flex flex-col gap-2 overflow-auto" body>
         @for(permiso of service.permisos; track permiso.nombre) {
           <div class="flex items-center gap-1">
             <mat-checkbox [checked]="serviceForm.isChecked(permiso)" (change)="serviceForm.onCheckboxChange($event, permiso)" color="primary"></mat-checkbox>

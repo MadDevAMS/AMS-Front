@@ -98,8 +98,8 @@
         </mat-form-field>
       </div>
     </card-layout>
-    <card-layout class="md:flex-1" title="Grupos disponibles">
-      <div class="flex flex-col gap-4" body>
+    <card-layout class="md:flex-1 md:max-h-96" title="Grupos disponibles">
+      <div class="flex flex-col gap-4 overflow-auto" body>
         @for(grupo of servicio.grupos; track grupo.nombre) {
         <div class="flex items-center gap-1">
           <mat-checkbox [checked]="servicioForm.isChecked(grupo)"
