@@ -14,7 +14,7 @@ export class TablaComponent {
   constructor(
     public serviceForm: UsuarioFormService
   ) { }
-
+  
   seleccionar(usuario: IUsuarioModel) {
     this.serviceForm.toggleSeleccionar(usuario);
   }
