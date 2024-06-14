@@ -11,11 +11,15 @@ import { IUsuarioCreateModel } from '@data/usuarios/models/usuario-create.model'
 import { UsuarioCreateMapper } from '../mappers/usuario-create.mapper';
 import { UsuarioRepository } from '@data/usuarios/repository/usuario.repository';
 import { IUsuarioModel } from '@data/usuarios/models/usuario.model';
+import { IUsuarioAuthEntity } from '../entities/usuario-auth.entity';
+import { UsuarioAuthMapper } from '../mappers/usuario-auth.mapper';
+import { IUsuarioAuthModel } from '@data/usuarios/models/usuario-auth.model';
 
 export class UsuarioImplementationRepository extends UsuarioRepository {
 
   mapper = new UsuarioMapper();
   mapperCreate = new UsuarioCreateMapper()
+  mapperAuth = new UsuarioAuthMapper()
 
   constructor(
     private http: HttpClient
@@ -38,6 +42,11 @@ export class UsuarioImplementationRepository extends UsuarioRepository {
   override getUsuarioById(id: number): Observable<IApiResponse<IUsuarioModel>> {
     return this.http.get<IApiResponse<IUsuarioEntity>>(`${API_URL}/users?idUser=${id}`)
       .pipe(map(responseMapper(this.mapper)))
+  }
+
+  override getUsuarioAuth(): Observable<IApiResponse<IUsuarioAuthModel>> {
+    return this.http.get<IApiResponse<IUsuarioAuthEntity>>(`${API_URL}/user`)
+      .pipe(map(responseMapper(this.mapperAuth)))
   }
 
   override getAllUsuarios(params: IUsuarioPaginateRequest): Observable<IApiResponsePagination<IUsuarioModel>> {

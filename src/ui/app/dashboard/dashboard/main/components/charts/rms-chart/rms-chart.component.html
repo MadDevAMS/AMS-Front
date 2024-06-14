@@ -1,0 +1,14 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div *ngIf="chartOptions.chart" id="chart" class="w-full">
+  <input type="file" (change)="seleccionarArchivo($event)">
+  <button (click)="enviarArchivo()">enviarArchivo</button>
+  <apx-chart
+  [series]="chartOptions.series ?? []"
+  [chart]="chartOptions.chart"
+  [xaxis]="chartOptions.xaxis ?? {}"
+  [yaxis]="chartOptions.yaxis ?? {}"
+  [title]="chartOptions.title ?? {}">
+  ></apx-chart>
+
+</div>
+

@@ -64,9 +64,9 @@
   
   <footer class="flex flex-col gap-2">
     <hr class="border-opacity-20 border-white mx-4">
-    <a [routerLink]="'/auth'" class="flex gap-3 items-center justify-center py-3 text-white font-semibold text-sm transition-colors hover:bg-light-green01">
+    <button (click)="logout()" class="flex gap-3 items-center justify-center py-3 text-white font-semibold text-sm transition-colors hover:bg-light-green01">
       <mat-icon class="icon-sm">logout</mat-icon>
       <p>Cerrar sesión</p>
-    </a>  
+    </button>  
   </footer>
 </aside>

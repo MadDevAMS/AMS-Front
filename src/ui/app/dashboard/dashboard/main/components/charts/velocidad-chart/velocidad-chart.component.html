@@ -1,0 +1,11 @@
+<div id="chart">
+  <input type="file" (change)="seleccionarArchivo($event)">
+  <button (click)="enviarArchivo()">enviarArchivo</button>
+  <apx-chart
+    [series]="chartOptions.series!"
+    [chart]="chartOptions.chart!"
+    [xaxis]="chartOptions.xaxis!"
+    [yaxis]="chartOptions.yaxis!"
+    [title]="chartOptions.title!">
+  </apx-chart>
+</div>
