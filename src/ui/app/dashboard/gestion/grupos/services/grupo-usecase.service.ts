@@ -71,7 +71,7 @@ export class GrupoUsecaseService {
 
     this.getAllPermisosUsecase.execute({
       numPage: 1,
-      records: 10
+      records: 30
     }).subscribe({
       next: (res) => {
         if (res.status !== 200) {

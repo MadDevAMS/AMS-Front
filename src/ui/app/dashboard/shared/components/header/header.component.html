@@ -26,8 +26,8 @@
     <div class="flex items-center w-44">
       <mat-icon>person</mat-icon>
       <div class="flex flex-col">
-        <p class="font-medium text-sm">Admin 1</p>
-        <p class="font-light text-xs">admin&#64;gmail.com</p>
+        <p class="font-medium text-sm">{{ userService.dataUser.nombres }}</p>
+        <p class="font-light text-xs">{{ userService.dataUser.correo }}</p>
       </div>
     </div>
   </section>
@@ -48,9 +48,9 @@
       <mat-icon icon>settings</mat-icon>
       <p class="text-sm">Configuracion</p>
     </a>
-    <a [routerLink]="'/auth'" mat-menu-item>
+    <button (click)="logout()" mat-menu-item>
       <mat-icon icon>logout</mat-icon>
       <p class="text-sm">Cerrar sesión</p>
-    </a>
+    </button>
   </section>
 </mat-menu>

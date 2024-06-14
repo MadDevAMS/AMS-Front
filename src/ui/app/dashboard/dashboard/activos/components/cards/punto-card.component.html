@@ -34,8 +34,15 @@
       color="primary"
       class="!rounded disabled:!bg-blue01 disabled:!bg-opacity-80 !py-4 !font-semibold !text-xs xl:w-1/2"
       mat-raised-button
+      [disabled]="serviceForm.loadingUpdate"
     >      
+    @if (serviceForm.loadingUpdate) {
+      <div class="text-center !py-[0.625rem] !px-4">
+        <mat-spinner class="!stroke-white" diameter="28"></mat-spinner>
+      </div>
+    } @else {
       Actualizar
+    }
     </button>
     <button
       (click)="serviceForm.openModalDelete()"
