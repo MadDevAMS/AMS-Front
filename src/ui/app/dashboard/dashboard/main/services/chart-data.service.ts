@@ -1,31 +1,36 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { API_URL } from '@base/environment';
 import { Observable } from 'rxjs';
+import { GetAceleracionRmsUsecase } from '@data/charts/dashboard/usecases/get-aceleracion-rms.usecase';
+import { GetTemperaturaUsecase } from '@data/charts/dashboard/usecases/get-temperatura.usecase';
+import { GetEspectroVibracionUsecase } from '@data/charts/dashboard/usecases/get-espectro-vibracion.usecase';
+import { IApiResponse } from '@base/response/response';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChartDataService {
 
-  constructor(private http: HttpClient){}
+  constructor(
+    private getAceleracionUsecase: GetAceleracionRmsUsecase,
+    private getTemperaturaUsecase: GetTemperaturaUsecase,
+    private getEspectroVibracionUsecase: GetEspectroVibracionUsecase,
+  ){}
 
-  uploadRMSFile(file:File):Observable<any>{
+  uploadRMSFile(file:File):Observable<IApiResponse<any>>{
     const formData = new FormData();
     formData.append('file',file);
-
-    return this.http.post(`${API_URL}/metricas/aceleracion`, formData);
+    return this.getAceleracionUsecase.execute(formData);
   }
 
-  uploadTemperatureFile(file:File):Observable<any>{
+  uploadTemperatureFile(file:File):Observable<IApiResponse<any>>{
     const formData = new FormData();
     formData.append('file',file);
-    return this.http.post(`${API_URL}/metricas/temperatura`,formData);
+    return this.getTemperaturaUsecase.execute(formData);
   }
 
-  uploadVelocidadFile(file:File):Observable<any>{
+  uploadVelocidadFile(file:File):Observable<IApiResponse<any>>{
     const formData = new FormData();
     formData.append('file',file);
-    return this.http.post(`${API_URL}/metricas/velocidad`,formData)
+    return this.getEspectroVibracionUsecase.execute(formData);
   }
 }

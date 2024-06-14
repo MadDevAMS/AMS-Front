@@ -1,15 +1,13 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
-  ChartComponent,
   ApexAxisChartSeries,
   ApexChart,
   ApexXAxis,
   ApexTitleSubtitle,
   ApexYAxis
 } from 'ng-apexcharts';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { API_URL } from '@base/environment';
 import { ChartDataService } from '../../../services/chart-data.service';
+import { SnackbarService } from '@ui/shared/services/snackbar.service';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -24,9 +22,14 @@ export type ChartOptions = {
   templateUrl: './rms-chart.component.html',
 })
 export class ChartsDashboardComponent implements OnInit {
-  public chartOptions: Partial<ChartOptions> = {};
+  chartOptions: Partial<ChartOptions> = {};
   archivoSeleccionado!: File
-  constructor( private chartdataService: ChartDataService) {}
+  hasLoad = false
+
+  constructor(
+    private chartdataService: ChartDataService,
+    private snackbarService: SnackbarService
+  ) { }
 
   ngOnInit(): void {
     this.chartOptions = {
@@ -63,32 +66,25 @@ export class ChartsDashboardComponent implements OnInit {
           }
         }
       },
-      title: {
-        text: 'Gráfico de Aceleración RMS en función del Tiempo',
-        align: 'center'
-      }
     };
-
   }
 
-  seleccionarArchivo(event: any){
+  seleccionarArchivo(event: any) {
     this.archivoSeleccionado = event.target.files[0]
+    this.enviarArchivo()
   }
 
   enviarArchivo() {
     if (this.archivoSeleccionado) {
-      this.chartdataService.uploadRMSFile(this.archivoSeleccionado).subscribe(
-        response => {
-          console.log('Response from server:', response);
+      this.hasLoad = false
+      this.chartdataService.uploadRMSFile(this.archivoSeleccionado).subscribe({
+        next: (response) => {
           if (response && response.data) {
             const { timeStamp, axisX, axisY, axisZ } = response.data;
-
             if (timeStamp && axisX && axisY && axisZ) {
-
               const rms = timeStamp.map((_: any, i: number) =>
                 Math.sqrt((axisX[i] ** 2 + axisY[i] ** 2 + axisZ[i] ** 2) / 3)
               );
-
 
               this.chartOptions = {
                 ...this.chartOptions,
@@ -103,27 +99,28 @@ export class ChartsDashboardComponent implements OnInit {
                   categories: timeStamp
                 }
               };
+              this.hasLoad = true
             } else {
-              console.error('axisX, axisY o axisZ no están definidos en la respuesta', response.data);
+              this.snackbarService.open({
+                mensaje: 'Hubo un error en el procesamiento de datos',
+                type: 'error'
+              })
             }
           } else {
-            console.error('Datos incompletos en la respuesta del servidor', response);
+            this.snackbarService.open({
+              mensaje: response.message,
+              type: 'error'
+            })
           }
         },
-        error => {
-          console.error('Error al subir el archivo', error);
+        error: (error) => {
+          this.snackbarService.open({
+            mensaje: error.message,
+            type: 'error'
+          })
         }
+      }
       );
     }
   }
 }
-
-
-
-
-
-
-
-
-
-

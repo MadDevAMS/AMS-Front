@@ -13,6 +13,7 @@ import {
   ApexYAxis
 } from "ng-apexcharts";
 import { ChartDataService } from '../../../services/chart-data.service';
+import { SnackbarService } from '@ui/shared/services/snackbar.service';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -33,10 +34,14 @@ export type ChartOptions = {
   templateUrl: './temperature-chart.component.html',
 })
 export class TemperatureDashboardComponent implements OnInit {
-  public chartOptions: Partial<ChartOptions> = {};
+  chartOptions: Partial<ChartOptions> = {};
   archivoSeleccionado!: File;
+  hasLoad = false
 
-  constructor(private chartdataService: ChartDataService) {}
+  constructor(
+    private chartdataService: ChartDataService,
+    private snackbarService: SnackbarService
+  ) { }
 
   ngOnInit(): void {
     this.chartOptions = {
@@ -57,14 +62,6 @@ export class TemperatureDashboardComponent implements OnInit {
       xaxis: {
         type: "datetime",
         categories: []
-      },
-      title: {
-        text: "Temperatura del Componente",
-        align: "left",
-        style: {
-          fontSize: "16px",
-          color: "#666"
-        }
       },
       fill: {
         type: "gradient",
@@ -91,24 +88,24 @@ export class TemperatureDashboardComponent implements OnInit {
 
   seleccionarArchivo(event: any) {
     this.archivoSeleccionado = event.target.files[0];
+    this.enviarArchivo()
   }
 
   enviarArchivo() {
     if (this.archivoSeleccionado) {
-      this.chartdataService.uploadTemperatureFile(this.archivoSeleccionado).subscribe(
-        response => {
+      this.hasLoad = false
+      this.chartdataService.uploadTemperatureFile(this.archivoSeleccionado).subscribe({
+        next: (response) => {
           if (response && response.data) {
             const { timeStamp, values } = response.data;
-
             if (timeStamp && values) {
-
               this.chartOptions = {
                 ...this.chartOptions,
                 series: [
                   {
                     name: "Temperatura",
-                    data: values.map((value: number, index: number)=>{
-                      return{
+                    data: values.map((value: number, index: number) => {
+                      return {
                         x: new Date(timeStamp[index]).getTime(),
                         y: value,
                         color: this.getColorForValue(value)
@@ -120,19 +117,28 @@ export class TemperatureDashboardComponent implements OnInit {
                   ...this.chartOptions.xaxis,
                   categories: timeStamp
                 },
-
               };
+              this.hasLoad = true
             } else {
-              console.error('timeStamp o temperature no están definidos en la respuesta', response.data);
+              this.snackbarService.open({
+                mensaje: 'TimeStamp o temperature no están definidos en la respuesta',
+                type: 'error'
+              })
             }
           } else {
-            console.error('Datos incompletos en la respuesta del servidor', response);
+            this.snackbarService.open({
+              mensaje: response.message,
+              type: 'error'
+            })
           }
         },
-        error => {
-          console.error('Error al subir el archivo', error);
+        error: (error) => {
+          this.snackbarService.open({
+            mensaje: error.message,
+            type: 'error'
+          })
         }
-      );
+      });
     }
   }
   getColorForValue(value: number): string {
@@ -148,5 +154,3 @@ export class TemperatureDashboardComponent implements OnInit {
     }
   }
 }
-
-

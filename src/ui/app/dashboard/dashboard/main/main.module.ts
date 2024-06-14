@@ -7,7 +7,7 @@ import { ChartsDashboardComponent } from './components/charts/rms-chart/rms-char
 import { TemperatureDashboardComponent } from './components/charts/temperature-chart/temperature-chart.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ChartDataService } from './services/chart-data.service';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { ChartDashboardDataModule } from '@data/charts/dashboard/chart-dashboard.data.module';
 
 const declarations = [
   CardInfoComponent,
@@ -21,7 +21,7 @@ const commonModules = [
   NgApexchartsModule,
   FormsModule,
   ReactiveFormsModule,
-  HttpClientModule
+  ChartDashboardDataModule
 ]
 
 @NgModule({
