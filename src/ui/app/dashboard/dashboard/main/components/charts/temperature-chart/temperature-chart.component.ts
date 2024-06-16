@@ -30,7 +30,7 @@ export type ChartOptions = {
 };
 
 @Component({
-  selector: 'main-Temperature-chart-dashboard',
+  selector: 'main-temperature-chart-dashboard',
   templateUrl: './temperature-chart.component.html',
 })
 export class TemperatureDashboardComponent implements OnInit {
@@ -79,6 +79,7 @@ export class TemperatureDashboardComponent implements OnInit {
       yaxis: {
         min: -10,
         max: 40,
+        decimalsInFloat: 3,
         title: {
           text: "Temperatura"
         }

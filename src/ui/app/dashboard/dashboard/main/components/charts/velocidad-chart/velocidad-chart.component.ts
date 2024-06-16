@@ -5,7 +5,13 @@ import {
   ApexChart,
   ApexXAxis,
   ApexYAxis,
-  ApexTitleSubtitle
+  ApexTitleSubtitle,
+  ApexDataLabels,
+  ApexMarkers,
+  ApexFill,
+  ApexTooltip,
+  ApexStroke,
+  ApexAnnotations
 } from 'ng-apexcharts';
 import { ChartDataService } from '../../../services/chart-data.service';
 import { SnackbarService } from '@ui/shared/services/snackbar.service';
@@ -13,13 +19,21 @@ import { SnackbarService } from '@ui/shared/services/snackbar.service';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
-  xaxis: ApexXAxis;
-  yaxis: ApexYAxis;
+  dataLabels: ApexDataLabels;
+  markers: ApexMarkers;
   title: ApexTitleSubtitle;
+  fill: ApexFill;
+  yaxis: ApexYAxis;
+  xaxis: ApexXAxis;
+  annotations: ApexAnnotations;
+  tooltip: ApexTooltip;
+  stroke: ApexStroke;
+  colors: any;
+  toolbar: any;
 };
 
 @Component({
-  selector: 'main-Velocity-chart-dashboard',
+  selector: 'main-velocidad-chart-dashboard',
   templateUrl: './velocidad-chart.component.html',
 })
 export class VelocityDashboardComponent implements OnInit {
@@ -35,13 +49,36 @@ export class VelocityDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.chartOptions = {
       series: [
-        { name: 'Espectro en X', data: [] },
-        { name: 'Espectro en Y', data: [] },
-        { name: 'Espectro en Z', data: [] }
+        {
+          name: 'X Axis',
+          data: []
+        },
+        {
+          name: 'Y Axis',
+          data: []
+        },
+        {
+          name: 'Z Axis',
+          data: []
+        }
       ],
-      chart: { type: 'line', height: 350 },
-      xaxis: { title: { text: 'Frecuencia en (Hz)' } },
-      yaxis: { title: { text: 'Magnitud' } },
+      chart: {
+        type: "area",
+        height: 350
+      },
+      title: {
+        text: 'Grafico Espectral Triaxial',
+        align: 'center'
+      },
+      xaxis: {
+        type: 'numeric'
+      },
+      yaxis: {
+        title: {
+          text: 'Magnitud'
+        },
+        decimalsInFloat: 3,
+      }
     };
   }
 
@@ -56,8 +93,8 @@ export class VelocityDashboardComponent implements OnInit {
       this.chartdataService.uploadVelocidadFile(this.archivoSeleccionado).subscribe({
         next: response => {
           if (response && response.data) {
-            const { axisX, axisY, axisZ } = response.data;
-            if (axisX && axisY && axisZ) {
+            const { timeStamp, axisX, axisY, axisZ } = response.data;
+            if (timeStamp && axisX && axisY && axisZ) {
               const axisXArray = axisX.map(Number);
               const axisYArray = axisY.map(Number);
               const axisZArray = axisZ.map(Number);
@@ -96,15 +133,76 @@ export class VelocityDashboardComponent implements OnInit {
               this.chartOptions = {
                 ...this.chartOptions,
                 series: [
-                  { name: 'Espectro en X', data: spectrumX.map((value, index) => ({ x: frequencies[index], y: value })) },
-                  { name: 'Espectro en Y', data: spectrumY.map((value, index) => ({ x: frequencies[index], y: value })) },
-                  { name: 'Espectro en Z', data: spectrumZ.map((value, index) => ({ x: frequencies[index], y: value })) }
+                  {
+                    name: 'X Axis',
+                    data: spectrumX.map((magnitude, i) => ({ x: frequencies[i], y: magnitude }))
+                  },
+                  {
+                    name: 'Y Axis',
+                    data: spectrumY.map((magnitude, i) => ({ x: frequencies[i], y: magnitude }))
+                  },
+                  {
+                    name: 'Z Axis',
+                    data: spectrumZ.map((magnitude, i) => ({ x: frequencies[i], y: magnitude }))
+                  }
                 ],
+                chart: {
+                  type: 'area',
+                  height: 350
+                },
+                annotations: {
+                  yaxis: [
+                    {
+                      y: 30,
+                      borderColor: "#999",
+                      label: {
+                        text: "Support",
+                        style: {
+                          color: "#fff",
+                          background: "#00E396"
+                        }
+                      }
+                    }
+                  ],
+                  xaxis: [
+                    {
+                      x: new Date(timeStamp).getTime(),
+                      borderColor: "#999",
+                      label: {
+                        text: "Rally",
+                        style: {
+                          color: "#fff",
+                          background: "#775DD0"
+                        }
+                      }
+                    }
+                  ]
+                },
+                dataLabels: {
+                  enabled: false
+                },
+                markers: {
+                  size: 0
+                },
                 xaxis: {
-                  ...this.chartOptions.xaxis,
-                  categories: frequencies
+                  type: "numeric",
+                  tickAmount: 6
+                },
+                tooltip: {
+                  x: {
+                    format: "dd MMM yyyy"
+                  }
+                },
+                fill: {
+                  type: "gradient",
+                  gradient: {
+                    shadeIntensity: 1,
+                    opacityFrom: 0.7,
+                    opacityTo: 0.9,
+                    stops: [0, 100]
+                  }
                 }
-              };
+              }
               this.hasLoad = true
             } else {
               this.snackbarService.open({
@@ -129,6 +227,10 @@ export class VelocityDashboardComponent implements OnInit {
     }
   }
 
+  getNearestPowerOfTwo(n: number): number {
+    return Math.pow(2, Math.floor(Math.log2(n)));
+  }
+
   calculateMagnitude(fftArray: number[]): number[] {
     const magnitudes = [];
     for (let i = 0; i < fftArray.length / 2; i++) {
@@ -137,10 +239,6 @@ export class VelocityDashboardComponent implements OnInit {
       magnitudes.push(Math.sqrt(real * real + imag * imag));
     }
     return magnitudes;
-  }
-
-  getNearestPowerOfTwo(n: number): number {
-    return Math.pow(2, Math.floor(Math.log2(n)));
   }
 
 }
