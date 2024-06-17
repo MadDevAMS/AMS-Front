@@ -1,5 +1,5 @@
 <div class="flex flex-col w-full gap-3">
-	<div class="flex-1 gap-3 grid grid-cols-[repeat(auto-fill,minmax(15rem,1fr))]">
+	<div class="grid grid-cols-[repeat(auto-fill,minmax(15rem,1fr))] gap-3">
 		<main-card-info type="area" [count]="1" title="Areas registradas" />
 		<main-card-info type="maquina" [count]="1" title="Máquinas registradas" />
 		<main-card-info type="componente" [count]="1" title="Componentes registrados" />
@@ -12,8 +12,9 @@
 			<main-temperature-chart-dashboard></main-temperature-chart-dashboard>
 			<main-velocidad-chart-dashboard></main-velocidad-chart-dashboard>
 		</div>
-		<article class="md:basis-1/2 xl:basis-1/3 flex flex-col gap-3">
-			<card-layout title="Diagnóstico" class="flex-1">
+		<article class="md:basis-1/2 xl:basis-1/3 flex flex-col gap-3 md:h-full">
+			<card-layout title="Asistente">
+				<model-chat body class="flex h-80"></model-chat>
 			</card-layout>
 			<card-layout title="Listado de incidencias">
 				<activos-incidencias-list body></activos-incidencias-list>

@@ -19,8 +19,6 @@ const declarations = [
 const commonModules = [
   SharedModule,
   NgApexchartsModule,
-  FormsModule,
-  ReactiveFormsModule,
   ChartDashboardDataModule
 ]
 
