@@ -1,29 +1,3 @@
-<style>
-  .tendencia-indicador {
-    display: flex;
-    align-items: center; /* Alinea los círculos verticalmente */
-  }
-  .tendencia-indicador .tendencia-circulos {
-    display: flex;
-    justify-content: flex-start; /* Alinea los círculos a la izquierda */
-    gap: 4px; /* Espacio entre los círculos */
-  }
-  .tendencia-indicador .circle {
-    width: 14px; /* Ancho del círculo */
-    height: 14px; /* Alto del círculo */
-    border-radius: 50%;
-    border: 1px solid #ccc;
-  }
-  .tendencia-indicador .circle1 {
-    background-color: #ffc107; /* Amarillo */
-  }
-  .tendencia-indicador .circle2 {
-    background-color: #4caf50; /* Verde */
-  }
-  .tendencia-indicador .circle3 {
-    background-color: #ff0000; /* Verde */
-  }
-</style>
 
 <tabla-layout [header]="[
     'Estado',
@@ -35,7 +9,7 @@
   <input type="text" [(ngModel)]="busqueda" placeholder="Buscar máquina" class="focus:outline-none w-full" search />
 
   <ng-container body>
-    <!-- Ejemplo estático -->
+    
     <div (click)="seleccionarMaquina('1')" [ngClass]="{
       'px-6 py-6 flex items-center font-light text-sm cursor-pointer transition-colors hover:bg-smoke2': true,
       '!bg-slate-200': maquinaSeleccionada === '1'
