@@ -1,0 +1,63 @@
+
+<tabla-layout [header]="[
+    'Estado',
+    'Máquina',
+    'Tendencia',
+    'vel. Media',
+    'temp. Media',
+  ]">  
+  <input type="text" [(ngModel)]="busqueda" placeholder="Buscar máquina" class="focus:outline-none w-full" search />
+
+  <ng-container body>
+    
+    <div (click)="seleccionarMaquina('1')" [ngClass]="{
+      'px-6 py-6 flex items-center font-light text-sm cursor-pointer transition-colors hover:bg-smoke2': true,
+      '!bg-slate-200': maquinaSeleccionada === '1'
+    }" matRipple>
+      <span class="w-14">1</span>
+      <div class="grid grid-cols-[repeat(auto-fit,minmax(0,1fr))] flex-1 gap-2">
+        <tabla-col>Activo</tabla-col>
+        <tabla-col>Máquina A</tabla-col>
+        <div class="tendencia-indicador">
+          <div class="line"></div>
+          <div class="tendencia-circulos">
+            <div class="circle circle2"></div>
+            <div class="circle circle2"></div>
+            <div class="circle circle3"></div>
+            <div class="circle circle3"></div>
+            <div class="circle circle3"></div>
+            <div class="circle circle3"></div>
+          </div>
+        </div>
+        <tabla-col>50 m/s</tabla-col>
+        <tabla-col>25°C</tabla-col>
+      </div>
+    </div>
+
+    <div (click)="seleccionarMaquina('2')" [ngClass]="{
+      'px-6 py-6 flex items-center font-light text-sm cursor-pointer transition-colors hover:bg-smoke2': true,
+      '!bg-slate-200': maquinaSeleccionada === '2'
+    }" matRipple>
+      <span class="w-14">2</span>
+      <div class="grid grid-cols-[repeat(auto-fit,minmax(0,1fr))] flex-1 gap-2">
+        <tabla-col>Inactivo</tabla-col>
+        <tabla-col>Máquina B</tabla-col>
+        <div class="tendencia-indicador">
+          <div class="line"></div>
+          <div class="tendencia-circulos">
+            <div class="circle circle1"></div>
+            <div class="circle circle1"></div>
+            <div class="circle circle1"></div>
+            <div class="circle circle2"></div>
+            <div class="circle circle2"></div>
+            <div class="circle circle2"></div>
+          </div>
+        </div>
+        <tabla-col>30 m/s</tabla-col>
+        <tabla-col>20°C</tabla-col>
+        
+      </div>
+    </div>
+  </ng-container>
+  
+</tabla-layout>

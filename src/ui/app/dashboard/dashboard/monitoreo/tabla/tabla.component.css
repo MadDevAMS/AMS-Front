@@ -1,0 +1,24 @@
+.tendencia-indicador {
+    display: flex;
+    align-items: center; 
+  }
+  .tendencia-indicador .tendencia-circulos {
+    display: flex;
+    justify-content: flex-start; 
+    gap: 4px; 
+  }
+  .tendencia-indicador .circle {
+    width: 14px; 
+    height: 14px; 
+    border-radius: 50%;
+    border: 1px solid #ccc;
+  }
+  .tendencia-indicador .circle1 {
+    background-color: #ffc107; 
+  }
+  .tendencia-indicador .circle2 {
+    background-color: #4caf50; 
+  }
+  .tendencia-indicador .circle3 {
+    background-color: #ff0000; 
+  }
