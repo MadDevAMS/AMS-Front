@@ -1,29 +1,41 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
+  ChartComponent,
   ApexAxisChartSeries,
   ApexChart,
   ApexXAxis,
+  ApexDataLabels,
   ApexTitleSubtitle,
+  ApexStroke,
+  ApexGrid,
+  ApexFill,
+  ApexMarkers,
   ApexYAxis
-} from 'ng-apexcharts';
-import { ChartDataService } from '../../../services/chart-data.service';
+} from "ng-apexcharts";
 import { SnackbarService } from '@ui/shared/services/snackbar.service';
+import { ChartDataService } from '../../../services/chart-data.service';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
   xaxis: ApexXAxis;
+  dataLabels: ApexDataLabels;
+  grid: ApexGrid;
+  fill: ApexFill;
+  markers: ApexMarkers;
   yaxis: ApexYAxis;
+  stroke: ApexStroke;
   title: ApexTitleSubtitle;
+
 };
 
 @Component({
-  selector: 'main-charts-dashboard',
-  templateUrl: './rms-chart.component.html',
+  selector: 'main-temperature-chart-dashboard',
+  templateUrl: './temperature-chart.component.html',
 })
-export class ChartsDashboardComponent implements OnInit {
+export class TemperatureDashboardComponent implements OnInit {
   chartOptions: Partial<ChartOptions> = {};
-  archivoSeleccionado!: File
+  archivoSeleccionado!: File;
   hasLoad = false
   isDragOver = false
 
@@ -36,35 +48,41 @@ export class ChartsDashboardComponent implements OnInit {
     this.chartOptions = {
       series: [
         {
-          name: 'RMS',
+          name: "Temperatura",
           data: []
         }
       ],
       chart: {
-        type: 'line',
         height: 350,
-        width: '100%'
+        type: "line"
+      },
+      stroke: {
+        width: 7,
+        curve: "smooth"
       },
       xaxis: {
-        categories: [],
-        title: {
-          text: 'Tiempo'
-        },
-        labels: {
-          rotate: -45,
-          formatter: function (val) {
-            return val ? new Date(val).toLocaleString() : '';
-          }
+        type: "datetime",
+        categories: []
+      },
+      fill: {
+        type: "gradient",
+        gradient: {
+          shade: "dark",
+          type: "horizontal",
+          shadeIntensity: 1,
+          gradientToColors: ["#00FF00", "#FFA500", "#FF0000"],
+          stops: [0, 50, 100]
         }
       },
+      markers: {
+        size: 0
+      },
       yaxis: {
+        min: -10,
+        max: 40,
+        decimalsInFloat: 3,
         title: {
-          text: 'Aceleración RMS'
-        },
-        labels: {
-          formatter: function (val) {
-            return val ? val.toFixed(1) : '';
-          }
+          text: "Temperatura"
         }
       },
     };
@@ -100,39 +118,41 @@ export class ChartsDashboardComponent implements OnInit {
   }
 
   seleccionarArchivo(event: any) {
-    this.archivoSeleccionado = event.target.files[0]
+    this.archivoSeleccionado = event.target.files[0];
     this.enviarArchivo()
   }
 
   enviarArchivo() {
     if (this.archivoSeleccionado) {
       this.hasLoad = false
-      this.chartdataService.uploadRMSFile(this.archivoSeleccionado).subscribe({
+      this.chartdataService.uploadTemperatureFile(this.archivoSeleccionado).subscribe({
         next: (response) => {
           if (response && response.data) {
-            const { timeStamp, axisX, axisY, axisZ } = response.data;
-            if (timeStamp && axisX && axisY && axisZ) {
-              const rms = timeStamp.map((_: any, i: number) =>
-                Math.sqrt((axisX[i] ** 2 + axisY[i] ** 2 + axisZ[i] ** 2) / 3)
-              );
-
+            const { timeStamp, values } = response.data;
+            if (timeStamp && values) {
               this.chartOptions = {
                 ...this.chartOptions,
                 series: [
                   {
-                    name: 'RMS',
-                    data: rms
+                    name: "Temperatura",
+                    data: values.map((value: number, index: number) => {
+                      return {
+                        x: new Date(timeStamp[index]).getTime(),
+                        y: value,
+                        color: this.getColorForValue(value)
+                      };
+                    })
                   }
                 ],
                 xaxis: {
                   ...this.chartOptions.xaxis,
                   categories: timeStamp
-                }
+                },
               };
               this.hasLoad = true
             } else {
               this.snackbarService.open({
-                mensaje: 'Hubo un error en el procesamiento de datos',
+                mensaje: 'TimeStamp o temperature no están definidos en la respuesta',
                 type: 'error'
               })
             }
@@ -149,8 +169,19 @@ export class ChartsDashboardComponent implements OnInit {
             type: 'error'
           })
         }
-      }
-      );
+      });
+    }
+  }
+  getColorForValue(value: number): string {
+    if (value <= 35) {
+      const blueIntensity = Math.floor((value / 35) * 255);
+      return `rgb(0, 0, ${blueIntensity})`;
+    } else if (value <= 65) {
+      const greenIntensity = Math.floor(((value - 35) / 30) * 255);
+      return `rgb(0, ${greenIntensity}, 0)`;
+    } else {
+      const redIntensity = Math.floor(((value - 65) / 35) * 255);
+      return `rgb(${redIntensity}, 0, 0)`;
     }
   }
 }

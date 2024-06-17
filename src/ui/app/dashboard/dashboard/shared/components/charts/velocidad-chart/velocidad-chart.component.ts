@@ -13,8 +13,8 @@ import {
   ApexStroke,
   ApexAnnotations
 } from 'ng-apexcharts';
-import { ChartDataService } from '../../../services/chart-data.service';
 import { SnackbarService } from '@ui/shared/services/snackbar.service';
+import { ChartDataService } from '../../../services/chart-data.service';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
