@@ -1,23 +1,18 @@
 import { NgModule } from '@angular/core';
-import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
-import { ChatgptInterceptor } from '@base/interceptors/chatgpt.interceptor';
+import { HttpClient } from '@angular/common/http';
 import { ChatRepository } from '@data/chat/repository/chat.repository';
 import { ChatImplementationRepository } from './chat.implementation.repository';
+import { SharedDomainModule } from '@domain/shared-domain.module';
 
 @NgModule({
   declarations: [],
-  imports: [ HttpClientModule ],
+  imports: [ SharedDomainModule ],
   exports: [],
   providers: [
     {
       provide: ChatRepository,
       useFactory: (httpClient: HttpClient) => new ChatImplementationRepository(httpClient),
       deps: [HttpClient]
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ChatgptInterceptor,
-      multi: true,
     },
   ],
 })

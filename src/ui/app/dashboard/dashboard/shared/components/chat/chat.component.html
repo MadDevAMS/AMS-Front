@@ -34,7 +34,7 @@
     </mat-form-field>
     <button 
       type="submit"
-      class="bg-blue02 text-white transition-colors shadow-expand-ams rounded-lg p-2 disabled:bg-opacity-50" [disabled]="message.value === ''" mat-ripple>
+      class="bg-blue02 text-white transition-colors shadow-expand-ams rounded-lg p-2 disabled:bg-opacity-50" [disabled]="message.value === '' || state === 'loading'" mat-ripple>
       <mat-icon class="icon-sm">send</mat-icon>
     </button>
   </form>

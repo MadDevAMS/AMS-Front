@@ -8,12 +8,12 @@
       [title]="servicioForm.usuarioSeleccionado ? 'Actualizar usuario' : 'Datos de usuario'"
     >
       @if (servicioForm.usuarioSeleccionado) {
-      <div class="h-full" actions>
+      <div class="h-full flex justify-center items-center" actions>
         <button (click)="servicioForm.onUpdatePasswordChange(servicioForm.isDisabled('password'))" mat-icon-button>
           @if (servicioForm.updatePassword) {
-          <mat-icon class="icon-sm">lock</mat-icon>
+          <mat-icon class="icon-sm !text-white">lock</mat-icon>
           } @else {
-          <mat-icon class="icon-sm">lock_open</mat-icon>
+          <mat-icon class="icon-sm !text-white">lock_open</mat-icon>
           }
         </button>
       </div>

@@ -37,6 +37,7 @@ export class TemperatureDashboardComponent implements OnInit {
   chartOptions: Partial<ChartOptions> = {};
   archivoSeleccionado!: File;
   hasLoad = false
+  isDragOver = false
 
   constructor(
     private chartdataService: ChartDataService,
@@ -85,6 +86,35 @@ export class TemperatureDashboardComponent implements OnInit {
         }
       },
     };
+  }
+
+  onDragOver(event: DragEvent) {
+    event.preventDefault();
+    this.isDragOver = true;
+  }
+
+  onDragLeave(event: DragEvent) {
+    event.preventDefault();
+    this.isDragOver = false;
+  }
+
+  onDrop(event: DragEvent) {
+    event.preventDefault();
+    this.isDragOver = false;
+    if (event.dataTransfer?.files) {
+      this.handleFiles(event.dataTransfer.files);
+    }
+  }
+
+  handleFiles(files: FileList) {
+    for (let i = 0; i < files.length; i++) {
+      const file = files.item(i);
+      if (file) {
+        this.archivoSeleccionado = file
+        this.enviarArchivo()
+        return;
+      }
+    }
   }
 
   seleccionarArchivo(event: any) {
