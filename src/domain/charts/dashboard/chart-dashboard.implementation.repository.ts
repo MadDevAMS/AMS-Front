@@ -17,9 +17,9 @@ export class ChartDashboardImplementationRepository extends ChartDashboardReposi
     return this.http.post<IApiResponse<any>>(`${API_URL}/metricas/aceleracion`, params)
   }
   override getEspectroVibracion(params: FormData): Observable<IApiResponse<any>> {
-    return this.http.post<IApiResponse<any>>(`${API_URL}/metricas/temperatura`, params)
+    return this.http.post<IApiResponse<any>>(`${API_URL}/metricas/velocidad`, params)
   }
   override getTemperatura(params: FormData): Observable<IApiResponse<any>> {
-    return this.http.post<IApiResponse<any>>(`${API_URL}/metricas/velocidad`, params)
+    return this.http.post<IApiResponse<any>>(`${API_URL}/metricas/temperatura`, params)
   }
 }

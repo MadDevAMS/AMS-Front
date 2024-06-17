@@ -1,9 +1,11 @@
 <div class="bg-white rounded h-full flex flex-col shadow-expand-ams">
-  <header class="p-3 flex justify-between items-center">
-    <p class="text-gray01 text-sm font-semibold">{{title}}</p>
-    <ng-content select="[actions]"></ng-content>
+  <header class="p-3 flex justify-center items-center bg-blue02 relative">
+    <p class="text-white text-sm font-semibold text-center">{{title}}</p>
+    <div class="h-full absolute right-3 top-0 bottom-0">
+      <ng-content select="[actions]"></ng-content>
+    </div>
   </header>
-  <div class="p-3 flex-1 h-0 overflow-auto">
+  <div class="p-3 flex-1 h-0 overflow-auto flex flex-col">
     <ng-content select="[body]"></ng-content>
   </div>
 </div>
