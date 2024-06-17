@@ -25,6 +25,7 @@ export class ActivosFormService<T> {
   dataNodo: T | undefined
   formDataUpdate!: FormGroup;
   hasAlready = false
+  loadingUpdate = false
 
   nameDataNodes: Record<IActivoNode["type"], string> = {
     componente: 'Componentes',
@@ -61,8 +62,10 @@ export class ActivosFormService<T> {
   }
 
   updateNodo() {
+    this.loadingUpdate = false
     this.formDataUpdate?.markAllAsTouched()
     if (this.nodoSeleccionado && this.formDataUpdate && this.formDataUpdate.valid) {
+      this.loadingUpdate = true
       this.activosUpdateUsecaseService.execute(this.nodoSeleccionado, {
         id: this.nodoSeleccionado.id,
         ...this.formDataUpdate.value
@@ -84,12 +87,14 @@ export class ActivosFormService<T> {
                 type: 'success'
               })
             }
+            this.loadingUpdate = false
           },
           error: (err) => {
             this.snackbarService.open({
               mensaje: err.message,
               type: 'error',
             })
+            this.loadingUpdate = false
           }
         })
     }

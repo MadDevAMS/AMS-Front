@@ -25,4 +25,4 @@ import { MatRippleModule } from '@angular/material/core';
   exports: [ SidebarComponent ],
   providers: [],
 })
-export class SidebarModule {}
+export class SidebarModule { }

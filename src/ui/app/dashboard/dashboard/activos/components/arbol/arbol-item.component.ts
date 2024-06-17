@@ -77,9 +77,7 @@ export class ArbolItemComponent {
     const nodo = this.serviceForm.nodoSeleccionado
     if (!(nodo?.id === this.node.id && nodo?.type === this.node.type)) {
       this.serviceForm.seleccionar(this.node)
-      setTimeout(() => {
-        this.scroll()
-      }, 100);
+      this.scroll()
     }
   }
 }

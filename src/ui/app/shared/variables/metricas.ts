@@ -5,7 +5,7 @@ export const METRICAS: IMetricasActivoEntity[] = [
     metricaName: "RMS",
   },
   {
-    metricaName: "Velocidad",
+    metricaName: "Espectro",
   },
   {
     metricaName: "Temperatura"
