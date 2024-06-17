@@ -1,17 +1,13 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CardInfoComponent } from './components/card-info.component';
 
 const declarations = [
-  CardInfoComponent
+  CardInfoComponent,
 ]
 
 const commonModules = [
   SharedModule,
-
-  FormsModule,
-  ReactiveFormsModule
 ]
 
 @NgModule({
@@ -21,7 +17,6 @@ const commonModules = [
     ...commonModules,
     ...declarations
   ],
-  providers: [
-  ],
+  providers: [],
 })
 export class MainModule { }

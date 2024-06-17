@@ -1,17 +1,19 @@
 <div class="h-full w-full flex flex-col gap-3">
   <card-layout 
     class="flex-1 h-0"
-    title="Metrica {{ serviceForm.nodoSeleccionado?.nombre }}"
-  >
-    <div class="flex flex-col gap-4" body>
-      <activos-metrica-form 
-        [formData]="serviceForm.formDataUpdate"
-        [hasError]="serviceForm.hasError"
-        [getErrorsApi]="serviceForm.getErrorsApi"
-      />
-      <div class="flex flex-col gap-4">
-        graficos
-      </div>
+    [title]="serviceForm.nodoSeleccionado?.nombre || 'Metrica'">
+    <div body>
+      @switch (serviceForm.nodoSeleccionado?.nombre) {
+        @case ('RMS') {
+          <main-charts-dashboard></main-charts-dashboard>
+        }
+        @case ('Espectro') {
+          <main-temperature-chart-dashboard></main-temperature-chart-dashboard>
+        }
+        @case ('Temperatura') {
+          <main-velocidad-chart-dashboard></main-velocidad-chart-dashboard>
+        }
+      }
     </div>
   </card-layout>
   <div class="w-full flex flex-col xl:flex-row gap-2">

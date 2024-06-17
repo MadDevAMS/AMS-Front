@@ -6,6 +6,7 @@ import { GetUsuarioByIdUsecase } from './usecases/get-usuario-by-id.usecase';
 import { CreateUsuarioUsecase } from './usecases/create-usuario.usecase';
 import { UpdateUsuarioUsecase } from './usecases/update-usuario.usecase';
 import { DeleteUsuarioUsecase } from './usecases/delete-usuario.usecase';
+import { GetAuthUserUsecase } from './usecases/get-auth-user.usecase';
 
 @NgModule({
   declarations: [],
@@ -20,6 +21,11 @@ import { DeleteUsuarioUsecase } from './usecases/delete-usuario.usecase';
     { 
       provide: GetUsuarioByIdUsecase,
       useFactory: (usuarioRepo: UsuarioRepository) => new GetUsuarioByIdUsecase(usuarioRepo),
+      deps: [UsuarioRepository]
+    },
+    { 
+      provide: GetAuthUserUsecase,
+      useFactory: (usuarioRepo: UsuarioRepository) => new GetAuthUserUsecase(usuarioRepo),
       deps: [UsuarioRepository]
     },
     { 

@@ -1,6 +1,6 @@
-<div class="p-5 w-full relative bg-white rounded h-full shadow-expand-ams">
+<div class="px-5 py-3 w-full relative bg-white rounded h-full shadow-expand-ams">
 	<span [ngClass]="{
-		'w-1.5 absolute top-0 bottom-0 left-0 rounded-e-full bg-blue01': true,
+		'w-1 absolute top-0 bottom-0 left-0 rounded-e-full bg-blue01': true,
 		'bg-blue02': type === 'entidad',
 		'bg-blue01': type === 'area',
 		'bg-cyan': type === 'maquina',
@@ -9,7 +9,7 @@
 		'bg-gray03': type === 'metrica'
 	}">&nbsp;</span>
 	<div class="flex gap-3 items-center">
-		<div class="flex gap-2 flex-1">
+		<div class="flex gap-2 flex-1 items-center">
 			<mat-icon class="!text-gray01">
 				@switch (type) {
 				@case('entidad') {
@@ -32,8 +32,8 @@
 				}
 				}
 			</mat-icon>
-			<p class="truncate">{{ title }}</p>
+			<p class="flex-1 w-0 truncate text-sm">{{ title }}</p>
 		</div>
-		<p class="text-xl">{{ count }}</p>
+		<p class="whitespace-nowrap text-base">{{ count }}</p>
 	</div>
 </div>

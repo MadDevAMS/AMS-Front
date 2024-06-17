@@ -4,16 +4,31 @@ import { MaterialModule } from '@ui/shared/modules/material.module';
 import { SharedGlobalModule } from '@ui/shared/modules/shared-global.module';
 import { InicidenciasListComponent } from './components/incidencias/incidencias-list.component';
 import { incidenciaComponent } from './components/incidencias/incidencia.component';
+import { ChatComponent } from './components/chat/chat.component';
+import { ChatDataModule } from '@data/chat/chat.data.module';
+import { VelocityDashboardComponent } from './components/charts/velocidad-chart/velocidad-chart.component';
+import { ChartsDashboardComponent } from './components/charts/rms-chart/rms-chart.component';
+import { TemperatureDashboardComponent } from './components/charts/temperature-chart/temperature-chart.component';
+import { ChartDashboardDataModule } from '@data/charts/dashboard/chart-dashboard.data.module';
+import { ChartDataService } from './services/chart-data.service';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 const components = [
   incidenciaComponent,
   InicidenciasListComponent,
+  ChatComponent,
+  VelocityDashboardComponent,
+  ChartsDashboardComponent,
+  TemperatureDashboardComponent
 ]
 
 const common = [
   MaterialModule,
   SharedGlobalModule,
-  CdkTreeModule
+  CdkTreeModule,
+  ChatDataModule,
+  ChartDashboardDataModule,
+  NgApexchartsModule
 ]
 
 @NgModule({
@@ -23,6 +38,8 @@ const common = [
     ...common,
     ...components
   ],
-  providers: [],
+  providers: [
+    ChartDataService
+  ],
 })
 export class SharedModule {}
