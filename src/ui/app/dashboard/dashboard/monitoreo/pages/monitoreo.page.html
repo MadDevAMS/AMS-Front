@@ -1,14 +1,57 @@
 <div class="flex flex-col md:flex-row md:h-full gap-3">
     <div class="md:w-1/2 xl:flex-1">
-      <app-tabla></app-tabla>
+      <monitoreo-tabla></monitoreo-tabla>
     </div>
     <div class="flex flex-col md:w-1/2 xl:w-1/3 gap-3 overflow-auto">
-      <card-layout>
-        
-        
+      <card-layout title="Especificaciones del componente">
+        <div class="flex flex-col gap-2" body>
+          <div class="flex gap-2">
+            <img class="w-1/2" src="data:image/jpeg;base64,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" alt="maquina-image">
+            <div class="flex flex-col gap-2 w-1/2">
+              <div class="border-gray04 border-opacity-50 border-[0.25px] w-full flex items-center shadow-sm-ams-01">
+                <activos-chip class="flex-1 w-0" [node]="{
+                  id: 0,
+                  nombre: 'Puntos',
+                  type: 'punto_monitoreo',
+                  level: 1,
+                  expandable: false,
+                  isExpanded: false
+                }"></activos-chip>
+                <p class="px-4 text-end whitespace-nowrap">1</p>
+              </div>
+              <div class="border-gray04 border-opacity-50 border-[0.25px] w-full flex items-center shadow-sm-ams-01">
+                <activos-chip class="flex-1 w-0" [node]="{
+                  id: 0,
+                  nombre: 'Alertas',
+                  type: 'metrica',
+                  level: 1,
+                  expandable: false,
+                  isExpanded: false
+                }"></activos-chip>
+                <p class="px-4 text-end whitespace-nowrap">1</p>
+              </div>
+            </div>
+          </div>
+          <section class="grid grid-cols-2 text-sm w-full ">
+            <p class="font-semibold">Nombre del componente: </p>
+            <p>Componente A</p>
+          </section>
+          <section class="grid grid-cols-2 text-sm w-full ">
+            <p class="font-semibold">Descripción del componente: </p>
+            <p>Descripción de componente A</p>
+          </section>
+          <section class="grid grid-cols-2 text-sm w-full ">
+            <p class="font-semibold">Potencia: </p>
+            <p>140 kW</p>
+          </section>
+          <section class="grid grid-cols-2 text-sm w-full ">
+            <p class="font-semibold">Velocidad: </p>
+            <p>1400 m/s</p>
+          </section>
+        </div>
       </card-layout>
-      <card-layout>
-        
+      <card-layout title="Incidencias">
+        <activos-incidencias-list body></activos-incidencias-list>
       </card-layout>
     </div>
   </div>
