@@ -7,7 +7,8 @@ import { SharedGlobalModule } from '@ui/shared/modules/shared-global.module';
 
 const components = [
   TablaLayout,
-  TablaColComponent
+  TablaColComponent,
+
 ]
 
 const common = [

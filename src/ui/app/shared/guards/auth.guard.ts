@@ -9,9 +9,5 @@ export const AuthGuard: CanActivateFn = (
   ) => {
     const userService = inject(UserService)
     const router = inject(Router)
-    return userService.isAuthObserve()
-      .pipe(
-        map((res) => res.status === 200 || router.createUrlTree(['/auth'])),
-        catchError(() => of(router.createUrlTree(['/auth'])))
-      )
+    return true
 }
