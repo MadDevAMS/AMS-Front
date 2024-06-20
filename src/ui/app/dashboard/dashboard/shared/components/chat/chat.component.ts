@@ -31,14 +31,16 @@ export class ChatComponent {
 
   enviarMensaje() {
     if (this.message.value) {
+      const message = this.message.value
       this.state = 'loading'
       this.conversation.push({
         role: 'user',
         message: this.message.value
       })
+      this.message.setValue('')
       this.sendMessageUsecase.execute({
         model: 'gpt-3.5-turbo-0125',
-        prompt: this.message.value,
+        prompt: message,
         max_tokens: 384,
       }).subscribe({
         next: (res) => {
@@ -51,11 +53,9 @@ export class ChatComponent {
             this.scrollToBottom()
           }
           this.state = 'success'
-          this.message.setValue('')
         },
         error: (err) => {
           this.state = 'error'
-          this.message.setValue('')
         }
       })
     }

@@ -1,7 +1,6 @@
 import { CdkTreeModule } from '@angular/cdk/tree';
 import { NgModule } from '@angular/core';
 import { MaterialModule } from '@ui/shared/modules/material.module';
-import { SharedGlobalModule } from '@ui/shared/modules/shared-global.module';
 import { InicidenciasListComponent } from './components/incidencias/incidencias-list.component';
 import { incidenciaComponent } from './components/incidencias/incidencia.component';
 import { ChatComponent } from './components/chat/chat.component';
@@ -12,6 +11,10 @@ import { TemperatureDashboardComponent } from './components/charts/temperature-c
 import { ChartDashboardDataModule } from '@data/charts/dashboard/chart-dashboard.data.module';
 import { ChartDataService } from './services/chart-data.service';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { SharedGlobalModule } from '@ui/shared/modules/shared-global.module';
+import { TablaLayout } from './layouts/tabla.layout';
+import { TablaColComponent } from './components/tabla-col.component';
+import { ChipComponent } from './components/chip/chip.component';
 
 const components = [
   incidenciaComponent,
@@ -19,7 +22,10 @@ const components = [
   ChatComponent,
   VelocityDashboardComponent,
   ChartsDashboardComponent,
-  TemperatureDashboardComponent
+  TemperatureDashboardComponent,
+  TablaLayout,
+  TablaColComponent,
+  ChipComponent
 ]
 
 const common = [

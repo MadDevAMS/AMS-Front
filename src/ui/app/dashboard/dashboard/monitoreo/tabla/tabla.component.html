@@ -1,0 +1,34 @@
+<tabla-layout [header]="[
+    'Estado',
+    'Componente',
+    'Punto',
+    'Tendencia',
+    'vel. Media',
+    'temp. Media',
+  ]">  
+  <input type="text" [(ngModel)]="busqueda" placeholder="Buscar máquina" class="focus:outline-none w-full" search />
+  <ng-container body>
+    <div (click)="seleccionarMaquina('1')" [ngClass]="{
+      'px-6 py-6 flex items-center font-light text-sm cursor-pointer transition-colors hover:bg-smoke2': true,
+      '!bg-slate-200': maquinaSeleccionada === '1'
+    }" matRipple>
+      <span class="w-14">{{ 1 | number: '3.0' }}</span>
+      <div class="grid grid-cols-[repeat(auto-fit,minmax(0,1fr))] flex-1 gap-2 text-sm text-center">
+        <tabla-col>Activo</tabla-col>
+        <tabla-col>Componente A</tabla-col>
+        <tabla-col>Punto A</tabla-col>
+        <div class="flex justify-center">
+          <monitoreo-punto-tendencia status="normal"></monitoreo-punto-tendencia>
+          <monitoreo-punto-tendencia status="normal"></monitoreo-punto-tendencia>
+          <monitoreo-punto-tendencia status="normal"></monitoreo-punto-tendencia>
+          <monitoreo-punto-tendencia status="warning"></monitoreo-punto-tendencia>
+          <monitoreo-punto-tendencia status="warning"></monitoreo-punto-tendencia>
+          <monitoreo-punto-tendencia status="error"></monitoreo-punto-tendencia>
+          <monitoreo-punto-tendencia status="error"></monitoreo-punto-tendencia>
+        </div>
+        <tabla-col>50 m/s</tabla-col>
+        <tabla-col>25°C</tabla-col>
+      </div>
+    </div>
+  </ng-container>
+</tabla-layout>

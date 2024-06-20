@@ -5,7 +5,6 @@ import { MaterialModule } from '@ui/shared/modules/material.module';
 import { SnackbarService } from '@ui/shared/services/snackbar.service';
 import { IDataNodoHijo } from '../../services/activos-form.service';
 import { IActivoNode } from '../../interfaces/activo-node';
-import { ChipComponent } from '../chip/chip.component';
 import { CommonModule } from '@angular/common';
 import { ActivosDataModule } from '@data/activos/activos.data.module';
 import { DeleteAreaUsecase } from '@data/area/usecases/delete-area.usecase';
@@ -20,6 +19,7 @@ import { MaquinaDataModule } from '@data/maquina/maquina.data.module';
 import { ComponenteDataModule } from '@data/componente/componente.data.module';
 import { PuntoDataModule } from '@data/punto/punto.data.module';
 import { MetricaDataModule } from '@data/metrica/metrica.data.module';
+import { SharedModule } from '../../../shared/shared.module';
 
 interface DialogDeleteData {
   nodoSeleccionado: IActivoNode | undefined,
@@ -30,11 +30,8 @@ interface DialogDeleteData {
   selector: 'activo-modal-Delete',
   standalone: true,
   imports: [
+    SharedModule,
     ActivosFormModule,
-    MaterialModule,
-    ChipComponent,
-    CommonModule,
-
     ActivosDataModule,
     AreaDataModule,
     MaquinaDataModule,
