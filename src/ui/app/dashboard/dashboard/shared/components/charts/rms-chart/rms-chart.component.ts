@@ -47,13 +47,14 @@ export class ChartsDashboardComponent implements OnInit {
       },
       xaxis: {
         categories: [],
+        type: 'datetime',
         title: {
           text: 'Tiempo'
         },
         labels: {
           rotate: -45,
           formatter: function (val) {
-            return val ? new Date(val).toLocaleString() : '';
+            return val ? new Date(val).toLocaleDateString() : '';
           }
         }
       },
