@@ -3,7 +3,7 @@ import { Routes } from "@angular/router";
 export const gestionRoutes: Routes = [
   {
     path: 'reportes',
-    loadComponent: () => import('./reportes/reportes.page').then(m => m.ReportesPage)
+    loadComponent: () => import('./reportes/pages/reportes.page').then(m => m.ReportesPage)
   },
   {
     path: 'usuarios',
