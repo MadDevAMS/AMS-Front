@@ -1,8 +1,8 @@
 <aside class="bg-blue01 flex flex-col py-4 justify-between overflow-auto h-full gap-16 shadow-md-ams-01">
-  <div class="flex flex-col gap-5">
+  <div class="flex flex-col gap-4">
     <header class="flex gap-2 items-center justify-center py-2 px-2">
-      <img src="/ui/assets/icons/svg/logo.svg" alt="logo-svg" />
-      <h1 class="text-white font-bold text-xl text-center">AMS</h1>
+      <img src="/ui/assets/icons/svg/logo.svg" alt="logo-svg" class="max-h-8" />
+      <h1 class="text-white font-bold text-lg text-center">AMS</h1>
     </header>
     <div class="flex flex-col gap-3">
       <dashboard-sidebar-group [titulo]="'Dashboard'">
@@ -42,20 +42,44 @@
         >
           <mat-icon class="icon-sm" icon>description</mat-icon>
         </dashboard-sidebar-item> -->
-        <dashboard-sidebar-item
-          [label]="'Usuarios'"
-          [routerLinkActiveOptions]="{ exact: false }"
-          [routerLink]="'/dashboard/gestion/usuarios'"
+        <dashboard-sidebar-link-group
+          label="Usuarios"
         >
           <mat-icon class="icon-sm" icon>person</mat-icon>
-        </dashboard-sidebar-item>
-        <dashboard-sidebar-item
-          [label]="'Grupos'"
-          [routerLinkActiveOptions]="{ exact: false }"
-          [routerLink]="'/dashboard/gestion/grupos'"
+          <div class="mt-2 flex flex-col gap-2" body>
+            <dashboard-sidebar-item
+              class="w-full"
+              [label]="'Administrar'"
+              [routerLinkActiveOptions]="{ exact: false }"
+              [routerLink]="'/dashboard/gestion/usuarios'"
+            />
+            <dashboard-sidebar-item
+              class="w-full"
+              [label]="'Crear usuario'"
+              [routerLinkActiveOptions]="{ exact: false }"
+              [routerLink]="'/dashboard/gestion/usuarios/create'"
+            />
+          </div>
+        </dashboard-sidebar-link-group>
+        <dashboard-sidebar-link-group
+          label="Grupos"
         >
           <mat-icon class="icon-sm" icon>group</mat-icon>
-        </dashboard-sidebar-item>
+          <div class="mt-2 flex flex-col gap-2" body>
+            <dashboard-sidebar-item
+              class="w-full"
+              [label]="'Administrar'"
+              [routerLinkActiveOptions]="{ exact: false }"
+              [routerLink]="'/dashboard/gestion/grupos'"
+            />
+            <dashboard-sidebar-item
+              class="w-full"
+              [label]="'Crear grupo'"
+              [routerLinkActiveOptions]="{ exact: false }"
+              [routerLink]="'/dashboard/gestion/grupos/create'"
+            />
+          </div>
+        </dashboard-sidebar-link-group>
       </dashboard-sidebar-group>
       <hr class="border-opacity-20 border-white mx-4">
       <dashboard-sidebar-group [titulo]="'Configuracion'">
@@ -69,11 +93,11 @@
     </div>
   </div>
   
-  <footer class="flex flex-col gap-2">
+  <!-- <footer class="flex flex-col gap-2">
     <hr class="border-opacity-20 border-white mx-4">
     <button (click)="logout()" class="flex gap-3 items-center justify-center py-3 text-white font-semibold text-sm transition-colors hover:bg-light-green01">
       <mat-icon class="icon-sm">logout</mat-icon>
       <p>Cerrar sesión</p>
     </button>  
-  </footer>
+  </footer> -->
 </aside>

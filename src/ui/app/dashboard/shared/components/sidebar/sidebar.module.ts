@@ -7,12 +7,16 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatIcon } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRippleModule } from '@angular/material/core';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { SidebarLinkGroupComponent } from './sidebar-link-group.component';
+import { CdkAccordionModule } from '@angular/cdk/accordion';
 
 @NgModule({
   declarations: [
     SidebarComponent,
     SidebarGroupComponent,
-    SidebarItemComponent
+    SidebarItemComponent,
+    SidebarLinkGroupComponent
   ],
   imports: [ 
     CommonModule, 
@@ -20,7 +24,9 @@ import { MatRippleModule } from '@angular/material/core';
     RouterLinkActive,
     MatIcon, 
     MatRippleModule,
-    MatButtonModule
+    MatButtonModule,
+    MatExpansionModule,
+    CdkAccordionModule
   ],
   exports: [ SidebarComponent ],
   providers: [],
