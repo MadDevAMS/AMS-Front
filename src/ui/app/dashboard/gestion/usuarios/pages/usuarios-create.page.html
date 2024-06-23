@@ -1,0 +1,185 @@
+<div class="flex flex-col md:flex-row md:h-full gap-6 overflow-auto">
+  <mat-tab-group class="md:w-1/2 lg:flex-1 lg:h-full" animationDuration="300ms">
+    <mat-tab label="Grupos disponibles" labelClass="!font-normal !text-base !tracking-wide">
+      <usuarios-tabla-grupos></usuarios-tabla-grupos>
+    </mat-tab>
+  </mat-tab-group>
+  <div class="md:w-1/2 xl:w-2/5">
+    <card-layout 
+      [formGroup]="servicioForm.formUsuario" 
+      [title]="servicioForm.usuarioSeleccionado ? 'Actualizar usuario' : 'Datos de usuario'"
+    >
+      @if (servicioForm.usuarioSeleccionado) {
+      <div class="h-full flex justify-center items-center" actions>
+        <button (click)="servicioForm.onUpdatePasswordChange(servicioForm.isDisabled('password'))" mat-icon-button>
+          @if (servicioForm.updatePassword) {
+          <mat-icon class="icon-sm !text-white">lock</mat-icon>
+          } @else {
+          <mat-icon class="icon-sm !text-white">lock_open</mat-icon>
+          }
+        </button>
+      </div>
+      }
+      <div class="flex flex-col gap-4" body>
+        <section class="flex flex-col gap-4">
+          <div class="flex flex-col gap-4">
+            <mat-form-field appearance="outline" class="h-full">
+              <mat-label>Nombres</mat-label>
+              <mat-icon matPrefix>people</mat-icon>
+              <input type="text" formControlName="nombres" name="nombres" matInput />
+              @if(servicioForm.hasError('nombres', 'required')) {
+              <mat-error>Ingrese los nombres del usuario</mat-error> }
+              @for (error of servicioForm.getErrorsApi('nombres'); track $index) {
+              <mat-error>{{ error }}</mat-error>
+              }
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="h-full">
+              <mat-label>Apellidos</mat-label>
+              <mat-icon matPrefix>people</mat-icon>
+              <input type="text" formControlName="apellidos" name="apellidos" matInput />
+              @if(servicioForm.hasError('apellidos', 'required')) {
+              <mat-error>Ingrese los apellidos del usuario</mat-error> }
+              @for (error of servicioForm.getErrorsApi('apellidos'); track $index) {
+              <mat-error>{{ error }}</mat-error>
+              }
+            </mat-form-field>
+          </div>
+          <mat-form-field appearance="outline" class="h-full">
+            <mat-label>Correo electrònico</mat-label>
+            <mat-icon [ngClass]="{'!text-gray03': servicioForm.isDisabled('correo')}" matPrefix>mail</mat-icon>
+            <input type="email" formControlName="correo" name="correo" matInput />
+            @if(servicioForm.hasError('correo', 'required')) {
+            <mat-error>El correo es requerido</mat-error>
+            } @if(servicioForm.hasError('correo', 'email')) {
+            <mat-error>Debe especificar un correo vàlido</mat-error>
+            }
+            @for (error of servicioForm.getErrorsApi('correo'); track $index) {
+            <mat-error>{{ error }}</mat-error>
+            }
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="h-full">
+            <mat-label>Contraseña</mat-label>
+            <mat-icon [ngClass]="{'!text-gray03': servicioForm.isDisabled('password')}" matPrefix>lock</mat-icon>
+            <input [type]="servicioForm.hidePassword ? 'password' : 'text'" formControlName="password" name="password"
+              matInput />
+            <button type="button" mat-icon-button matSuffix
+              (click)="servicioForm.hidePassword = !servicioForm.hidePassword" [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="servicioForm.hidePassword"
+              [disabled]="servicioForm.isDisabled('password')">
+              <mat-icon [ngClass]="{'!text-gray03': servicioForm.isDisabled('password')}">{{servicioForm.hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            @if(servicioForm.hasError('password', 'required')) {
+            <mat-error>Una contraseña es requerida</mat-error>
+            }
+            @if(servicioForm.hasError('password', 'pattern')) {
+            <mat-error>Contraseña invalida</mat-error>
+            }
+            @for (error of servicioForm.getErrorsApi('password'); track $index) {
+            <mat-error>{{ error }}</mat-error>
+            }
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="h-full">
+            <mat-label>Confirmar contraseña</mat-label>
+            <mat-icon [ngClass]="{'!text-gray03': servicioForm.isDisabled('confirmPassword')}" matPrefix>lock</mat-icon>
+            <input [type]="servicioForm.hidePassword ? 'password' : 'text'" formControlName="confirmPassword"
+              name="confirmPassword" matInput />
+            <button type="button" mat-icon-button matSuffix
+              (click)="servicioForm.hidePassword = !servicioForm.hidePassword" [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="servicioForm.hidePassword"
+              [disabled]="servicioForm.isDisabled('confirmPassword')">
+              <mat-icon [ngClass]="{'!text-gray03': servicioForm.isDisabled('confirmPassword')}">{{servicioForm.hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            @if(servicioForm.hasError('confirmPassword', 'required')) {
+            <mat-error>Ingrese de nuevo la contraseña</mat-error>
+            }
+            @if(servicioForm.hasError('confirmPassword', 'pattern')) {
+            <mat-error>Contraseña invalida</mat-error>
+            }
+            @for (error of servicioForm.getErrorsApi('confirmPassword'); track $index) {
+            <mat-error>{{ error }}</mat-error>
+            }
+          </mat-form-field>
+        </section>
+        <section>
+          <p class="text-base font-medium text-center tracking-tight py-5">Grupos</p>
+          @if (servicioForm.gruposSeleccionados.length > 0) {
+            <ul class="flex flex-col gap-2">
+              @for (grupo of servicioForm.gruposSeleccionados; track $index) {
+                <li class="flex gap-2">
+                  <div class="flex bg-white shadow-expand-ams border-gray04 border-opacity-50 border-[0.25px] rounded-t-sm gap-2 w-full">
+                    <span class="w-1 bg-blue02">&nbsp;</span>
+                    <div class="flex flex-1 w-0 ps-2 py-3 items-center gap-2">
+                      <mat-icon class="icon-sm text-gray01">group</mat-icon> 
+                      <p class="text-sm truncate" [matTooltip]="grupo.nombre">{{grupo.nombre}}</p>
+                    </div>
+                    <div class="ms-auto flex items-center gap-2 pe-2">
+                      <span matTooltip="{{ grupo.usuarios.length + ' Usuario(s)' }}" class="flex items-center p-2 rounded-lg text-xs border-2">
+                        <mat-icon class="icon-sm text-gray01">person</mat-icon>
+                        {{ grupo.usuarios.length }}
+                      </span>
+                      <span matTooltip="{{ grupo.permisos.length + ' Permiso(s)' }}" class="flex items-center p-2 rounded-lg text-xs border-2">
+                        <mat-icon class="icon-sm text-gray01">shield</mat-icon>
+                        {{ grupo.permisos.length }}
+                      </span>
+                      <button (click)="servicioForm.onCheckboxChange(grupo)" mat-icon-button>
+                        <mat-icon class="icon-sm text-gray01">cancel</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                </li>
+              }
+            </ul>
+          } @else {
+            <p class="italic text-sm font-normal text-center tracking-tight">Sin grupos seleccionados</p>
+          }
+        </section>
+        <section>
+          <p class="text-base font-medium text-center tracking-tight py-5">Resumen de permisos</p>
+          @if (getPermisos().length > 0) {
+            <ul class="flex flex-col gap-2">
+              @for (permiso of getPermisos(); track $index) {
+                <li class="flex gap-2">
+                  <div class="flex bg-white shadow-expand-ams border-gray04 border-opacity-50 border-[0.25px] rounded-t-sm gap-2 w-full">
+                    <span class="w-1 bg-green2">&nbsp;</span>
+                    <div class="flex flex-1 w-0 ps-2 py-3 items-center gap-2">
+                      <mat-icon class="icon-sm text-gray01">group</mat-icon> 
+                      <p class="text-sm truncate" [matTooltip]="permiso.nombre">{{permiso.nombre}}</p>
+                    </div>
+                  </div>
+                </li>
+              }
+            </ul>
+          } @else {
+            <p class="italic text-sm font-normal text-center tracking-tight">Sin permisos encontrados</p>
+          }
+        </section>
+      </div>
+      <div class="w-full flex flex-col gap-4 xl:flex-row justify-between" footer>
+        <button 
+          (click)="servicioForm.limpiar()"
+          class="!font-medium !text-sm !tracking-wide !uppercase" 
+          mat-stroked-button>
+          Limpiar
+        </button>
+        <button 
+          (click)="servicioForm.submit()" 
+          color="primary"
+          class="!font-medium !text-sm !tracking-wide !uppercase disabled:!bg-blue01 disabled:!bg-opacity-80 xl:w-52" 
+          mat-raised-button
+          [disabled]="servicioForm.loading"
+        >
+          @if (servicioForm.loading) {
+            <div class="text-center !py-[0.625rem] !px-4">
+              <mat-spinner class="spinner-white" diameter="28"></mat-spinner>
+            </div>
+          } @else {
+            <div class="flex items-center justify-center gap-2">
+              <mat-icon>add</mat-icon>
+              Generar usuario
+            </div>
+          }
+        </button>
+      </div>
+    </card-layout>
+  </div>
+</div>

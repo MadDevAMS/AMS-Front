@@ -5,6 +5,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { UsuarioDataModule } from '@data/usuarios/usuario.data.module';
 import { UserService } from './shared/services/user.service';
+import { MAT_RIPPLE_GLOBAL_OPTIONS, RippleGlobalOptions } from '@angular/material/core';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,6 +17,15 @@ export const appConfig: ApplicationConfig = {
       useValue: {
         subscriptSizing: 'dynamic'
       }
+    },
+    {
+      provide: MAT_RIPPLE_GLOBAL_OPTIONS,
+      useValue: {
+        animation: {
+          enterDuration: 300,
+          exitDuration: 300
+        }
+      } as RippleGlobalOptions
     }
   ],
 };

@@ -15,7 +15,9 @@ export class UsuarioFormService {
   hidePassword: boolean = true;
   updatePassword: boolean = true;
   usuarioSeleccionado: IUsuarioModel | null = null;
+  gruposSeleccionados: IGrupoModel[] = []
   formUsuario: FormGroup;
+  loading = false
 
   constructor(
     private updateUsuarioUsecase: UpdateUsuarioUsecase,
@@ -76,13 +78,15 @@ export class UsuarioFormService {
     return this.formUsuario.get(field)?.disabled ?? false;
   }
 
-  onCheckboxChange(e: any, grupo: IGrupoModel) {
+  onCheckboxChange(grupo: IGrupoModel) {
     const grupos = this.formUsuario.get('grupos');
-    if (e.checked) {
+    if (!this.isChecked(grupo)) {
       grupos?.value.push(grupo.id)
+      this.gruposSeleccionados.push(grupo)
     } else {
       const index = grupos?.value.findIndex((x: number) => x === grupo.id);
       grupos?.value.splice(index, 1);
+      this.gruposSeleccionados = this.gruposSeleccionados.filter(g => g.id !== grupo.id)
     }
   }
 
@@ -134,11 +138,13 @@ export class UsuarioFormService {
       grupos: []
     });
     this.setValidators();
+    this.gruposSeleccionados = []
   }
 
   submit() {
     this.formUsuario.markAllAsTouched();
     if (this.formUsuario.valid) {
+      this.loading = true
       if (this.usuarioSeleccionado) {
         this.updateUsuarioUsecase.execute({
           ...this.formUsuario.value,
@@ -160,12 +166,14 @@ export class UsuarioFormService {
                 type: 'success'
               })
             }
+            this.loading = false
           },
           error: (err) => {
             this.snackbarService.open({
               mensaje: err.message,
               type: 'error'
             })
+            this.loading = false
           }
         })
       } else {
@@ -185,13 +193,14 @@ export class UsuarioFormService {
                 type: 'success'
               })
             }
+            this.loading = false
           },
           error: (err) => {
-            console.log(err);
             this.snackbarService.open({
               mensaje: err.message,
               type: 'error'
             })
+            this.loading = false
           }
         })
       }

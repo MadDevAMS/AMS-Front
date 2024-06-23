@@ -44,38 +44,36 @@
         </dashboard-sidebar-item> -->
         <dashboard-sidebar-link-group
           label="Usuarios"
+          prefix="/dashboard/gestion/usuarios"
         >
           <mat-icon class="icon-sm" icon>person</mat-icon>
           <div class="mt-2 flex flex-col gap-2" body>
             <dashboard-sidebar-item
               class="w-full"
               [label]="'Administrar'"
-              [routerLinkActiveOptions]="{ exact: false }"
               [routerLink]="'/dashboard/gestion/usuarios'"
             />
             <dashboard-sidebar-item
               class="w-full"
               [label]="'Crear usuario'"
-              [routerLinkActiveOptions]="{ exact: false }"
               [routerLink]="'/dashboard/gestion/usuarios/create'"
             />
           </div>
         </dashboard-sidebar-link-group>
         <dashboard-sidebar-link-group
           label="Grupos"
+          prefix="/dashboard/gestion/grupos"
         >
           <mat-icon class="icon-sm" icon>group</mat-icon>
           <div class="mt-2 flex flex-col gap-2" body>
             <dashboard-sidebar-item
               class="w-full"
               [label]="'Administrar'"
-              [routerLinkActiveOptions]="{ exact: false }"
               [routerLink]="'/dashboard/gestion/grupos'"
             />
             <dashboard-sidebar-item
               class="w-full"
               [label]="'Crear grupo'"
-              [routerLinkActiveOptions]="{ exact: false }"
               [routerLink]="'/dashboard/gestion/grupos/create'"
             />
           </div>

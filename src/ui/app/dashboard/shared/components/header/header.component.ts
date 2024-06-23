@@ -23,11 +23,19 @@ import { UserService } from '@ui/shared/services/user.service';
 })
 export class HeaderComponent {
 
+  TITULOS: Record<string, string> = {
+    '/dashboard/gestion/usuarios/create': 'Crear usuario'
+  }
+
   constructor(
     private sidebarService: SidebarService, 
     private router: Router,
-    public userService: UserService
+    public userService: UserService,
   ) {}
+
+  getTitulo() {
+    return this.TITULOS[this.router.url]
+  }
 
   handleOpen() {
     this.sidebarService.toggleOpen()

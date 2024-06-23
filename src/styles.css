@@ -34,7 +34,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(207, 207, 207, 0.6);
   outline: 1px solid transparent;
 }
 
@@ -122,8 +122,17 @@ button[mat-icon-button] {
   height: 100% !important;
 }
 
+.mdc-tab-indicator__content {
+  --mdc-tab-indicator-active-indicator-height: 4px;
+}
+
 mat-option {
   --mat-option-label-text-size: 0.875rem;
+}
+
+mat-form-field.form-field-sm {
+  --mat-form-field-container-vertical-padding: 10px;
+  --mat-form-field-container-height: 42px;
 }
 
 mat-form-field {
@@ -145,4 +154,12 @@ mat-form-field {
   .material-icons {
     font-size: 20px;
   }
+}
+
+.mat-mdc-tab-body-wrapper {
+  flex: 1 1 0%;
+}
+
+mat-spinner.spinner-white {
+  --mdc-circular-progress-active-indicator-color: rgb(253, 253, 253)
 }
