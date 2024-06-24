@@ -27,6 +27,7 @@
       "@data/*": ["./src/data/*"],
       "@domain/*": ["./src/domain/*"],
       "@ui/shared/*": ["./src/ui/app/shared/*"],
+      "@ui/*": ["./src/ui/app/*"],
     }
   },
   "angularCompilerOptions": {

@@ -1,12 +1,15 @@
 <a 
   [routerLink]="routerLink" 
   [routerLinkActiveOptions]="routerLinkActiveOptions"
-  routerLinkActive="bg-gradient-to-r from-light-green01 to-light-cyan01"
-  class="flex items-center gap-3 py-2 px-6 w-full transition-colors hover:bg-light-green01"
+  [queryParams]="queryParams"
+  queryParamsHandling="merge"
+  routerLinkActive="bg-gradient-to-r from-light-green01 to-light-cyan01 active"
+  class="flex items-center gap-3 py-2 px-6 w-full transition-colors hover:bg-light-green01 group relative"
   matRipple
 >
-  <span class="text-smoke1 flex items-center">
+  <span class="h-full w-1 bg-gray-200 absolute left-0 hidden group-hover:block group-[.active]:block">&nbsp;</span>
+  <span class="text-gray-200 flex h-6 w-6 items-center group-hover:text-white group-[.active]:text-white">
     <ng-content select="[icon]"></ng-content>
   </span>
-  <p class="text-white text-sm">{{ label }}</p>
+  <p class="text-gray-200 text-sm group-hover:text-white group-[.active]:text-white">{{ label }}</p>
 </a>

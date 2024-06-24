@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { IApiResponsePagination } from '@base/response/responsePagination';
 import { IGrupoModel } from '@data/grupos/models/grupo.model';
 import { GetAllGruposUsecase } from '@data/grupos/usecases/get-all-grupos.usecase';
 import { IUsuarioModel } from '@data/usuarios/models/usuario.model';
@@ -6,24 +7,44 @@ import { GetAllUsuariosUsecase } from '@data/usuarios/usecases/get-all-usuarios.
 import { IUsuarioPaginateRequest } from '@domain/usuarios/request/usuarioPaginate.request';
 import { SnackbarService } from '@ui/shared/services/snackbar.service';
 
+interface IParamsPagination {
+  numPage: number,
+  records: number
+}
+
 @Injectable({
   providedIn: 'platform',
 })
 export class UsuarioUsecaseService {
+  gruposInfoPaginate!: IApiResponsePagination<IGrupoModel>;
   grupos: IGrupoModel[] = [];
+  gruposParams: IParamsPagination = {
+    numPage: 1,
+    records: 5
+  }
+
+  usuariosInfoPaginate!: IApiResponsePagination<IUsuarioModel>;
   usuarios: IUsuarioModel[] = [];
+  usuariosParams: IParamsPagination = {
+    numPage: 1,
+    records: 10
+  }
 
   constructor(
     private getAllUsuariosUsecase: GetAllUsuariosUsecase,
     private getAllGruposUsecase: GetAllGruposUsecase,
     private snackbarService: SnackbarService,
   ) {
+    this.getAllUsuarios()
+    this.getAllGrupos()
+  }
+
+  getAllUsuarios() {
     this.getAllUsuariosUsecase.execute({
       userEmail: "",
       userName: "",
       state: 1,
-      numPage: 1,
-      records: 10
+      ...this.usuariosParams
     } as IUsuarioPaginateRequest).subscribe({
       next: (res) => {
         if (res.status !== 200) {
@@ -32,6 +53,7 @@ export class UsuarioUsecaseService {
             type: 'error'
           })
         } else {
+          this.usuariosInfoPaginate = res
           this.usuarios = res.data
         }
       },
@@ -42,10 +64,11 @@ export class UsuarioUsecaseService {
         })
       }
     });
+  }
 
+  getAllGrupos() {
     this.getAllGruposUsecase.execute({
-      numPage: 1,
-      records: 10
+      ...this.gruposParams
     }).subscribe({
       next: (res) => {
         if (res.status !== 200) {
@@ -54,6 +77,7 @@ export class UsuarioUsecaseService {
             type: 'error'
           })
         } else {
+          this.gruposInfoPaginate = res
           this.grupos = res.data
         }
       },

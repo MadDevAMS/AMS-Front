@@ -4,10 +4,12 @@ import { TablaColComponent } from './components/tabla-col.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '@ui/shared/modules/material.module';
 import { SharedGlobalModule } from '@ui/shared/modules/shared-global.module';
+import { DrawerService } from '../../shared/services/drawer.service';
 
 const components = [
   TablaLayout,
-  TablaColComponent
+  TablaColComponent,
+
 ]
 
 const common = [
@@ -25,6 +27,5 @@ const common = [
     ...common,
     ...components
   ],
-  providers: [],
 })
 export class SharedModule { }
