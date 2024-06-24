@@ -1,46 +1,41 @@
-import { Component } from '@angular/core';
-import { UsuarioUsecaseService } from '../services/usuario-usecase.service';
 import { UsuariosModule } from '../usuarios.module';
-import { UsuarioFormService } from '../services/usuario-form.service';
-import {MatTableModule} from '@angular/material/table';
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];
+import { ActivatedRoute } from '@angular/router';
+import { DrawerService } from '@ui/dashboard/shared/services/drawer.service';
+import { UsuarioDrawer } from '../components/drawer/usuario-drawer.component';
+import { Subscription } from 'rxjs';
+import { UsuarioConfigService } from '../services/usuario-config.service';
+import { Component, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'usuarios-page',
   imports: [
     UsuariosModule,
-    MatTableModule
   ],
   standalone: true,
   templateUrl: './usuarios.page.html',
 })
-export class UsuariosPage {
-  hide: boolean = false
-     
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = ELEMENT_DATA;
+export class UsuariosPage implements OnDestroy {
+  private drawerDisponibleSubscription!: Subscription;
 
   constructor(
-    public servicio: UsuarioUsecaseService,
-    public servicioForm: UsuarioFormService
-  ) { }
+    private servicioConf: UsuarioConfigService,
+    public drawerService: DrawerService,
+    private route: ActivatedRoute
+  ) { 
+    this.drawerDisponibleSubscription = this.drawerService.onDisponible().subscribe({
+      next: () => {
+        const { drawer } = this.route.snapshot.queryParams
+        if (drawer && this.servicioConf.usuario) {
+          this.drawerService.open(UsuarioDrawer)
+        }
+      }
+    })
+  }
+
+  ngOnDestroy(): void {
+    if (this.drawerDisponibleSubscription) {
+      this.drawerDisponibleSubscription.unsubscribe()
+    }
+  }
+
 }

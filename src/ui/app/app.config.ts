@@ -5,7 +5,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { UsuarioDataModule } from '@data/usuarios/usuario.data.module';
 import { UserService } from './shared/services/user.service';
-import { MAT_RIPPLE_GLOBAL_OPTIONS, RippleGlobalOptions } from '@angular/material/core';
+import { MAT_RIPPLE_GLOBAL_OPTIONS, RippleAnimationConfig, RippleGlobalOptions } from '@angular/material/core';
+import { MAT_PAGINATOR_DEFAULT_OPTIONS, MatPaginatorDefaultOptions } from '@angular/material/paginator';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,11 +22,18 @@ export const appConfig: ApplicationConfig = {
     {
       provide: MAT_RIPPLE_GLOBAL_OPTIONS,
       useValue: {
+        terminateOnPointerUp: true,
         animation: {
-          enterDuration: 300,
-          exitDuration: 300
-        }
+          enterDuration: 700,
+          exitDuration: 700
+        } as RippleAnimationConfig
       } as RippleGlobalOptions
-    }
+    },
+    {
+      provide: MAT_PAGINATOR_DEFAULT_OPTIONS,
+      useValue: {
+        formFieldAppearance: 'fill'
+      } as MatPaginatorDefaultOptions
+    },
   ],
 };

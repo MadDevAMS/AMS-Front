@@ -7,19 +7,8 @@
   <div class="md:w-1/2 xl:w-2/5">
     <card-layout 
       [formGroup]="servicioForm.formUsuario" 
-      [title]="servicioForm.usuarioSeleccionado ? 'Actualizar usuario' : 'Datos de usuario'"
+      title="Datos de usuario"
     >
-      @if (servicioForm.usuarioSeleccionado) {
-      <div class="h-full flex justify-center items-center" actions>
-        <button (click)="servicioForm.onUpdatePasswordChange(servicioForm.isDisabled('password'))" mat-icon-button>
-          @if (servicioForm.updatePassword) {
-          <mat-icon class="icon-sm !text-white">lock</mat-icon>
-          } @else {
-          <mat-icon class="icon-sm !text-white">lock_open</mat-icon>
-          }
-        </button>
-      </div>
-      }
       <div class="flex flex-col gap-4" body>
         <section class="flex flex-col gap-4">
           <div class="flex flex-col gap-4">
@@ -142,7 +131,7 @@
                   <div class="flex bg-white shadow-expand-ams border-gray04 border-opacity-50 border-[0.25px] rounded-t-sm gap-2 w-full">
                     <span class="w-1 bg-green2">&nbsp;</span>
                     <div class="flex flex-1 w-0 ps-2 py-3 items-center gap-2">
-                      <mat-icon class="icon-sm text-gray01">group</mat-icon> 
+                      <mat-icon class="icon-sm text-gray01">shield</mat-icon> 
                       <p class="text-sm truncate" [matTooltip]="permiso.nombre">{{permiso.nombre}}</p>
                     </div>
                   </div>

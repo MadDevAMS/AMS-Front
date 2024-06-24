@@ -5,11 +5,12 @@ import { UsuarioDataModule } from '@data/usuarios/usuario.data.module';
 import { UsuarioUsecaseService } from './services/usuario-usecase.service';
 import { SharedModule } from '../shared/shared.module';
 import { UsuarioFormService } from './services/usuario-form.service';
-import { UserService } from '@ui/shared/services/user.service';
 import { TablaGruposComponent } from './components/tabla/tabla-grupos.component';
-import { MAT_PAGINATOR_DEFAULT_OPTIONS, MatPaginatorDefaultOptions } from '@angular/material/paginator';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { TablesPaginatorIntl } from './services/pagination.service';
+import { UsuarioConfigService } from './services/usuario-config.service';
 import { UsuariosFilterGruposDrawer } from './components/drawer/usuarios-filter-grupos-drawer.component';
+import { UsuariosFilterUsuariosDrawer } from './components/drawer/usuarios-filter-usuarios-drawer.component';
 
 const commonModules = [
   SharedModule,
@@ -22,7 +23,8 @@ const commonModules = [
 const declarations = [
   TablaComponent,
   TablaGruposComponent,
-  UsuariosFilterGruposDrawer
+  UsuariosFilterGruposDrawer,
+  UsuariosFilterUsuariosDrawer
 ]
 
 @NgModule({
@@ -33,15 +35,8 @@ const declarations = [
     ...commonModules
   ],
   providers: [ 
+    TablesPaginatorIntl,
     UsuarioUsecaseService,
-    UsuarioFormService,
-    UserService,
-    {
-      provide: MAT_PAGINATOR_DEFAULT_OPTIONS,
-      useValue: {
-        formFieldAppearance: 'fill'
-      } as MatPaginatorDefaultOptions
-    }
   ],
 })
 export class UsuariosModule { }

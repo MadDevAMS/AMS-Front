@@ -11,13 +11,15 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { SidebarLinkGroupComponent } from './sidebar-link-group.component';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
 
+const declarations = [
+  SidebarComponent,
+  SidebarGroupComponent,
+  SidebarItemComponent,
+  SidebarLinkGroupComponent
+]
+
 @NgModule({
-  declarations: [
-    SidebarComponent,
-    SidebarGroupComponent,
-    SidebarItemComponent,
-    SidebarLinkGroupComponent
-  ],
+  declarations,
   imports: [ 
     CommonModule, 
     RouterLink, 
@@ -28,7 +30,10 @@ import { CdkAccordionModule } from '@angular/cdk/accordion';
     MatExpansionModule,
     CdkAccordionModule
   ],
-  exports: [ SidebarComponent ],
+  exports: [ 
+    SidebarComponent,
+    ...declarations
+  ],
   providers: [],
 })
 export class SidebarModule { }

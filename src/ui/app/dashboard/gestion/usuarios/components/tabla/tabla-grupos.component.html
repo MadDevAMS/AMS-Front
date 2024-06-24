@@ -1,4 +1,4 @@
-<div class="flex flex-col gap-6 pt-6 h-full overflow-visible">
+<div class="flex flex-col gap-6 pt-6 max-h-[36rem] md:max-h-full md:h-full overflow-visible">
   <!-- Actions -->
   <div class="flex justify-between">
     <div class="bg-white">
@@ -17,25 +17,25 @@
     <div class="flex-1 h-0 overflow-auto">
       <table class="w-full relative max-h-full">
         <thead class="sticky w-full">
-          <tr>
-            <th class="p-2"></th>
-            <th class="text-sm font-semibold tracking-wide text-start p-5">Nombre de grupo</th>
-            <th class="text-sm font-semibold tracking-wide text-center p-5">Usuarios</th>
-            <th class="text-sm font-semibold tracking-wide text-center p-5">Permisos</th>
-            <th class="p-2"></th>
+          <tr class="text-sm font-semibold tracking-wide">
+            <th class="px-2"></th>
+            <th class="text-start ps-2 py-5">Nombre de grupo</th>
+            <th>Usuarios</th>
+            <th>Permisos</th>
+            <th class="w-4"></th>
           </tr>
         </thead>
         <tbody>
           @for (grupo of servicio.grupos; track $index) {
-            <tr class="odd:bg-smoke2 border-y-1">
-              <td class="py-2 ps-4">
+            <tr class="odd:bg-smoke2 border-y-1 text-sm p-5 tracking-wide text-center">
+              <td class="py-5 ps-4">
                 <div class="flex justify-center items-center">
                   <mat-icon class="icon-sm text-gray01">group</mat-icon>
                 </div>
               </td>
-              <td class="text-sm p-5 tracking-wide">{{ grupo.nombre }}</td>
-              <td class="text-sm p-5 tracking-wide text-center">{{ grupo.usuarios.length }}</td>
-              <td class="text-sm p-5 tracking-wide text-center">{{ grupo.permisos.length }}</td>
+              <td class="text-start ps-2">{{ grupo.nombre }}</td>
+              <td>{{ grupo.usuarios.length }}</td>
+              <td>{{ grupo.permisos.length }}</td>
               <td class="px-5">
                 <button (click)="servicioForm.onCheckboxChange(grupo)" mat-icon-button>
                   <mat-icon [ngClass]="{

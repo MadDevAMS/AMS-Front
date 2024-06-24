@@ -27,7 +27,7 @@ export class UsuarioUsecaseService {
   usuarios: IUsuarioModel[] = [];
   usuariosParams: IParamsPagination = {
     numPage: 1,
-    records: 5
+    records: 10
   }
 
   constructor(

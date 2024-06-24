@@ -11,17 +11,17 @@ import { UsuariosFilterGruposDrawer } from '../drawer/usuarios-filter-grupos-dra
 })
 export class TablaGruposComponent {
 
-  handlePageEvent(e: PageEvent) {
-    this.servicio.gruposParams.records = e.pageSize
-    this.servicio.gruposParams.numPage = e.pageIndex + 1
-    this.servicio.getAllGrupos()
-  }
-
   constructor(    
     public servicio: UsuarioUsecaseService,
     public servicioForm: UsuarioFormService,
     private drawerService: DrawerService
   ) {}
+
+  handlePageEvent(e: PageEvent) {
+    this.servicio.gruposParams.records = e.pageSize
+    this.servicio.gruposParams.numPage = e.pageIndex + 1
+    this.servicio.getAllGrupos()
+  }
 
   handleOpenFiltros() {
     this.drawerService.open(UsuariosFilterGruposDrawer)
