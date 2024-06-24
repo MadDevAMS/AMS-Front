@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { RegisterRepository } from '../repository/register.repository';
 import { IFormRegisterModel } from '../models/formRegister.model';
-import { IApiResponse } from '@base/response';
+import { IApiResponse } from '@base/response/response';
 import { UseCase } from '@base/use-case';
 
 @Injectable({

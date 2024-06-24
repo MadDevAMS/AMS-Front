@@ -1,0 +1,46 @@
+<h2 mat-dialog-title class="!text-lg">
+  ¿Está seguro de eliminar este elemento?
+</h2>
+<mat-dialog-content>
+  @if (data.dataNodoHijos.length > 0) {
+    <div class="flex flex-col gap-2">
+      <p class="text-sm">Se removerán los siguientes activos:</p>
+      <ul>
+        <div class="flex flex-col gap-4 max-h-96 overflow-auto">
+          @for (hijo of data.dataNodoHijos; track $index) {
+            <div class="border-gray04 border-opacity-50 border-[0.25px] w-full flex justify-between items-center shadow-sm-ams-01">
+              <activos-chip class="text-nowrap text-ellipsis overflow-clip" [node]="{
+                id: 0,
+                nombre: hijo.nombre,
+                type: hijo.tipo,
+                level: 1,
+                expandable: false,
+                isExpanded: false
+              }"></activos-chip>
+              <p class="px-4">{{ hijo.cantidad }}</p>
+            </div>
+          }
+        </div>
+      </ul>
+    </div>
+  }
+</mat-dialog-content>
+<mat-dialog-actions>
+  <div class="w-full flex flex-col xl:flex-row gap-2">
+    <button
+      (click)="onNoClick()"
+      color="primary"
+      class="!rounded disabled:!bg-blue01 disabled:!bg-opacity-80 !py-4 !font-semibold !text-xs xl:w-1/2"
+      mat-raised-button
+    >      
+      Cancelar
+    </button>
+    <button
+      (click)="onSubmit()"
+      class="!rounded disabled:!bg-blue01 disabled:!bg-opacity-80 !py-4 !font-semibold !text-xs xl:w-1/2"
+      mat-raised-button
+    >      
+      Eliminar
+    </button>
+  </div>
+</mat-dialog-actions>

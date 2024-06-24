@@ -1,27 +1,23 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { TablaLayout } from './layouts/tabla.layout';
 import { TablaColComponent } from './components/tabla-col.component';
-import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '@ui/shared/modules/material.module';
-import { CardLayout } from '@ui/shared/layouts/card.layout';
-
+import { SharedGlobalModule } from '@ui/shared/modules/shared-global.module';
+import { DrawerService } from '../../shared/services/drawer.service';
 
 const components = [
   TablaLayout,
-  TablaColComponent
+  TablaColComponent,
+
 ]
 
 const common = [
-  CommonModule,
-  MatIconModule,
+  SharedGlobalModule,
+  MaterialModule,
+
   ReactiveFormsModule,
   FormsModule,
-  
-  MaterialModule,
-  
-  CardLayout,
 ]
 
 @NgModule({
@@ -31,6 +27,5 @@ const common = [
     ...common,
     ...components
   ],
-  providers: [],
 })
 export class SharedModule { }

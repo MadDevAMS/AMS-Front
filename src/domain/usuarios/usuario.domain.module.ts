@@ -1,16 +1,18 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { UsuarioRepository } from '../../data/usuarios/repository/usuario.repository';
-import { UsuarioImplementationRepository } from './usuario.implementation.repository';
+import { UsuarioImplementationRepository } from './repository/usuario.implementation.repository';
+import { SharedDomainModule } from '@domain/shared-domain.module';
+import { HttpClient } from '@angular/common/http';
 
 @NgModule({
-  declarations: [],
-  imports: [ CommonModule ],
+  declarations: [ ],
+  imports: [ SharedDomainModule ],
   exports: [],
   providers: [
     {
       provide: UsuarioRepository,
-      useClass: UsuarioImplementationRepository
+      useFactory: (httpClient: HttpClient) => new UsuarioImplementationRepository(httpClient),
+      deps: [HttpClient]
     }
   ],
 })

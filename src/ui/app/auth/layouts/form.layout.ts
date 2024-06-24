@@ -12,6 +12,7 @@ export class FormLayout {
   @Input() footerTextLink!: string
   @Input() footerLinkRouter!: string
   @Input() submitText!: string
+  @Input() loading!: boolean
 
   @ContentChild('inputs') inputs!: TemplateRef<any>;
 

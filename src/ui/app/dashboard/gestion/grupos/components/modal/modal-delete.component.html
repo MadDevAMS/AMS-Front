@@ -1,0 +1,25 @@
+<h2 mat-dialog-title class="!text-lg">
+  ¿Está seguro de eliminar a este grupo?
+</h2>
+<mat-dialog-content>
+  <p class="text-center text-base">Esta acción será permanente</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <div class="w-full flex flex-col xl:flex-row gap-2">
+    <button
+      (click)="onSubmit()"
+      class="!rounded disabled:!bg-blue01 disabled:!bg-opacity-80 !py-4 !font-semibold !text-xs xl:w-1/2" 
+      mat-raised-button
+    >      
+      Eliminar
+    </button>
+    <button
+      (click)="onNoClick()"
+      color="primary"
+      class="!rounded disabled:!bg-blue01 disabled:!bg-opacity-80 !py-4 !font-semibold !text-xs xl:w-1/2" 
+      mat-raised-button
+    >      
+      Cancelar
+    </button>
+  </div>
+</mat-dialog-actions>

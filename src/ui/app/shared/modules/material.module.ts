@@ -10,6 +10,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 const materialModules = [
   MatIconModule,
@@ -22,13 +28,21 @@ const materialModules = [
   MatCheckbox,
   MatSelectModule,
   MatExpansionModule,
-  CdkStepperModule
+  MatProgressBarModule,
+  MatDialogTitle,
+  MatDialogContent,
+  MatDialogActions,
+  MatDialogClose,
+  MatTabsModule,
+  MatPaginatorModule,
+  MatProgressSpinnerModule,
+  MatTooltipModule,
+  CdkStepperModule,
 ]
 
 @NgModule({
   declarations: [],
   imports: materialModules,
   exports: materialModules,
-  providers: [],
 })
 export class MaterialModule {}

@@ -7,10 +7,11 @@
   [submitText]="'Iniciar sesión'"
   [formGroup]="serviceForm.formUser"
   (submit)="serviceForm.login()"
+  [loading]="serviceForm.isSending"
 >
   <ng-template #inputs>
-    <mat-form-field appearance="outline" class="h-full !text-sm sm:!text-base">
-      <mat-label class="!text-sm sm:!text-base">Correo electrónico</mat-label>
+    <mat-form-field appearance="outline">
+      <mat-label>Correo electrónico</mat-label>
       <mat-icon matPrefix>mail</mat-icon>
       <input type="email" name="correo" formControlName="correo" matInput>
       @if(serviceForm.hasError('correo', 'required')) { <mat-error>El correo es requerido</mat-error> }
@@ -19,8 +20,8 @@
         <mat-error>{{ error }}</mat-error>
       }
     </mat-form-field>
-    <mat-form-field appearance="outline" class="h-full !text-sm sm:!text-base">
-      <mat-label class="!text-sm sm:!text-base">Contraseña</mat-label>
+    <mat-form-field appearance="outline">
+      <mat-label>Contraseña</mat-label>
       <mat-icon matPrefix>lock</mat-icon>
       <input [type]="hide ? 'password' : 'text'" name="password" formControlName="password" matInput>
       <button type="button" mat-icon-button matSuffix (click)="hide = !hide">
@@ -34,10 +35,12 @@
   </ng-template>
   <ng-container options>
     <section class="flex justify-between items-center">
-      <div class="text-xs sm:text-sm flex-1">
-        <mat-checkbox formControlName="rememberMe" color="primary">Recuérdame</mat-checkbox>
+      <div class="flex-1">
+        <mat-checkbox formControlName="rememberMe" color="primary">
+          <p class="text-sm">Recuérdame</p>
+        </mat-checkbox>
       </div>
-      <a class="font-semibold text-xs sm:text-sm text-green2 text-end">¿Olvidó su contraseña?</a>
+      <a class="font-semibold text-xs text-green2 text-end">¿Olvidó su contraseña?</a>
     </section>
   </ng-container>
 </form-layout>

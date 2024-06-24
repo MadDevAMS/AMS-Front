@@ -1,0 +1,76 @@
+<div class="bg-white flex flex-col h-full">
+  <header class="p-6 py-5 flex items-center bg-blue02 relative">
+    <h2 class="text-white text-lg font-medium text-start tracking-tight">
+      Filtros
+    </h2>
+  </header>
+  <div class="p-6 flex-1 h-0 overflow-auto flex flex-col gap-4">
+    <section class="flex flex-col gap-4">
+      <h3 class="text-base font-medium text-start tracking-tight">
+        Atributos
+      </h3>
+      <mat-form-field appearance="outline" class="form-field-sm">
+        <mat-icon class="icon-sm" matPrefix>people</mat-icon>
+        <mat-label>Filtrar por nombre</mat-label>
+        <input type="text" matInput>
+      </mat-form-field>
+    </section>
+    <section class="flex flex-col gap-4">
+      <h3 class="text-base font-medium text-start tracking-tight">
+        Cantidades
+      </h3>
+      <div class="flex gap-4">
+        <mat-form-field appearance="outline" class="form-field-sm w-36">
+          <mat-label>Condición</mat-label>
+          <mat-select>
+            <mat-option>Igual a</mat-option>
+            <mat-option>Mayor a</mat-option>
+            <mat-option>Menor a</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="form-field-sm">
+          <mat-icon class="icon-sm" matPrefix>person</mat-icon>
+          <mat-label>Cantidad de usuarios</mat-label>
+          <input type="number" matInput>
+        </mat-form-field>
+      </div>
+      <div class="flex gap-4">
+        <mat-form-field appearance="outline" class="form-field-sm w-36">
+          <mat-label>Condición</mat-label>
+          <mat-select>
+            <mat-option>Igual a</mat-option>
+            <mat-option>Mayor a</mat-option>
+            <mat-option>Menor a</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="form-field-sm">
+          <mat-icon class="icon-sm" matPrefix>shield</mat-icon>
+          <mat-label>Cantidad de permisos</mat-label>
+          <input type="number" matInput>
+        </mat-form-field>
+      </div>
+    </section>
+  </div>
+  <footer class="p-6 border-t-2 flex gap-4 justify-between">
+    <button
+      (click)="drawerService.close()"
+      class="!font-medium !text-sm !tracking-wide !uppercase" 
+      mat-stroked-button>
+      Cerrar
+    </button>
+    <div class="flex gap-4">
+      <button 
+        class="!font-medium !text-sm !tracking-wide !uppercase" 
+        mat-stroked-button>
+        Limpiar
+      </button>
+      <button 
+        color="primary"
+        class="!font-medium !text-sm !tracking-wide !uppercase" 
+        mat-raised-button
+      >
+        Aplicar
+      </button>
+    </div>
+  </footer>
+</div>

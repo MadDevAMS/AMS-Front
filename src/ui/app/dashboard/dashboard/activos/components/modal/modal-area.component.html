@@ -1,0 +1,25 @@
+<h2 mat-dialog-title class="!text-lg">Creación de área</h2>
+<mat-dialog-content>
+  <activos-area-form [formData]="formCreate" [hasError]="hasError" [getErrorsApi]="getErrorsApi" />
+</mat-dialog-content>
+<mat-dialog-actions>
+  <div class="w-full flex flex-col xl:flex-row gap-1">
+    <button (click)="onSubmit()" color="primary"
+      class="!rounded !h-9 disabled:!bg-blue01 disabled:!bg-opacity-80 !py-4 !font-semibold text-sm xl:w-1/2"
+      [disabled]="loading"
+      mat-raised-button>
+      @if (loading) {
+      <div class="text-center !py-[0.625rem] !px-4">
+        <mat-spinner class="!stroke-white" diameter="28"></mat-spinner>
+      </div>
+      } @else {
+        Añadir
+      }
+    </button>
+    <button (click)="onNoClick()"
+      class="!rounded !h-9 !py-4 !font-semibold text-sm xl:w-1/2"
+      mat-raised-button>
+      Cancelar
+    </button>
+  </div>
+</mat-dialog-actions>

@@ -1,4 +1,4 @@
-<div class="flex flex-col md:flex-row md:h-full gap-3 font-poppins">
+<div class="flex flex-col md:flex-row md:h-full gap-3">
   <div class="flex flex-col xl:flex-row gap-3 flex-1">
     <div class="flex-1 h-0 xl:h-full">
       <tabla-grupos [grupos]="service.grupos"></tabla-grupos>
@@ -8,14 +8,13 @@
     </div>
   </div>
   <div class="flex flex-col md:w-1/2 xl:w-1/3 gap-3 overflow-auto">
-    <card-layout [formGroup]="serviceForm.formGrupo">
-      <p class="text-gray01 text-base font-semibold" header>Datos de grupo</p>
+    <card-layout [formGroup]="serviceForm.formGrupo" title="Datos de grupo">
       <div class="flex flex-col gap-3" body>
         <mat-form-field
           appearance="outline"
-          class="h-full sm:!flex-1 !text-sm sm:!text-base"
+          class="h-full sm:!flex-1"
         >
-          <mat-label class="!text-sm sm:!text-base">Nombre</mat-label>
+          <mat-label>Nombre</mat-label>
           <mat-icon matPrefix>people</mat-icon>
           <input type="text" formControlName="nombre" name="nombre" matInput />
           @if(serviceForm.hasError('nombre', 'required')) {
@@ -23,9 +22,9 @@
         </mat-form-field>
         <mat-form-field
           appearance="outline"
-          class="h-full sm:!flex-1 !text-sm sm:!text-base"
+          class="h-full sm:!flex-1"
         >
-          <mat-label class="!text-sm sm:!text-base">Descripcion</mat-label>
+          <mat-label>Descripcion</mat-label>
           <textarea
             formControlName="descripcion"
             name="descripcion"
@@ -34,11 +33,8 @@
         </mat-form-field>
       </div>
     </card-layout>
-    <card-layout class="md:flex-1">
-      <p class="text-gray01 text-base font-semibold" header>
-        Permisos y accesos
-      </p>
-      <div class="flex flex-col gap-4" body>
+    <card-layout class="md:flex-1 md:h-0" title="Permisos y accesos">
+      <div class="flex flex-col gap-2 overflow-auto" body>
         @for(permiso of service.permisos; track permiso.nombre) {
           <div class="flex items-center gap-1">
             <mat-checkbox [checked]="serviceForm.isChecked(permiso)" (change)="serviceForm.onCheckboxChange($event, permiso)" color="primary"></mat-checkbox>
@@ -48,7 +44,7 @@
             >
               <mat-expansion-panel-header class="!ps-0">
                 <div 
-                  class="py-4 ps-4 pe-2 flex text-base w-full gap-4 border-s-4 border-s-green text-ellipsis overflow-clip text-nowrap"
+                  class="py-2 ps-4 pe-2 flex text-sm w-full gap-4 border-s-4 border-s-green text-ellipsis overflow-clip text-nowrap"
                 >
                   <p>{{ permiso.nombre }}</p>
                 </div>
@@ -63,7 +59,7 @@
       <button
         (click)="serviceForm.submit()"
         color="primary"
-        class="!shadow-expand-ams !rounded !py-6 !font-semibold text-sm xl:flex-1"
+        class="!rounded disabled:!bg-blue01 disabled:!bg-opacity-80 !py-4 !font-semibold !text-xs xl:w-1/2" 
         mat-raised-button
       >      
         @if(serviceForm.grupoSeleccionado) {
@@ -78,7 +74,7 @@
       </button>
       <button
         (click)="serviceForm.limpiar()"
-        class="!shadow-expand-ams !rounded !py-6 !font-semibold text-sm xl:flex-1"
+        class="!rounded !py-4 !font-semibold !text-xs xl:w-1/2" 
         mat-raised-button
       >
         @if(serviceForm.grupoSeleccionado) {

@@ -1,16 +1,19 @@
 import { Injectable } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
 import { LoginUsecase } from "@data/login/usecases/login.usecase";
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarService } from "@ui/shared/services/snackbar.service";
 
 @Injectable({ providedIn: 'platform' })
 export class LoginFormService {
 
   formUser: FormGroup
+  isSending = false;
 
   constructor(
     public loginUsecase: LoginUsecase,
-    private _snackBar: MatSnackBar
+    private snackbarService: SnackbarService,
+    private route: Router
   ) { 
     this.formUser = new FormGroup({
       correo: new FormControl('', [Validators.required, Validators.email]),
@@ -29,24 +32,35 @@ export class LoginFormService {
 
   login() {
     if (this.formUser.valid) {
+      this.isSending = true
       this.loginUsecase.execute(this.formUser.value).subscribe({
         next: (res) => {
-          if (res.status !== 201) {
+          if (res.status !== 200) {
             res.errors?.forEach((err) => {
-              this.formUser.get(err.propertyName)?.setErrors({ errors: err.propertyName })
+              this.formUser.get(err.propertyName)?.setErrors({ errors: err.errorMessage })
             })
-            res.message && this._snackBar.open(res.message, 'Cerrar', {
-              panelClass: ['error-snackbar'],
-              duration: 3000,
-              horizontalPosition: 'center',
-              verticalPosition: 'top',
-            });
+            this.snackbarService.open({ 
+              mensaje: res.message || 'Ha ocurrido un error al intentar iniciar sesión, revise sus credenciales',
+              type: 'error'
+            })
           } else {
-            console.log(res);
+            this.snackbarService.open({ 
+              mensaje: 'Inicio de sesión exitoso',
+              type: 'success'
+            })
+            if (res.data) {
+              localStorage.setItem('token', res.data!);
+              this.route.navigate(['/dashboard'])
+            }
           }
+          this.isSending = false
         },
         error: (err) => {
-          console.error(err);
+          this.snackbarService.open({ 
+            mensaje: err.message,
+            type: 'error'
+          })
+          this.isSending = false
         }
       })
     }

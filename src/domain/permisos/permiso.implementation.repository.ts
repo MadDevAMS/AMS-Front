@@ -1,33 +1,27 @@
-import { Observable, of } from 'rxjs';
 import { PermisoMapper } from './permiso.mapper';
 import { IPermisoEntity } from './permiso.entity';
 import { PermisoRepository } from '../../data/permisos/repository/permiso.repository';
-import { IPermisoModel } from '../../data/permisos/models/permiso.model';
+import { HttpClient } from '@angular/common/http';
+import { IApiResponsePagination } from '@base/response/responsePagination';
+import { API_URL } from '@base/environment';
+import { IRequestPagination } from '@base/request/requestPagination';
+import { responsePaginationMapper } from '@base/response/response.mapper';
+import { map } from 'rxjs';
 
 export class PermisoImplementationRepository extends PermisoRepository {
 
   mapper = new PermisoMapper();
 
-  permisos: IPermisoEntity[] = [
-    {
-      id: 0,
-      name: 'Permiso nro 1',
-      description: 'Permiso para gestión de estudiantes'
-    },
-    {
-      id: 1,
-      name: 'Permiso nro 2',
-      description: 'Permiso para gestión de estudiantes'
-    },
-    {
-      id: 2,
-      name: 'Permiso nro 3',
-      description: 'Permiso para gestión de estudiantes'
-    }
-  ]
+  constructor(private http: HttpClient) {
+    super()
+  }
 
-  override getAllPermisos(): Observable<IPermisoModel[]> {
-    return of(this.permisos.map(this.mapper.mapFrom))
+  override getAllPermisos(params: IRequestPagination) {
+    return this.http.get<IApiResponsePagination<IPermisoEntity>>(`${API_URL}/permissions`, {
+      params: {
+        ...params
+      }
+    }).pipe(map(responsePaginationMapper(this.mapper)))
   }
   
 }

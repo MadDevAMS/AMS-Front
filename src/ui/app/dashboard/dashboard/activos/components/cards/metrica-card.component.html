@@ -1,0 +1,36 @@
+<div class="h-full w-full flex flex-col gap-3">
+  <card-layout 
+    class="flex-1 h-0"
+    [title]="serviceForm.nodoSeleccionado?.nombre || 'Metrica'">
+    <div body>
+      @switch (serviceForm.nodoSeleccionado?.nombre) {
+        @case ('RMS') {
+          <main-charts-dashboard></main-charts-dashboard>
+        }
+        @case ('Espectro') {
+          <main-temperature-chart-dashboard></main-temperature-chart-dashboard>
+        }
+        @case ('Temperatura') {
+          <main-velocidad-chart-dashboard></main-velocidad-chart-dashboard>
+        }
+      }
+    </div>
+  </card-layout>
+  <div class="w-full flex flex-col xl:flex-row gap-2">
+    <button
+      (click)="serviceForm.updateNodo()"
+      color="primary"
+      class="!rounded disabled:!bg-blue01 disabled:!bg-opacity-80 !py-4 !font-semibold !text-xs xl:w-1/2"
+      mat-raised-button
+    >      
+      Actualizar
+    </button>
+    <button
+      (click)="serviceForm.openModalDelete()"
+      class="!rounded disabled:!bg-blue01 disabled:!bg-opacity-80 !py-4 !font-semibold !text-xs xl:w-1/2"
+      mat-raised-button
+    >      
+      Eliminar
+    </button>
+  </div>
+</div>

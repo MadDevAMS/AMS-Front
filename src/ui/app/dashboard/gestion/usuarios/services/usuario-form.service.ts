@@ -1,78 +1,65 @@
 import { Injectable } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
 import { IGrupoModel } from "@data/grupos/models/grupo.model";
-import { IUsuarioModel } from "@data/usuarios/models/usuario.model";
+import { CreateUsuarioUsecase } from "@data/usuarios/usecases/create-usuario.usecase";
+import { SnackbarService } from "@ui/shared/services/snackbar.service";
+import { Subject } from "rxjs";
 
 @Injectable({ 
-  providedIn: 'platform' 
+  providedIn: 'root' 
 })
 export class UsuarioFormService {
-  hidePassword: boolean = false;
-  usuarioSeleccionado: IUsuarioModel | null = null;
+  hidePassword: boolean = true;
+  gruposSeleccionados: IGrupoModel[] = []
   formUsuario: FormGroup;
+  loading = false
 
-  constructor() {
+  constructor(
+    private createUsuarioUsecase: CreateUsuarioUsecase,
+    private router: Router,
+    private snackbarService: SnackbarService
+  ) {
     this.formUsuario = new FormGroup({
       nombres: new FormControl<string>('', [Validators.required]),
       apellidos: new FormControl<string>('', [Validators.required]),
       correo: new FormControl<string>('', [Validators.required, Validators.email]),
-      password: new FormControl<string>(''),
-      confirmPassword: new FormControl<string>(''),
-      grupos: new FormControl<IGrupoModel[]>([])
+      password: new FormControl<string>('', [Validators.required]),
+      confirmPassword: new FormControl<string>('', [Validators.required]),
+      grupos: new FormControl<number[]>([]),
     });
-    this.setValidators();
   }
 
-  private setValidators() {
-    if (this.usuarioSeleccionado) {
-      this.formUsuario.get('password')?.clearValidators();
-      this.formUsuario.get('confirmPassword')?.clearValidators();
-    } else {
-      this.formUsuario.get('password')?.setValidators([Validators.required]);
-      this.formUsuario.get('confirmPassword')?.setValidators([Validators.required]);
-    }
-    this.formUsuario.get('password')?.updateValueAndValidity();
-    this.formUsuario.get('confirmPassword')?.updateValueAndValidity();
+  isDisabled(field: string): boolean {
+    return this.formUsuario.get(field)?.disabled ?? false;
   }
 
-  onCheckboxChange(e: any, grupo: IGrupoModel) {
+  onCheckboxChange(grupo: IGrupoModel) {
     const grupos = this.formUsuario.get('grupos');
-    if (e.checked) {
-      grupos?.value.push(grupo)
+    if (!this.isChecked(grupo)) {
+      grupos?.value.push(grupo.id)
+      this.gruposSeleccionados.push(grupo)
     } else {
-      const index = grupos?.value.findIndex((x: IGrupoModel) => x.id === grupo.id);
+      const index = grupos?.value.findIndex((x: number) => x === grupo.id);
       grupos?.value.splice(index, 1);
+      this.gruposSeleccionados = this.gruposSeleccionados.filter(g => g.id !== grupo.id)
     }
   }
 
   isChecked(grupo: IGrupoModel): boolean {
     const grupos = this.formUsuario.get('grupos');
-    return grupos?.value?.some((x: IGrupoModel) => x.id === grupo.id);
-  }
-
-  toggleSeleccionar(usuario: IUsuarioModel) {
-    if (this.usuarioSeleccionado && this.usuarioSeleccionado === usuario) {
-      this.limpiar();
-    } else {
-      this.usuarioSeleccionado = usuario;
-      this.formUsuario.reset({
-        nombres: usuario.nombres,
-        apellidos: usuario.apellidos,
-        correo: usuario.correo,
-        password: '',
-        confirmPassword: '',
-        grupos: []
-      });
-      this.setValidators();
-    }
+    return grupos?.value?.some((x: number) => x === grupo.id);
   }
 
   hasError(field: string, type: string) {
     return this.formUsuario.get(field)?.hasError(type);
   }
 
+  getErrorsApi(field: string) {
+    return this.formUsuario.get(field)?.getError('errors')
+  }
+
   limpiar() {
-    this.usuarioSeleccionado = null;
     this.formUsuario.reset({
       nombres: '',
       apellidos: '',
@@ -81,17 +68,40 @@ export class UsuarioFormService {
       confirmPassword: '',
       grupos: []
     });
-    this.setValidators();
+    this.gruposSeleccionados = []
   }
 
   submit() {
     this.formUsuario.markAllAsTouched();
     if (this.formUsuario.valid) {
-      if (this.usuarioSeleccionado) {
-        console.log("ACTUALIZAR", this.formUsuario);
-      } else {
-        console.log("GENERAR", this.formUsuario);
-      }
+      this.loading = true
+      this.createUsuarioUsecase.execute(this.formUsuario.value).subscribe({
+        next: (res) => {
+          if (res.status !== 201) {
+            res.errors?.forEach((err) => {
+              this.formUsuario.get(err.propertyName)?.setErrors({ errors: err.errorMessage })
+            })
+            this.snackbarService.open({ 
+              mensaje: res.message || 'Ha ocurrido un error al intentar crear el usuario, revise sus datos o consulte a su administrador',
+              type: 'error'
+            })
+          } else {
+            this.snackbarService.open({
+              mensaje: res.message || 'Usuario generado exitosamente',
+              type: 'success'
+            })
+            this.router.navigate(['/dashboard/gestion/usuarios'])
+          }
+          this.loading = false
+        },
+        error: (err) => {
+          this.snackbarService.open({
+            mensaje: err.message,
+            type: 'error'
+          })
+          this.loading = false
+        }
+      })
     }
   }
 }
