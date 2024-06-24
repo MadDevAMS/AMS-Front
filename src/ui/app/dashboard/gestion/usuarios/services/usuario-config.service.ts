@@ -17,9 +17,12 @@ import { SnackbarService } from '@ui/shared/services/snackbar.service';
 export class UsuarioConfigService implements OnDestroy {
   private drawerCloseSubscription!: Subscription;
   private _deleteUser = new Subject<void>();
+  hidePassword = true;
   usuario: IUsuarioModel | null = null;
-  formUsuario!: FormGroup;
-  loading = false
+  formNombresApellidos!: FormGroup;
+  formPassword!: FormGroup;
+  formGrupos!: FormGroup;
+  loading = false;
 
   constructor(
     private dialog: MatDialog,
@@ -51,23 +54,38 @@ export class UsuarioConfigService implements OnDestroy {
       queryParamsHandling: 'merge'
     }).toString();
 
-    this.location.go(url)
+    this.location.go(url);
 
-    this.usuario = usuario
-    this.formUsuario = new FormGroup({
+    this.usuario = usuario;
+
+    this.formNombresApellidos = new FormGroup({
       nombres: new FormControl<string>(usuario.nombres, [Validators.required]),
       apellidos: new FormControl<string>(usuario.apellidos, [Validators.required]),
-      password: new FormControl<string>(''),
-      confirmPassword: new FormControl<string>(''),
       grupos: new FormControl<number[]>(usuario.grupos.map(g => g.id)),
       updatePassword: new FormControl<boolean>(false)
-    })
-    this.drawerService.open(UsuarioDrawer)
+    });
 
+    this.formPassword = new FormGroup({
+      nombres: new FormControl<string>(usuario.nombres),
+      apellidos: new FormControl<string>(usuario.apellidos),
+      password: new FormControl<string>('', [Validators.required]),
+      confirmPassword: new FormControl<string>('', [Validators.required]),
+      grupos: new FormControl<number[]>(usuario.grupos.map(g => g.id)),
+      updatePassword: new FormControl<boolean>(true)
+    });
+
+    this.formGrupos = new FormGroup({
+      nombres: new FormControl<string>(usuario.nombres),
+      apellidos: new FormControl<string>(usuario.apellidos),
+      grupos: new FormControl<number[]>(usuario.grupos.map(g => g.id)),
+      updatePassword: new FormControl<boolean>(false)
+    });
+
+    this.drawerService.open(UsuarioDrawer);
   }
 
   closeDrawer() {
-    this.drawerService.close()
+    this.drawerService.close();
   }
 
   openDelete() {
@@ -76,61 +94,73 @@ export class UsuarioConfigService implements OnDestroy {
         data: {
           id: this.usuario?.id
         }
-      })
+      });
       dialogRef.afterClosed().subscribe(hasDeleted => {
         if (hasDeleted) {
-          this._deleteUser.next()
+          this._deleteUser.next();
         }
-      })
+      });
     }
   }
 
   hasDeleted() {
-    return this._deleteUser.asObservable()
+    return this._deleteUser.asObservable();
   }
 
-  hasError(field: string, path: string) {
-    return this.formUsuario.get(field)?.hasError(path)
+  hasError(form: FormGroup, field: string, path: string) {
+    return form.get(field)?.hasError(path);
   }
 
-  getErrors(field: string) {
-    return this.formUsuario.get(field)?.getError('errors')
+  getErrors(form: FormGroup, field: string) {
+    return form.get(field)?.getError('errors');
   }
 
-  updateUser() {
+  updateNombresApellidos() {
+    this.updateUsuario(this.formNombresApellidos);
+  }
+
+  updatePassword() {
+    this.updateUsuario(this.formPassword);
+  }
+
+  updateGrupos() {
+    this.updateUsuario(this.formGrupos);
+  }
+
+  private updateUsuario(form: FormGroup) {
     if (this.usuario) {
-      this.formUsuario.markAllAsTouched()
-      if (this.formUsuario.valid) {
-        this.loading = true
+      form.markAllAsTouched();
+      if (form.valid) {
+        this.loading = true;
         this.updateUserUsecase.execute({
           id: this.usuario.id,
-          ...this.formUsuario.value
+          ...form.value
         }).subscribe({
           next: (res) => {
             if (res.status !== 200) {
               res.errors?.forEach((err) => {
-                this.formUsuario.get(err.propertyName)?.setErrors({ errors: err.errorMessage })
-              })
+                form.get(err.propertyName)?.setErrors({ errors: err.errorMessage });
+              });
               this.snackbarService.open({ 
                 mensaje: res.message || 'Ha ocurrido un error al intentar actualizar el usuario, revise sus datos o consulte a su administrador',
                 type: 'error'
-              })
+              });
             } else {
               this.snackbarService.open({
                 mensaje: res.message || 'Usuario actualizado exitosamente',
                 type: 'success'
-              })
+              });
             }
-            this.loading = false
+            this.loading = false;
           },
           error: (err) => {
             this.snackbarService.open({
               mensaje: err.message,
               type: 'error'
-            })
-            this.loading = false
+            });
+            this.loading = false;
           }
-        })
+        });
       }
     }
   }
