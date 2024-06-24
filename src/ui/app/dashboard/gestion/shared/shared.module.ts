@@ -8,7 +8,8 @@ import { DrawerService } from '../../shared/services/drawer.service';
 
 const components = [
   TablaLayout,
-  TablaColComponent
+  TablaColComponent,
+
 ]
 
 const common = [

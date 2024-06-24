@@ -78,7 +78,11 @@ export class VelocityDashboardComponent implements OnInit {
         title: {
           text: 'Magnitud'
         },
-        decimalsInFloat: 3,
+        labels: {
+          formatter: function (val: number) {
+            return val.toFixed(1);
+          }
+        }
       }
     };
   }
@@ -121,13 +125,15 @@ export class VelocityDashboardComponent implements OnInit {
     if (this.archivoSeleccionado) {
       this.hasLoad = false
       this.chartdataService.uploadVelocidadFile(this.archivoSeleccionado).subscribe({
-        next: response => {
+        next: (response) => {
           if (response && response.data) {
             const { timeStamp, axisX, axisY, axisZ } = response.data;
+
             if (timeStamp && axisX && axisY && axisZ) {
               const axisXArray = axisX.map(Number);
               const axisYArray = axisY.map(Number);
               const axisZArray = axisZ.map(Number);
+
               if (axisXArray.some(isNaN) || axisYArray.some(isNaN) || axisZArray.some(isNaN)) {
                 this.snackbarService.open({
                   mensaje: 'Hubo un error en el procesamiento de datos',
@@ -135,7 +141,9 @@ export class VelocityDashboardComponent implements OnInit {
                 })
                 return;
               }
+
               const fftSize = this.getNearestPowerOfTwo(Math.min(axisXArray.length, axisYArray.length, axisZArray.length));
+
               if (fftSize <= 1) {
                 this.snackbarService.open({
                   mensaje: 'Hubo un error en el procesamiento de datos',
@@ -143,6 +151,8 @@ export class VelocityDashboardComponent implements OnInit {
                 })
                 return;
               }
+
+              // Calculo de la FFT para cada eje
               const fft = new FFT(fftSize);
               const fftX = fft.createComplexArray();
               const fftY = fft.createComplexArray();
@@ -160,20 +170,24 @@ export class VelocityDashboardComponent implements OnInit {
               const sampleRate = 1;
               const frequencies = Array.from({ length: spectrumX.length }, (_, i) => i * sampleRate / fftSize);
 
+              const yOffsetX = 0;
+              const yOffsetY = 0;
+              const yOffsetZ = 0;
+
               this.chartOptions = {
                 ...this.chartOptions,
                 series: [
                   {
                     name: 'X Axis',
-                    data: spectrumX.map((magnitude, i) => ({ x: frequencies[i], y: magnitude }))
+                    data: spectrumX.map((magnitude, i) => ({ x: frequencies[i], y: magnitude + yOffsetX }))
                   },
                   {
                     name: 'Y Axis',
-                    data: spectrumY.map((magnitude, i) => ({ x: frequencies[i], y: magnitude }))
+                    data: spectrumY.map((magnitude, i) => ({ x: frequencies[i], y: magnitude + yOffsetY }))
                   },
                   {
                     name: 'Z Axis',
-                    data: spectrumZ.map((magnitude, i) => ({ x: frequencies[i], y: magnitude }))
+                    data: spectrumZ.map((magnitude, i) => ({ x: frequencies[i], y: magnitude + yOffsetZ }))
                   }
                 ],
                 chart: {
@@ -205,14 +219,11 @@ export class VelocityDashboardComponent implements OnInit {
                           background: "#775DD0"
                         }
                       }
-                    }
+                    },
                   ]
                 },
                 dataLabels: {
                   enabled: false
-                },
-                markers: {
-                  size: 0
                 },
                 xaxis: {
                   type: "numeric",
@@ -233,16 +244,16 @@ export class VelocityDashboardComponent implements OnInit {
                   }
                 }
               }
-              this.hasLoad = true
             } else {
               this.snackbarService.open({
                 mensaje: 'Hubo un error en el procesamiento de datos',
                 type: 'error'
               })
             }
+            this.hasLoad = true
           } else {
             this.snackbarService.open({
-              mensaje: response.message,
+              mensaje: response.message || 'Hubo un error en el procesamiento de datos',
               type: 'error'
             })
           }
@@ -270,5 +281,6 @@ export class VelocityDashboardComponent implements OnInit {
     }
     return magnitudes;
   }
+
 
 }
