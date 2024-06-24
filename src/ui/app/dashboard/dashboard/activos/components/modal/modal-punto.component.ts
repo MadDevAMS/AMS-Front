@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ActivosFormModule } from '../form/activos-form.module';
 import { MaterialModule } from '@ui/shared/modules/material.module';
 import { SnackbarService } from '@ui/shared/services/snackbar.service';
@@ -25,15 +25,20 @@ import { CreatePuntoUsecase } from '@data/punto/usecases/create-punto.usecase';
 })
 export class ModalPuntoComponent {
   formCreate!: FormGroup
+  loading = false
 
   constructor(
     private createUsecase: CreatePuntoUsecase,
     private snackbarService: SnackbarService,
     public dialogRef: MatDialogRef<ModalPuntoComponent>,
+    @Inject(MAT_DIALOG_DATA) private data: { idParent: number }
   ) {
     this.formCreate = new FormGroup({
+      idComponente: new FormControl(this.data.idParent),
       nombre: new FormControl('', [Validators.required]),
-      descripcion: new FormControl('')
+      descripcion: new FormControl(''),
+      angulo: new FormControl('', [Validators.required]),
+      direccion: new FormControl('', [Validators.required]),
     })
   }
 
@@ -48,6 +53,7 @@ export class ModalPuntoComponent {
   onSubmit() {
     this.formCreate.markAllAsTouched()
     if (this.formCreate.valid) {
+      this.loading = true
       this.createUsecase.execute(this.formCreate.value)
       .subscribe({
         next: (res) => {
@@ -64,13 +70,16 @@ export class ModalPuntoComponent {
               mensaje: res.message,
               type: 'success'
             })
+            this.onNoClick()
           }
+          this.loading = false
         },
         error: (err) => {
           this.snackbarService.open({
             mensaje: err.message || 'Ha ocurrido un error, revise su conexión a internet o inténtelo más tarde',
             type: 'error',
           })  
+          this.loading = false
         }
       })
     }

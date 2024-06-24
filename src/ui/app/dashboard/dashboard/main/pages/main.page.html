@@ -1,21 +1,30 @@
-<div class="flex gap-3">
-	<div class="flex flex-1">
+<div class="flex flex-col w-full gap-3">
+	<div class="grid grid-cols-[repeat(auto-fill,minmax(15rem,1fr))] gap-3">
+		<main-card-info type="area" [count]="1" title="Areas registradas" />
+		<main-card-info type="maquina" [count]="1" title="Máquinas registradas" />
+		<main-card-info type="componente" [count]="1" title="Componentes registrados" />
+		<main-card-info type="punto_monitoreo" [count]="1" title="Puntos de monitoreo" />
+		<main-card-info type="metrica" [count]="1" title="Metricas totales" />
 	</div>
-	<div class="flex flex-col gap-3 basis-1/3">
-		<card-layout>
-			<p class="text-gray01 text-base font-semibold" header>Activos generales</p>
-			<div class="flex flex-col gap-3" body>
-				<main-card-info type="area" [count]="1" title="Areas registradas" />
-				<main-card-info type="maquina" [count]="1" title="Máquinas registradas" />
-				<main-card-info type="componente" [count]="1" title="Componentes registrados" />
-				<main-card-info type="punto_monitoreo" [count]="1" title="Puntos de monitoreo totales" />
-			</div>
-		</card-layout>
-		<card-layout>
-			<p class="text-gray01 text-base font-semibold" header>Últimas incidencias</p>
-			<div class="flex flex-col gap-3" body>
-				<activos-incidencias-list></activos-incidencias-list>
-			</div>
-		</card-layout>
+	<div class="flex flex-col md:flex-row gap-3">
+		<div class="flex flex-col gap-3 md:basis-1/2 xl:flex-1">
+			<card-layout title="Aceleración RMS en función de tiempo">
+				<main-charts-dashboard body></main-charts-dashboard>
+			</card-layout>
+			<card-layout title="Temperatura de componente">
+				<main-temperature-chart-dashboard body></main-temperature-chart-dashboard>
+			</card-layout>
+			<card-layout title="Espectro de frecuencia de vibraciones">
+				<main-velocidad-chart-dashboard body></main-velocidad-chart-dashboard>
+			</card-layout>
+		</div>
+		<article class="md:basis-1/2 xl:basis-1/3 flex flex-col gap-3 md:h-full">
+			<card-layout title="Asistente">
+				<model-chat body class="flex h-80"></model-chat>
+			</card-layout>
+			<card-layout title="Listado de incidencias">
+				<activos-incidencias-list body></activos-incidencias-list>
+			</card-layout>
+		</article>
 	</div>
 </div>

@@ -1,37 +1,46 @@
-<div class="flex flex-col md:flex-row gap-3 md:h-full font-poppins">
-  <div class="flex-1 w-full md:w-1/2 xl:w-1/3">
+
+<div class="flex flex-col md:flex-row gap-3 md:h-full">
+  <div [ngClass]="{
+    'flex-1 w-full md:w-1/2 xl:w-2/3': true,
+    'xl:w-1/3': formService.hasAlready
+  }">
     <activos-arbol></activos-arbol>
   </div>
-  <div class="flex flex-col md:w-1/2 md:flex-1 xl:flex-none xl:w-2/3 xl:flex-row md:overflow-auto gap-3">
-    <div class="xl:w-1/2">
+  <div [ngClass]="{
+    'flex flex-col md:w-1/2 md:flex-1 xl:flex-none xl:w-1/3 md:overflow-auto gap-3': true,
+  }">
+    @if (formService.hasAlready) {
       @switch (formService.nodoSeleccionado?.type) {
-        @case ('entidad') {
-          <activos-entidad-card></activos-entidad-card>
-        }
-        @case ('area') {
-          <activos-area-card></activos-area-card>
-        }
-        @case ('maquina') {
-          <activos-maquina-card></activos-maquina-card>
-        }
-        @case ('componente') {
-          <activos-componente-card></activos-componente-card>
-        }
-        @case ('punto_monitoreo') {
-          <activos-punto-card></activos-punto-card>
-        }
-        @case ('metrica') {
-          <activos-metrica-card></activos-metrica-card>
-        }
+      @case ('entidad') {
+      <activos-entidad-card></activos-entidad-card>
       }
-    </div>
-    <div class="flex flex-col gap-3 xl:w-1/2">
-      <card-layout class="max-h-96 xl:h-1/2 overflow-auto">
-        <p class="text-gray01 text-base font-semibold" header>Incidencias</p>
-        <activos-incidencias-list body></activos-incidencias-list>
+      @case ('area') {
+      <activos-area-card></activos-area-card>
+      }
+      @case ('maquina') {
+      <activos-maquina-card></activos-maquina-card>
+      }
+      @case ('componente') {
+      <activos-componente-card></activos-componente-card>
+      }
+      @case ('punto_monitoreo') {
+      <activos-punto-card></activos-punto-card>
+      }
+      @case ('metrica') {
+      <activos-metrica-card></activos-metrica-card>
+      }
+      }
+    } @else {
+      <card-layout class="flex-1 h-0" title="Activos">
+        <div class="flex-1 flex flex-col justify-center items-center gap-2" body>
+          <img src="/ui/assets/icons/svg/logo.svg" alt="logo-svg" />
+          <p class="text-xs text-gray01 text-center max-w-64">No hay activos seleccionados</p>
+        </div>
       </card-layout>
-      <card-layout class="xl:h-1/2">
-        <p class="text-gray01 text-base font-semibold" header>Diagnóstico</p>
+    }
+    <div class="flex flex-col gap-3 flex-1">
+      <card-layout class="h-full" title="Asistente">
+        <model-chat body class="flex h-80"></model-chat>
       </card-layout>
     </div>
   </div>

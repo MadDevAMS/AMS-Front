@@ -1,6 +1,7 @@
 export interface IMaquinaEntity {
-  id: string,
-  nombre: string,
-  descripcion: string,
+  idMaquina: string,
+  idArea?: number,
+  name: string,
+  description: string,
   tipoMaquina: string,
 }

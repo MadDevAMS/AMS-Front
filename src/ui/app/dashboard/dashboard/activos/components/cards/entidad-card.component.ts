@@ -15,11 +15,13 @@ export class EntidadCardComponent {
     public serviceForm: ActivosFormService<IEntidadModel>
   ) { 
     this.serviceForm.formDataUpdate = new FormGroup({
-      nombre: new FormControl(this.serviceForm.dataNodo?.nombre, [Validators.required]),
-      razonSocial: new FormControl(this.serviceForm.dataNodo?.razonSocial, [Validators.required]),
-      ruc: new FormControl(this.serviceForm.dataNodo?.ruc, [Validators.required, Validators.pattern(/^[0-9]{11}$/)]),
+      nombre: new FormControl({ value: this.serviceForm.dataNodo?.nombre, disabled: true }, [Validators.required]),
+      razonSocial: new FormControl({ value: this.serviceForm.dataNodo?.razonSocial, disabled: true }, [Validators.required]),
+      ruc: new FormControl({ value: this.serviceForm.dataNodo?.ruc, disabled: true }, [Validators.required, Validators.pattern(/^[0-9]{11}$/)]),
+      imagen: new FormControl(this.serviceForm.dataNodo?.imagen || '-'),
+      direccion: new FormControl(this.serviceForm.dataNodo?.direccion),
       telefono: new FormControl(this.serviceForm.dataNodo?.telefono, [Validators.required]),
       email: new FormControl(this.serviceForm.dataNodo?.email, [Validators.required, Validators.email])
-    })
+    });
   }
 }

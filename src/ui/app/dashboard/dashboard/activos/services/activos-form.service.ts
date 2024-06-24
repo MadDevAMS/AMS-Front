@@ -17,13 +17,15 @@ export interface IDataNodoHijo {
 }
 
 @Injectable({
-  providedIn: 'platform'
+  providedIn: 'root'
 })
 export class ActivosFormService<T> {
   nodoSeleccionado: IActivoNode | undefined
   dataNodoHijos: IDataNodoHijo[] = []
   dataNodo: T | undefined
   formDataUpdate!: FormGroup;
+  hasAlready = false
+  loadingUpdate = false
 
   nameDataNodes: Record<IActivoNode["type"], string> = {
     componente: 'Componentes',
@@ -40,7 +42,7 @@ export class ActivosFormService<T> {
     private usecaseService: ActivosFormUsecaseService,
     private snackbarService: SnackbarService,
     private dialog: MatDialog
-  ) {}
+  ) { }
 
   openModalDelete() {
     this.dialog.open(ModalDeleteComponent, {
@@ -60,72 +62,82 @@ export class ActivosFormService<T> {
   }
 
   updateNodo() {
+    this.loadingUpdate = false
     this.formDataUpdate?.markAllAsTouched()
     if (this.nodoSeleccionado && this.formDataUpdate && this.formDataUpdate.valid) {
+      this.loadingUpdate = true
       this.activosUpdateUsecaseService.execute(this.nodoSeleccionado, {
         id: this.nodoSeleccionado.id,
         ...this.formDataUpdate.value
       })
         .subscribe({
           next: (res) => {
-            if (res.status !== 201) {
+            if (res.status !== 200) {
               res.errors?.forEach((err: IErrorResponse) => {
                 this.formDataUpdate.get(err.propertyName)?.setErrors({ errors: err.errorMessage })
               })
-              this.snackbarService.open({ 
+              this.snackbarService.open({
                 mensaje: res.message || 'Ha ocurrido un error al intentar obtener los datos de este activo',
                 type: 'error'
               })
             } else {
               this.dataNodo = res.data as T
-              this.snackbarService.open({ 
+              this.snackbarService.open({
                 mensaje: res.message,
                 type: 'success'
               })
             }
+            this.loadingUpdate = false
           },
           error: (err) => {
             this.snackbarService.open({
               mensaje: err.message,
               type: 'error',
-            })  
+            })
+            this.loadingUpdate = false
           }
         })
     }
   }
 
   seleccionar(nodo: IActivoNode) {
-    this.nodoSeleccionado = nodo
-    this.dataNodoHijos = []
-    let activoBuscado = this.buscarNodo(this.activosUsecaseService.activos, nodo.id)
-    if (activoBuscado) this.extraerInfoNodo(activoBuscado)
-    this.usecaseService.execute(nodo).subscribe({
-      next: (res) => {
-        if (res.status !== 200) {
-          this.snackbarService.open({ 
-            mensaje: res.message || 'Ha ocurrido un error al intentar obtener los datos de este activo',
-            type: 'error'
-          })
-        } else {
-          this.dataNodo = res.data as T
-        }
-      },
-      error: (err) => {
-        this.snackbarService.open({
-          mensaje: err.message,
-          type: 'error',
+    this.activosUsecaseService.activos$.subscribe(activos => {
+      if (activos) {
+        this.hasAlready = false
+        this.nodoSeleccionado = nodo
+        this.dataNodoHijos = []
+        let activoBuscado = this.buscarNodo(activos, nodo)
+        if (activoBuscado) this.extraerInfoNodo(activoBuscado)
+        this.usecaseService.execute(nodo).subscribe({
+          next: (res) => {
+            if (res.status !== 200) {
+              this.snackbarService.open({
+                mensaje: res.message || 'Ha ocurrido un error al intentar obtener los datos de este activo',
+                type: 'error'
+              })
+            } else {
+              this.dataNodo = res.data as T
+              this.hasAlready = true
+            }
+          },
+          error: (err) => {
+            this.snackbarService.open({
+              mensaje: err.message,
+              type: 'error',
+            })
+          }
         })
       }
     })
   }
 
-  buscarNodo(activos: IActivoModel, id: string): IActivoModel | undefined {
-    if (activos.id === id) {
+  buscarNodo(activos: IActivoModel, nodo: IActivoNode): IActivoModel | undefined {
+    if (activos.id === nodo.id && activos.type === nodo.type) {
       return activos
-    } 
-    
+    }
+
     for (let hijo of activos.hijos) {
-      const resultado = this.buscarNodo(hijo, id);
+      const resultado = this.buscarNodo(hijo, nodo);
       if (resultado) {
         return resultado;
       }

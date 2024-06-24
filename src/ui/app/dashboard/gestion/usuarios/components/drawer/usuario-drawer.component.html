@@ -1,0 +1,171 @@
+<div class="bg-white flex flex-col h-full min-w-[48rem]">
+  <header class="p-6 py-5 flex items-center bg-blue01 relative">
+    <h2 class="text-white text-lg font-medium text-start tracking-tight">
+      Administracion de usuario
+    </h2>
+  </header>
+  <div class="flex-1 flex">
+    <aside class="bg-blue01 flex flex-col p-4 justify-between overflow-auto h-full w-56 shadow-md-ams-01">
+      <nav class="flex flex-col gap-2">
+        <dashboard-sidebar-item 
+          [label]="'Información'"
+          routerLink="/dashboard/gestion/usuarios"
+          [routerLinkActiveOptions]="{ 
+            exact: true, 
+            queryParams: 'exact',
+            matrixParams: 'exact',
+            paths: 'exact',
+            fragment: 'exact',
+          }"
+          tabLink="informacion"
+          [queryParams]="{
+            drawer: 'usuarioDrawer',
+            drawerTab: 'informacion',
+          }"
+          [isDrawer]="true"
+        >
+          <mat-icon class="icon-sm" icon>info</mat-icon>
+        </dashboard-sidebar-item>
+        <dashboard-sidebar-item 
+          [label]="'Autenticacion'"
+          routerLink="/dashboard/gestion/usuarios"
+          [routerLinkActiveOptions]="{ 
+            exact: true, 
+            queryParams: 'exact',
+            matrixParams: 'exact',
+            paths: 'exact',
+            fragment: 'exact',
+          }"
+          [queryParams]="{
+            drawer: 'usuarioDrawer',
+            drawerTab: 'autenticacion',
+          }"
+          tabLink="autenticacion"
+          [isDrawer]="true"
+        >
+          <mat-icon class="icon-sm" icon>lock</mat-icon>
+        </dashboard-sidebar-item>
+        <dashboard-sidebar-item 
+          [label]="'Grupos'"
+          routerLink="/dashboard/gestion/usuarios"
+          [queryParams]="{
+            drawer: 'usuarioDrawer',
+            drawerTab: 'grupos',
+          }"
+          [routerLinkActiveOptions]="{ 
+            exact: true, 
+            queryParams: 'exact',
+            matrixParams: 'exact',
+            paths: 'exact',
+            fragment: 'exact',
+          }"
+          tabLink="grupos"
+          [isDrawer]="true"
+        >
+          <mat-icon class="icon-sm" icon>group</mat-icon>
+        </dashboard-sidebar-item>
+      </nav>
+      <footer class="w-full py-2">
+        <button 
+          (click)="usuarioService.openDelete()"
+          color="warn" 
+          class="!font-medium !text-sm !tracking-wide !uppercase !border-blood !w-full" 
+          mat-stroked-button>
+          <mat-icon class="icon-sm" matPrefix>delete</mat-icon>
+          Eliminar usuario
+        </button>
+      </footer>
+    </aside>
+    <div class="flex flex-col flex-1 w-0">
+      <div class="flex-1 h-0">
+        <div class="p-6 flex flex-col gap-6 w-full h-full">
+          @switch (linkTab) {
+            @case ('informacion') {
+              <form 
+                [formGroup]="usuarioService.formUsuario"
+                class="border-1 rounded shadow-expand-ams w-full">
+                <header class="text-base font-medium tracking-tighter py-3 px-6 border-b-1">
+                  Información de usuario
+                </header>
+                <div class="flex flex-col gap-6 p-6">
+                  <mat-form-field class="form-field-sm" appearance="outline">
+                    <mat-label>Nombres de usuario</mat-label>
+                    <input type="text" formControlName="nombres" [value]="usuarioService.usuario?.nombres" matInput>
+                    @if(usuarioService.hasError('nombres', 'required')) { <mat-error>Campo obligatorio</mat-error> }
+                  </mat-form-field>
+                  <mat-form-field class="form-field-sm" appearance="outline">
+                    <mat-label>Apellidos de usuario</mat-label>
+                    <input type="text" formControlName="apellidos" [value]="usuarioService.usuario?.apellidos" matInput>
+                    @if(usuarioService.hasError('apellidos', 'required')) { <mat-error>Campo obligatorio</mat-error> }
+                  </mat-form-field>
+                </div>
+              </form>
+            }
+            @case ('autenticacion') {
+              <div class="border-1 rounded shadow-expand-ams w-full">
+                <header class="text-base font-medium tracking-tighter py-3 px-6 border-b-1">
+                  Información de cuenta
+                </header>
+                <div class="flex flex-col gap-6 p-6">
+                  <mat-form-field class="form-field-sm" appearance="outline">
+                    <mat-label>Correo de usuario</mat-label>
+                    <input type="text" matInput [value]="usuarioService.usuario?.correo" disabled>
+                    @if(usuarioService.hasError('correo', 'required')) { <mat-error>Campo obligatorio</mat-error> }
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="border-1 rounded shadow-expand-ams w-full">
+                <header class="text-base font-medium tracking-tighter py-3 px-6 border-b-1">
+                  Actualizar contraseña
+                </header>
+                <div class="flex flex-col gap-6 p-6">
+                  <mat-form-field class="form-field-sm" appearance="outline">
+                    <mat-label>Contraseña</mat-label>
+                    <input type="password" matInput>
+                    @if(usuarioService.hasError('password', 'required')) { <mat-error>Campo obligatorio</mat-error> }
+                  </mat-form-field>
+                  <mat-form-field class="form-field-sm" appearance="outline">
+                    <mat-label>Repetir contraseña</mat-label>
+                    <input type="password" matInput>
+                    @if(usuarioService.hasError('confirmPassword', 'required')) { <mat-error>Campo obligatorio</mat-error> }
+                  </mat-form-field>
+                </div>
+              </div>
+            }
+            @case ('grupos') {
+              grupo
+            } 
+            @default {
+              <div class="flex-1 flex flex-col justify-center items-center gap-2">
+                <img src="/ui/assets/icons/svg/logo.svg" alt="logo-svg" />
+                <p class="text-xs text-gray01 text-center max-w-64">Seleccione una página para continuar</p>
+              </div>
+            }
+          }
+        </div>
+      </div>
+      <footer class="p-6 border-t-2 flex gap-4 justify-between">
+        <button 
+          (click)="drawerService.close()"
+          class="!font-medium !text-sm !tracking-wide !uppercase" 
+          mat-stroked-button>
+          Cancelar
+        </button>
+        <button 
+          (click)="usuarioService.updateUser()"
+          color="primary" 
+          class="!font-medium !text-sm !tracking-wide !uppercase disabled:!bg-blue01 disabled:!bg-opacity-80 w-32" 
+          mat-raised-button>
+          @if (usuarioService.loading) {
+            <div class="text-center !py-[0.625rem] !px-4">
+              <mat-spinner class="spinner-white" diameter="28"></mat-spinner>
+            </div>
+          } @else {
+            Guardar
+          }
+        </button>
+      </footer>
+    </div>
+  <div>
+</div>
+</div>

@@ -1,10 +1,10 @@
-<form class="flex flex-col gap-8">
-  <div class="flex flex-col gap-[0.75rem]">
-    <h2 class="text-blue01 font-semibold text-lg sm:text-xl">{{ title }}</h2>
-    <p class="text-sm sm:text-base font-normal mb-4">{{ subtitle }}</p>
+<form class="flex flex-col gap-4">
+  <div class="flex flex-col gap-2">
+    <h2 class="text-blue01 font-semibold text-sm sm:text-base">{{ title }}</h2>
+    <p class="text-xs sm:text-sm font-normal mb-4">{{ subtitle }}</p>
     <div class="flex flex-col gap-6">
       <!-- Input -->
-      <div class="flex flex-col gap-4">
+      <div class="flex flex-col gap-3">
         <ng-template [ngTemplateOutlet]="inputs"></ng-template>
         <!-- Options -->
         <ng-content select="[options]"></ng-content>
@@ -12,13 +12,13 @@
       <!-- Button -->
       <div class="flex flex-col gap-2">
         <button type="submit" mat-flat-button color="primary"
-          class="bg-blue01 !rounded-lg !h-11 disabled:!bg-blue01 disabled:!bg-opacity-80" [disabled]="loading">
+          class="bg-blue01 !rounded-lg !h-9 disabled:!bg-blue01 disabled:!bg-opacity-80" [disabled]="loading">
           @if (loading) {
-          <div class="text-center !py-[0.625rem] !px-5 font-semibold text-sm sm:text-base">
-            <mat-spinner class="!stroke-white" diameter="36"></mat-spinner>
+          <div class="text-center !py-[0.625rem] !px-4">
+            <mat-spinner class="spinner-white" diameter="28"></mat-spinner>
           </div>
           } @else {
-          <div class="text-center !py-[0.625rem] !px-5 font-semibold text-sm sm:text-base">
+          <div class="text-center !py-[0.625rem] !px-5 font-semibold text-xs sm:text-sm">
             {{ submitText }}
           </div>
           }
@@ -28,8 +28,8 @@
     </div>
   </div>
   <footer class="flex flex-col items-center min-[420px]:flex-row min-[420px]:justify-center gap-3">
-    <p class="font-normal text-sm sm:text-base">{{ footerText }}</p>
-    <a class="text-green2 font-semibold text-sm sm:text-base" [routerLink]="footerLinkRouter">
+    <p class="font-normal text-sm">{{ footerText }}</p>
+    <a class="text-green2 font-semibold text-sm" [routerLink]="footerLinkRouter">
       {{ footerTextLink }}
     </a>
   </footer>

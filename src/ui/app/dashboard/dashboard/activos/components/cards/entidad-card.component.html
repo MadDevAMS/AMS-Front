@@ -1,21 +1,23 @@
 <div class="h-full w-full flex flex-col gap-3">
-  <card-layout class="flex-1 h-0">
-    <p class="text-gray01 text-base font-semibold" header>
-      Entidad {{ serviceForm.nodoSeleccionado?.nombre }}
-    </p>
-    <div class="flex flex-col gap-4" body>
+  <card-layout 
+    class="flex-1 h-0"
+    title="Entidad {{ serviceForm.nodoSeleccionado?.nombre }}"
+  >
+    <div class="flex flex-col gap-3" body>
       <activos-entidad-form 
         [formData]="serviceForm.formDataUpdate"
         [hasError]="serviceForm.hasError"
         [getErrorsApi]="serviceForm.getErrorsApi"
       />
-      <div class="flex flex-col sm:flex-row md:flex-col min-[1664px]:flex-row gap-4">
-        <img class="sm:w-1/2 md:w-full xl:w-1/2 h-full" src="{{ serviceForm.dataNodo?.imagen }}" alt="imagen-{{serviceForm.dataNodo?.id}}">
+      <div class="flex flex-col sm:flex-row md:flex-col min-[1440px]:flex-row gap-4">
+        @if (serviceForm.dataNodo?.imagen !== '-') {
+          <img class="sm:w-1/2 md:w-full xl:w-1/2 h-full" src="{{ serviceForm.dataNodo?.imagen }}" alt="imagen-{{serviceForm.dataNodo?.id}}">
+        }
         <div class="flex flex-col gap-2 sm:w-1/2 md:w-full">
           @for (hijo of serviceForm.dataNodoHijos; track $index) {
             <div class="border-gray04 border-opacity-50 border-[0.25px] w-full flex items-center shadow-sm-ams-01">
               <activos-chip class="flex-1 w-0" [node]="{
-                id: '',
+                id: 0,
                 nombre: hijo.nombre,
                 type: hijo.tipo,
                 level: 1,
@@ -33,11 +35,17 @@
     <button
       (click)="serviceForm.updateNodo()"
       color="primary"
-      class="!shadow-expand-ams !rounded !py-6 !font-semibold text-sm xl:w-1/2"
+      class="!rounded disabled:!bg-blue01 disabled:!bg-opacity-80 !py-4 !font-semibold !text-xs flex-1"
       mat-raised-button
-      [disabled]="!serviceForm.dataNodo"
+      [disabled]="serviceForm.loadingUpdate"
     >      
+    @if (serviceForm.loadingUpdate) {
+      <div class="text-center !py-[0.625rem] !px-4">
+        <mat-spinner class="!stroke-white" diameter="28"></mat-spinner>
+      </div>
+    } @else {
       Actualizar
+    }
     </button>
   </div>
 </div>

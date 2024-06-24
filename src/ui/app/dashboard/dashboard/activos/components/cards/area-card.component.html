@@ -1,8 +1,8 @@
 <div class="h-full flex flex-col gap-3">
-  <card-layout class="flex-1 h-0">
-    <p class="text-gray01 text-base font-semibold" header>
-      Area {{ serviceForm.nodoSeleccionado?.nombre }}
-    </p>
+  <card-layout 
+    class="flex-1 h-0"
+    title="Area {{ serviceForm.nodoSeleccionado?.nombre }}"
+  >
     <div class="flex flex-col gap-4" body>
       <activos-area-form 
         [formData]="serviceForm.formDataUpdate"
@@ -13,7 +13,7 @@
         @for (hijo of serviceForm.dataNodoHijos; track $index) {
           <div class="border-gray04 border-opacity-50 border-[0.25px] w-full flex justify-between items-center shadow-sm-ams-01">
             <activos-chip class="text-nowrap text-ellipsis overflow-clip" [node]="{
-              id: '',
+              id: 0,
               nombre: hijo.nombre,
               type: hijo.tipo,
               level: 1,
@@ -30,14 +30,21 @@
     <button
       (click)="serviceForm.updateNodo()"
       color="primary"
-      class="!shadow-expand-ams !rounded !py-6 !font-semibold text-sm xl:w-1/2"
+      class="!rounded disabled:!bg-blue01 disabled:!bg-opacity-80 !py-4 !font-semibold !text-xs xl:w-1/2"
       mat-raised-button
+      [disabled]="serviceForm.loadingUpdate"
     >      
-      Actualizar
+      @if (serviceForm.loadingUpdate) {
+        <div class="text-center !py-[0.625rem] !px-4">
+          <mat-spinner class="!stroke-white" diameter="28"></mat-spinner>
+        </div>
+      } @else {
+        Actualizar
+      }
     </button>
     <button
       (click)="serviceForm.openModalDelete()"
-      class="!shadow-expand-ams !rounded !py-6 !font-semibold text-sm xl:w-1/2"
+      class="!rounded disabled:!bg-blue01 disabled:!bg-opacity-80 !py-4 !font-semibold !text-xs xl:w-1/2"
       mat-raised-button
     >      
       Eliminar

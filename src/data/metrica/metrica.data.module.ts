@@ -4,6 +4,7 @@ import { MetricaRepository } from './repository/metrica.repository';
 import { UpdateMetricaUsecase } from './usecases/update-metrica.usecase';
 import { MetricaDomainModule } from '@domain/metrica/metrica.domain.module';
 import { CreateMetricaUsecase } from './usecases/create-metrica.usecase';
+import { DeleteMetricaUsecase } from './usecases/delete-metrica.usecase';
 
 @NgModule({
   declarations: [],
@@ -23,6 +24,11 @@ import { CreateMetricaUsecase } from './usecases/create-metrica.usecase';
     { 
       provide: CreateMetricaUsecase,
       useFactory: (metricaRepo: MetricaRepository) => new CreateMetricaUsecase(metricaRepo),
+      deps: [MetricaRepository]
+    },
+    { 
+      provide: DeleteMetricaUsecase,
+      useFactory: (metricaRepo: MetricaRepository) => new DeleteMetricaUsecase(metricaRepo),
       deps: [MetricaRepository]
     },
   ],

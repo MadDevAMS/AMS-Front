@@ -9,7 +9,7 @@ module.exports = {
         'blue01':'#1B1C31',
         'blue02':'#222338',
         'light-blue':'#006AFF',
-        'green':'#52C93F',
+        'green':'#45B880',
         'green2':'#009D92',
         'light-green01':'#15BFFD1A',
         'light-green02':'#00FFC24D',
@@ -30,6 +30,7 @@ module.exports = {
         'warning02': '#FFA600',
       },
       boxShadow: {
+        'mui-ams': '0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12)',
         'expand-ams': '0px 3px 28px 0px rgba(69 69 80 / 0.10)',
         'sm-ams-01': '0px 4px 12px 0px rgba(0 0 0 / 0.15)',
         'sm-ams-02': '0px 4px 4px 0px rgba(0 0 0 / 0.25)',
@@ -38,6 +39,9 @@ module.exports = {
         'md-ams-03': '0px 8px 24px 0px rgba(0 0 0 / 0.25)',
         'lg-ams-01': '0px 8px 36px 0px rgb(0 0 0 / 0.35)',
         'lg-ams-02': '0px 8px 56px 0px rgb(0 0 0 / 0.45)',
+      },
+      borderWidth: {
+        '1': '1px'
       },
       fontFamily: {
         'poppins': ['Poppins', 'Roboto', 'Verdana'],

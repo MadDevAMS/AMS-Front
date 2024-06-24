@@ -1,7 +1,9 @@
 export interface IPuntoEntity {
-  id: string,
-  detalle: string,
-  descripcion: string,
-  direcMedicion: string,
-  anguloDirec: number
+  idPuntoMonitoreo: number,
+  idComponente?: number,
+  detail: string,
+  description: string,
+  direccionMedicion: string,
+  anguloDireccion: string,
+  datosMedicion?: string
 }

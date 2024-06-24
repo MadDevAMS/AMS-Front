@@ -3,7 +3,6 @@ import { Component, ContentChild, Input, TemplateRef } from '@angular/core';
 @Component({
   selector: 'form-layout',
   templateUrl: './form.layout.html',
-  styleUrls: ['./form.layout.scss']
 })
 export class FormLayout {
 

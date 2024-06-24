@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ActivosFormModule } from '../form/activos-form.module';
 import { MaterialModule } from '@ui/shared/modules/material.module';
 import { SnackbarService } from '@ui/shared/services/snackbar.service';
@@ -30,10 +30,13 @@ export class ModalMetricaComponent {
     private createUsecase: CreateMetricaUsecase,
     private snackbarService: SnackbarService,
     public dialogRef: MatDialogRef<ModalMetricaComponent>,
+    @Inject(MAT_DIALOG_DATA) private data: { idParent: number }
   ) {
     this.formCreate = new FormGroup({
+      idPuntoMonitoreo: new FormControl(this.data.idParent),
       nombre: new FormControl('', [Validators.required]),
-      descripcion: new FormControl('')
+      descripcion: new FormControl(''),
+      tipoMetrica: new FormControl('', [Validators.required]),
     })
   }
 

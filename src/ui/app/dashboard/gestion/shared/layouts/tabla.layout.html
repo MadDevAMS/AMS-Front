@@ -1,15 +1,14 @@
 <div class="w-full h-full flex flex-col gap-3">
   <div class="flex flex-col min-[384px]:flex-row justify-between gap-3">
-    <div class="rounded-lg bg-white py-3 px-6 flex items-center text-base shadow-expand-ams w-full sm:w-auto">
+    <div class="rounded-lg bg-white py-2 px-4 flex items-center text-sm w-full sm:w-auto">
       <ng-content select="[search]"></ng-content>
-      <mat-icon>search</mat-icon>
+      <mat-icon class="icon-sm">search</mat-icon>
     </div>
     <ng-content select="[actions]"></ng-content>
   </div>
-  <div class="bg-white rounded flex-1">
-    <header class="px-6 py-3 flex text-gray01 shadow-expand-ams">
-      <span class="w-14">Nro</span>
-      <div class="grid grid-cols-[repeat(auto-fit,minmax(0,1fr))] flex-1 gap-2">
+  <div class="bg-white rounded flex-1 h-0 flex flex-col">
+    <header class="px-6 py-3 flex text-white font-semibold bg-blue02 sticky">
+      <div class="grid grid-cols-[repeat(auto-fit,minmax(0,1fr))] flex-1 gap-2 text-sm">
         @for(head of header; track $index) {
           <tabla-col>{{ head }}</tabla-col>
         }
