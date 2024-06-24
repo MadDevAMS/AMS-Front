@@ -4,12 +4,12 @@ import { Router } from "@angular/router";
 import { IGrupoModel } from "@data/grupos/models/grupo.model";
 import { CreateUsuarioUsecase } from "@data/usuarios/usecases/create-usuario.usecase";
 import { SnackbarService } from "@ui/shared/services/snackbar.service";
-import { Subject } from "rxjs";
+import { UsuarioFormAbstract } from "./usuario-form-abstract";
 
 @Injectable({ 
   providedIn: 'root' 
 })
-export class UsuarioFormService {
+export class UsuarioFormService extends UsuarioFormAbstract {
   hidePassword: boolean = true;
   gruposSeleccionados: IGrupoModel[] = []
   formUsuario: FormGroup;
@@ -20,6 +20,7 @@ export class UsuarioFormService {
     private router: Router,
     private snackbarService: SnackbarService
   ) {
+    super()
     this.formUsuario = new FormGroup({
       nombres: new FormControl<string>('', [Validators.required]),
       apellidos: new FormControl<string>('', [Validators.required]),

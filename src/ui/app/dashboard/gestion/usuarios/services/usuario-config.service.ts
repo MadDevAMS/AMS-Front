@@ -10,11 +10,13 @@ import { UsuarioDrawer } from '../components/drawer/usuario-drawer.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UpdateUsuarioUsecase } from '@data/usuarios/usecases/update-usuario.usecase';
 import { SnackbarService } from '@ui/shared/services/snackbar.service';
+import { IGrupoModel } from '@data/grupos/models/grupo.model';
+import { UsuarioFormAbstract } from './usuario-form-abstract';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UsuarioConfigService implements OnDestroy {
+export class UsuarioConfigService extends UsuarioFormAbstract implements OnDestroy {
   private drawerCloseSubscription!: Subscription;
   private _deleteUser = new Subject<void>();
   hidePassword = true;
@@ -23,6 +25,7 @@ export class UsuarioConfigService implements OnDestroy {
   formPassword!: FormGroup;
   formGrupos!: FormGroup;
   loading = false;
+  gruposSeleccionados: IGrupoModel[] = []
 
   constructor(
     private dialog: MatDialog,
@@ -32,6 +35,7 @@ export class UsuarioConfigService implements OnDestroy {
     private updateUserUsecase: UpdateUsuarioUsecase,
     private snackbarService: SnackbarService
   ) {
+    super()
     this.drawerCloseSubscription = this.drawerService.onClose().subscribe(() => {
       setTimeout(() => {
         this.router.navigate([], {
@@ -43,6 +47,23 @@ export class UsuarioConfigService implements OnDestroy {
         })
       }, 300);
     });
+  }
+
+  onCheckboxChange(grupo: IGrupoModel) {
+    const grupos = this.formGrupos.get('grupos');
+    if (!this.isChecked(grupo)) {
+      grupos?.value.push(grupo.id)
+      this.gruposSeleccionados.push(grupo)
+    } else {
+      const index = grupos?.value.findIndex((x: number) => x === grupo.id);
+      grupos?.value.splice(index, 1);
+      this.gruposSeleccionados = this.gruposSeleccionados.filter(g => g.id !== grupo.id)
+    }
+  }
+
+  isChecked(grupo: IGrupoModel): boolean {
+    const grupos = this.formGrupos.get('grupos');
+    return grupos?.value?.some((x: number) => x === grupo.id);
   }
 
   openDrawer(usuario: IUsuarioModel) {

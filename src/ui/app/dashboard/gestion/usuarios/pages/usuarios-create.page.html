@@ -1,7 +1,10 @@
 <div class="flex flex-col md:flex-row md:h-full gap-6 overflow-auto">
   <mat-tab-group class="md:w-1/2 lg:flex-1 lg:h-full" animationDuration="300ms">
-    <mat-tab label="Grupos disponibles" labelClass="!font-normal !text-base !tracking-wide">
-      <usuarios-tabla-grupos></usuarios-tabla-grupos>
+    <mat-tab label="Grupos disponibles" labelClass="!font-normal !text-base !tracking-wide" bodyClass="pt-6">
+      <usuarios-tabla-grupos
+        wrapperClass="max-h-[36rem] md:max-h-full md:h-full"
+        [serviceForm]="servicioForm"
+      ></usuarios-tabla-grupos>
     </mat-tab>
   </mat-tab-group>
   <div class="md:w-1/2 xl:w-2/5">

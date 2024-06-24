@@ -5,6 +5,7 @@ import { DrawerService } from '@ui/dashboard/shared/services/drawer.service';
 import { UsuarioConfigService } from '../../services/usuario-config.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { IGrupoModel, IGrupoPermisoModel } from '@data/grupos/models/grupo.model';
 
 @Component({
   selector: 'usuarios-usuario-drawer',
@@ -33,5 +34,13 @@ export class UsuarioDrawer implements OnDestroy {
     if (this.routeSubscription) {
       this.routeSubscription.unsubscribe();
     }
+  }
+
+  getPermisos() {
+    const permisos = this.usuarioService.gruposSeleccionados.reduce((acc: IGrupoPermisoModel[], curr: IGrupoModel) => {
+      const newPermisos = curr.permisos.filter(p => !acc.some(ap => ap.id === p.id))
+      return acc.concat(newPermisos)
+    }, [] as IGrupoPermisoModel[])
+    return permisos
   }
 }

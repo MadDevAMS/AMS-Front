@@ -4,7 +4,7 @@
       Administracion de usuario
     </h2>
   </header>
-  <div class="flex-1 flex">
+  <div class="flex-1 flex h-0">
     <aside class="bg-blue01 flex flex-col p-4 justify-between overflow-auto h-full w-56 shadow-md-ams-01">
       <nav class="flex flex-col gap-2">
         <dashboard-sidebar-item 
@@ -76,11 +76,11 @@
         </button>
       </footer>
     </aside>
-    <div class="flex flex-col flex-1 w-0">
-      <div class="flex-1 h-0">
-        <div class="p-6 flex flex-col gap-6 w-full h-full">
-          @switch (linkTab) {
-            @case ('informacion') {
+    <div class="flex-1 h-full flex flex-col">
+      <div class="flex-1 h-0 overflow-auto">
+        @switch (linkTab) {
+          @case ('informacion') {
+            <div class="p-6 flex flex-col gap-6">
               <div 
                 [formGroup]="usuarioService.formNombresApellidos"
                 class="border-1 rounded shadow-expand-ams w-full">
@@ -100,8 +100,10 @@
                   </mat-form-field>
                 </div>
               </div>
-            }
-            @case ('autenticacion') {
+            </div>
+          }
+          @case ('autenticacion') {
+            <div class="p-6 flex flex-col gap-6">
               <div class="border-1 rounded shadow-expand-ams w-full">
                 <header class="text-base font-medium tracking-tighter py-3 px-6 border-b-1">
                   Información de cuenta
@@ -148,18 +150,80 @@
                   </mat-form-field>
                 </div>
               </div>
-            }
-            @case ('grupos') {
-              grupo
-            } 
-            @default {
-              <div class="flex-1 flex flex-col justify-center items-center gap-2">
-                <img src="/ui/assets/icons/svg/logo.svg" alt="logo-svg" />
-                <p class="text-xs text-gray01 text-center max-w-64">Seleccione una página para continuar</p>
-              </div>
-            }
+            </div>
           }
-        </div>
+          @case ('grupos') {
+            <div class="p-6 flex flex-col gap-6">
+              <div class="flex flex-1 h-0 w-full flex-col gap-6">
+                <usuarios-tabla-grupos 
+                  wrapperClass="max-h-[36rem]"
+                  [serviceForm]="usuarioService"
+                ></usuarios-tabla-grupos>
+                <div class="flex flex-col gap-4">
+                  <section>
+                    <p class="text-base font-medium text-center tracking-tight py-5">Grupos</p>
+                    @if (usuarioService.gruposSeleccionados.length > 0) {
+                      <ul class="flex flex-col gap-2">
+                        @for (grupo of usuarioService.gruposSeleccionados; track $index) {
+                          <li class="flex gap-2">
+                            <div class="flex bg-white shadow-expand-ams border-gray04 border-opacity-50 border-[0.25px] rounded-t-sm gap-2 w-full">
+                              <span class="w-1 bg-blue02">&nbsp;</span>
+                              <div class="flex flex-1 w-0 ps-2 py-3 items-center gap-2">
+                                <mat-icon class="icon-sm text-gray01">group</mat-icon> 
+                                <p class="text-sm truncate" [matTooltip]="grupo.nombre">{{grupo.nombre}}</p>
+                              </div>
+                              <div class="ms-auto flex items-center gap-2 pe-2">
+                                <span matTooltip="{{ grupo.usuarios.length + ' Usuario(s)' }}" class="flex items-center p-2 rounded-lg text-xs border-2">
+                                  <mat-icon class="icon-sm text-gray01">person</mat-icon>
+                                  {{ grupo.usuarios.length }}
+                                </span>
+                                <span matTooltip="{{ grupo.permisos.length + ' Permiso(s)' }}" class="flex items-center p-2 rounded-lg text-xs border-2">
+                                  <mat-icon class="icon-sm text-gray01">shield</mat-icon>
+                                  {{ grupo.permisos.length }}
+                                </span>
+                                <button (click)="usuarioService.onCheckboxChange(grupo)" mat-icon-button>
+                                  <mat-icon class="icon-sm text-gray01">cancel</mat-icon>
+                                </button>
+                              </div>
+                            </div>
+                          </li>
+                        }
+                      </ul>
+                    } @else {
+                      <p class="italic text-sm font-normal text-center tracking-tight">Sin grupos seleccionados</p>
+                    }
+                  </section>
+                  <section>
+                    <p class="text-base font-medium text-center tracking-tight py-5">Resumen de permisos</p>
+                    @if (getPermisos().length > 0) {
+                      <ul class="flex flex-col gap-2">
+                        @for (permiso of getPermisos(); track $index) {
+                          <li class="flex gap-2">
+                            <div class="flex bg-white shadow-expand-ams border-gray04 border-opacity-50 border-[0.25px] rounded-t-sm gap-2 w-full">
+                              <span class="w-1 bg-green2">&nbsp;</span>
+                              <div class="flex flex-1 w-0 ps-2 py-3 items-center gap-2">
+                                <mat-icon class="icon-sm text-gray01">shield</mat-icon> 
+                                <p class="text-sm truncate" [matTooltip]="permiso.nombre">{{permiso.nombre}}</p>
+                              </div>
+                            </div>
+                          </li>
+                        }
+                      </ul>
+                    } @else {
+                      <p class="italic text-sm font-normal text-center tracking-tight">Sin permisos encontrados</p>
+                    }
+                  </section>
+                </div>
+              </div>
+            </div>
+          } 
+          @default {
+            <div class="p-6 h-full flex flex-col justify-center items-center gap-2">
+              <img src="/ui/assets/icons/svg/logo.svg" alt="logo-svg" />
+              <p class="text-xs text-gray01 text-center max-w-64">Seleccione una página para continuar</p>
+            </div>
+          }
+        }
       </div>
       <footer class="p-6 border-t-2 flex gap-4 justify-between">
         <button 
