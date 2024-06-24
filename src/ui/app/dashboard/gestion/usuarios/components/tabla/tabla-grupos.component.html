@@ -1,0 +1,66 @@
+<div class="flex flex-col gap-6 pt-6 max-h-[36rem] md:max-h-full md:h-full overflow-visible">
+  <!-- Actions -->
+  <div class="flex justify-between">
+    <div class="bg-white">
+      <mat-form-field class="max-w-60 w-full form-field-sm">
+        <input type="search" matInput placeholder="Buscar por nombre">
+        <mat-icon matPrefix>search</mat-icon>
+      </mat-form-field>
+    </div>
+    <button (click)="handleOpenFiltros()" class="!font-medium !text-sm !tracking-wide !uppercase !h-auto" mat-stroked-button>
+      <mat-icon matPrefix>filter_alt</mat-icon>
+      Filtros
+    </button>
+  </div>
+  <!-- Body -->
+  <div class="rounded bg-white flex flex-col border-1 flex-1 h-0">
+    <div class="flex-1 h-0 overflow-auto">
+      <table class="w-full relative max-h-full">
+        <thead class="sticky w-full">
+          <tr class="text-sm font-semibold tracking-wide">
+            <th class="px-2"></th>
+            <th class="text-start ps-2 py-5">Nombre de grupo</th>
+            <th>Usuarios</th>
+            <th>Permisos</th>
+            <th class="w-4"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (grupo of servicio.grupos; track $index) {
+            <tr class="odd:bg-smoke2 border-y-1 text-sm p-5 tracking-wide text-center">
+              <td class="py-5 ps-4">
+                <div class="flex justify-center items-center">
+                  <mat-icon class="icon-sm text-gray01">group</mat-icon>
+                </div>
+              </td>
+              <td class="text-start ps-2">{{ grupo.nombre }}</td>
+              <td>{{ grupo.usuarios.length }}</td>
+              <td>{{ grupo.permisos.length }}</td>
+              <td class="px-5">
+                <button (click)="servicioForm.onCheckboxChange(grupo)" mat-icon-button>
+                  <mat-icon [ngClass]="{
+                    'icon-sm': true,
+                    '!text-gray03': !servicioForm.isChecked(grupo),
+                    '!text-blue01': servicioForm.isChecked(grupo)
+                  }">
+                    {{ !servicioForm.isChecked(grupo) ? 'add_circle' : 'check_circle' }}
+                  </mat-icon>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <footer class="border-t-1 py-2">
+      <mat-paginator
+        (page)="handlePageEvent($event)"
+        [length]="servicio.gruposInfoPaginate ? servicio.gruposInfoPaginate.totalRecords : 0"
+        [pageSize]="servicio.gruposInfoPaginate ? servicio.gruposInfoPaginate.pageSize : 1"
+        [pageSizeOptions]="[5, 10, 20, 50]"
+        aria-label="Selecciona una pagina"
+      >
+      </mat-paginator>
+    </footer>
+  </div>
+</div>
