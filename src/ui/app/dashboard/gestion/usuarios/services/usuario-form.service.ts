@@ -5,6 +5,8 @@ import { IGrupoModel } from "@data/grupos/models/grupo.model";
 import { CreateUsuarioUsecase } from "@data/usuarios/usecases/create-usuario.usecase";
 import { SnackbarService } from "@ui/shared/services/snackbar.service";
 import { UsuarioFormAbstract } from "./usuario-form-abstract";
+import { MatDialog } from "@angular/material/dialog";
+import { ModalGrupoPermisosComponent } from "../components/modal/modal-grupo-permisos.component";
 
 @Injectable({ 
   providedIn: 'root' 
@@ -18,7 +20,8 @@ export class UsuarioFormService extends UsuarioFormAbstract {
   constructor(
     private createUsuarioUsecase: CreateUsuarioUsecase,
     private router: Router,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private dialog: MatDialog
   ) {
     super()
     this.formUsuario = new FormGroup({
@@ -35,7 +38,7 @@ export class UsuarioFormService extends UsuarioFormAbstract {
     return this.formUsuario.get(field)?.disabled ?? false;
   }
 
-  onCheckboxChange(grupo: IGrupoModel) {
+  override onCheckboxChange(grupo: IGrupoModel) {
     const grupos = this.formUsuario.get('grupos');
     if (!this.isChecked(grupo)) {
       grupos?.value.push(grupo.id)
@@ -47,11 +50,20 @@ export class UsuarioFormService extends UsuarioFormAbstract {
     }
   }
 
-  isChecked(grupo: IGrupoModel): boolean {
+  override isChecked(grupo: IGrupoModel): boolean {
     const grupos = this.formUsuario.get('grupos');
     return grupos?.value?.some((x: number) => x === grupo.id);
   }
 
+  override showInfoModalGroup(grupo: IGrupoModel, type: 'usuarios' | 'permisos'): void {
+    this.dialog.open(ModalGrupoPermisosComponent, {
+      data: {
+        grupo,
+        type
+      }
+    })
+  }
+  
   hasError(field: string, type: string) {
     return this.formUsuario.get(field)?.hasError(type);
   }

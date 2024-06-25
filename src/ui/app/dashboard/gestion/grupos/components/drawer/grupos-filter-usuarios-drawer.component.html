@@ -25,6 +25,40 @@
         <input type="text" matInput>
       </mat-form-field>
     </section>
+    <section class="flex flex-col gap-4">
+      <h3 class="text-base font-medium text-start tracking-tight">
+        Cantidades
+      </h3>
+      <div class="flex gap-4">
+        <mat-form-field appearance="outline" class="form-field-sm w-36">
+          <mat-label>Condición</mat-label>
+          <mat-select>
+            <mat-option>Igual a</mat-option>
+            <mat-option>Mayor a</mat-option>
+            <mat-option>Menor a</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="form-field-sm">
+          <mat-icon class="icon-sm" matPrefix>people</mat-icon>
+          <mat-label>Cantidad de grupos</mat-label>
+          <input type="number" matInput>
+        </mat-form-field>
+      </div>
+    </section>
+    <section class="flex flex-col gap-4">
+      <h3 class="text-base font-medium text-start tracking-tight">
+        Rangos
+      </h3>
+      <mat-form-field appearance="outline" class="form-field-sm">
+        <mat-label>Fecha de creación</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+          <input matStartDate placeholder="Desde">
+          <input matEndDate placeholder="Hasta">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
+    </section>
   </div>
   <footer class="p-6 border-t-2 flex gap-4 justify-between">
     <button

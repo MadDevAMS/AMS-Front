@@ -1,10 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { UsuarioUsecaseService } from '../../services/usuario-usecase.service';
-import { UsuarioFormService } from '../../services/usuario-form.service';
 import { PageEvent } from '@angular/material/paginator';
 import { DrawerService } from '../../../../shared/services/drawer.service';
 import { UsuariosFilterGruposDrawer } from '../drawer/usuarios-filter-grupos-drawer.component';
-import { IGrupoModel } from '@data/grupos/models/grupo.model';
 import { UsuarioFormAbstract } from '../../services/usuario-form-abstract';
 
 @Component({

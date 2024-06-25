@@ -1,26 +1,26 @@
 import { Component, OnDestroy } from '@angular/core';
-import { UsuariosModule } from '../../usuarios.module';
 import { SidebarModule } from '@ui/dashboard/shared/components/sidebar/sidebar.module';
 import { DrawerService } from '@ui/dashboard/shared/services/drawer.service';
-import { UsuarioConfigService } from '../../services/usuario-config.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { GruposModule } from '../../grupos.module';
+import { GrupoConfigService } from '../../services/grupo-config.service';
 
 @Component({
-  selector: 'usuarios-usuario-drawer',
+  selector: 'grupos-grupo-drawer',
   standalone: true,
   imports: [
-    UsuariosModule,
+    GruposModule,
     SidebarModule,
   ],
-  templateUrl: './usuario-drawer.component.html',
+  templateUrl: './grupo-drawer.component.html',
 })
-export class UsuarioDrawer implements OnDestroy {
+export class GruposDrawer implements OnDestroy {
   linkTab = ""
   private routeSubscription: Subscription;
 
   constructor(
-    public usuarioService: UsuarioConfigService,
+    public grupoService: GrupoConfigService,
     public drawerService: DrawerService,
     private router: ActivatedRoute
   ) {

@@ -10,10 +10,10 @@
         <mat-icon matPrefix>search</mat-icon>
       </mat-form-field>
     </div>
-    <button (click)="handleOpenFiltros()" class="!font-medium !text-sm !tracking-wide !uppercase !h-auto" mat-stroked-button>
+    <!-- <button (click)="handleOpenFiltros()" class="!font-medium !text-sm !tracking-wide !uppercase !h-auto" mat-stroked-button>
       <mat-icon matPrefix>filter_alt</mat-icon>
       Filtros
-    </button>
+    </button> -->
   </div>
   <!-- Body -->
   <div class="rounded bg-white flex flex-col border-1 flex-1 h-0">
@@ -22,47 +22,33 @@
         <thead class="sticky w-full">
           <tr class="text-sm font-semibold tracking-wide">
             <th class="px-2"></th>
-            <th class="text-start ps-2 py-5">Nombre de grupo</th>
-            <th>Usuarios</th>
-            <th>Permisos</th>
+            <th class="ps-2 py-5 text-start">Permiso</th>
+            <th>Descripción</th>
             <th class="w-4"></th>
           </tr>
         </thead>
         <tbody>
-          @for (grupo of servicio.grupos; track $index) {
+          @for (permiso of servicio.permisos; track $index) {
             <tr class="odd:bg-smoke2 border-y-1 text-sm p-5 tracking-wide text-center">
               <td class="py-5 ps-4">
                 <div class="flex justify-center items-center">
-                  <mat-icon class="icon-sm text-gray01">group</mat-icon>
+                  <mat-icon class="icon-sm text-gray01">shield</mat-icon>
                 </div>
               </td>
-              <td class="text-start ps-2">{{ grupo.nombre }}</td>
+              <td class="ps-2 text-start">{{ permiso.nombre }}</td>
               <td>
-                <div class="flex justify-center items-center">
-                  <gestion-chip-info-grupo  
-                    type="usuarios"
-                    [serviceForm]="serviceForm"
-                    [grupo]="grupo"
-                  ></gestion-chip-info-grupo>
-                </div>
-              </td>
-              <td>
-                <div class="flex justify-center items-center">
-                  <gestion-chip-info-grupo  
-                    type="permisos"
-                    [serviceForm]="serviceForm"
-                    [grupo]="grupo"
-                  ></gestion-chip-info-grupo>
+                <div class="flex items-center">
+                  <p class="text-xs max-w-52 mx-auto">{{ permiso.descripcion }}</p>
                 </div>
               </td>
               <td class="px-5">
-                <button (click)="serviceForm.onCheckboxChange(grupo)" mat-icon-button>
+                <button (click)="serviceForm.onCheckboxChange(permiso, 'permiso')" mat-icon-button>
                   <mat-icon [ngClass]="{
                     'icon-sm': true,
-                    '!text-gray03': !serviceForm.isChecked(grupo),
-                    '!text-blue01': serviceForm.isChecked(grupo)
+                    '!text-gray03': !serviceForm.isChecked(permiso, 'permiso'),
+                    '!text-blue01': serviceForm.isChecked(permiso, 'permiso')
                   }">
-                    {{ !serviceForm.isChecked(grupo) ? 'add_circle' : 'check_circle' }}
+                    {{ !serviceForm.isChecked(permiso, 'permiso') ? 'add_circle' : 'check_circle' }}
                   </mat-icon>
                 </button>
               </td>
@@ -74,8 +60,8 @@
     <footer class="border-t-1 py-2">
       <mat-paginator
         (page)="handlePageEvent($event)"
-        [length]="servicio.gruposInfoPaginate ? servicio.gruposInfoPaginate.totalRecords : 0"
-        [pageSize]="servicio.gruposInfoPaginate ? servicio.gruposInfoPaginate.pageSize : 1"
+        [length]="servicio.permisosInfoPaginate ? servicio.permisosInfoPaginate.totalRecords : 0"
+        [pageSize]="servicio.permisosInfoPaginate ? servicio.permisosInfoPaginate.pageSize : 1"
         [pageSizeOptions]="[5, 10, 20, 50]"
         aria-label="Selecciona una pagina"
       >

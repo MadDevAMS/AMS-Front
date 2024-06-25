@@ -1,0 +1,75 @@
+<div class="flex flex-col md:flex-row md:h-full gap-6 overflow-auto">
+  <mat-tab-group class="md:w-1/2 lg:flex-1 lg:h-full" animationDuration="300ms">
+    <mat-tab label="Usuarios disponibles" labelClass="!font-normal !text-base !tracking-wide" bodyClass="pt-6">
+      <grupos-tabla-usuarios
+        wrapperClass="max-h-[36rem] md:max-h-full md:h-full"
+        [serviceForm]="serviceForm"
+      ></grupos-tabla-usuarios>
+    </mat-tab>
+    <mat-tab label="Permisos" labelClass="!font-normal !text-base !tracking-wide" bodyClass="pt-6">
+      <grupos-tabla-permisos
+        wrapperClass="max-h-[36rem] md:max-h-full md:h-full"
+        [serviceForm]="serviceForm"
+      ></grupos-tabla-permisos>
+    </mat-tab>
+  </mat-tab-group>
+  <div class="md:w-1/2 xl:w-2/5">
+    <card-layout 
+      [formGroup]="serviceForm.formGrupo" 
+      title="Datos de grupo"
+    >
+      <div class="flex flex-col gap-4" body>
+        <section class="flex flex-col gap-4">
+          <mat-form-field
+            appearance="outline"
+            class="h-full sm:!flex-1"
+          >
+            <mat-label>Nombre</mat-label>
+            <mat-icon matPrefix>people</mat-icon>
+            <input type="text" formControlName="nombre" name="nombre" matInput />
+            @if(serviceForm.hasError('nombre', 'required')) {
+            <mat-error>Ingrese el nombre del grupo</mat-error> }
+          </mat-form-field>
+          <mat-form-field
+            appearance="outline"
+            class="h-full sm:!flex-1"
+          >
+            <mat-label>Descripcion</mat-label>
+            <textarea
+              formControlName="descripcion"
+              name="descripcion"
+              matInput
+            ></textarea>
+          </mat-form-field>
+        </section>
+        <gestion-info-usuarios-permisos [servicioForm]="serviceForm"></gestion-info-usuarios-permisos>
+      </div>
+      <div class="w-full flex flex-col gap-4 xl:flex-row justify-between" footer>
+        <button 
+          (click)="serviceForm.limpiar()"
+          class="!font-medium !text-sm !tracking-wide !uppercase" 
+          mat-stroked-button>
+          Limpiar
+        </button>
+        <button 
+          (click)="serviceForm.submit()" 
+          color="primary"
+          class="!font-medium !text-sm !tracking-wide !uppercase disabled:!bg-blue01 disabled:!bg-opacity-80 xl:w-48" 
+          mat-raised-button
+          [disabled]="serviceForm.loading"
+        >
+          @if (serviceForm.loading) {
+            <div class="text-center !py-[0.625rem] !px-4">
+              <mat-spinner class="spinner-white" diameter="28"></mat-spinner>
+            </div>
+          } @else {
+            <div class="flex items-center justify-center gap-2">
+              <mat-icon>add</mat-icon>
+              Crear grupo
+            </div>
+          }
+        </button>
+      </div>
+    </card-layout>
+  </div>
+</div>

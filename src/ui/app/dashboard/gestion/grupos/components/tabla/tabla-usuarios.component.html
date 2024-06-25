@@ -1,32 +1,74 @@
-<tabla-layout
-  [header]="[
-    'Nombres',
-    'Apellidos',
-    'Correo',
-    'Fecha de creación',
-  ]"
+<div 
+  class="flex flex-col gap-6 overflow-visible"
+  [ngClass]="wrapperClass"
 >
-  <input
-    type="text"
-    [(ngModel)]="busqueda"
-    placeholder="Buscar usuario"
-    class="focus:outline-none w-full"
-    search
-  />
-  <div class="overflow-auto flex-1 h-0" body>
-    @for(usuario of filtrarUsuarios(); track usuario.id) {
-      <div (click)="seleccionar(usuario)" [ngClass]="{
-        'px-6 py-5 flex items-center font-light text-sm cursor-pointer transition-colors hover:bg-smoke2': true,
-        '!bg-slate-200': serviceForm.isSelectedUsuario(usuario)
-      }" matRipple>
-        <span class="w-14 text-sm">{{ $index | number: '3.0' }}</span>
-        <div class="grid grid-cols-[repeat(auto-fit,minmax(0,1fr))] flex-1 gap-2 text-sm">
-          <tabla-col>{{ usuario.nombres }}</tabla-col>
-          <tabla-col>{{ usuario.apellidos }}</tabla-col>
-          <tabla-col>{{ usuario.correo }}</tabla-col>
-          <tabla-col>{{ usuario.fechaCreacion| date: 'short' }}</tabla-col>
-        </div>
-      </div>
-    }
+  <!-- Actions -->
+  <div class="flex justify-between">
+    <div class="bg-white">
+      <mat-form-field class="form-field-sm">
+        <input type="search" matInput placeholder="Buscar por nombres, apellidos, correo">
+        <mat-icon matPrefix>search</mat-icon>
+      </mat-form-field>
+    </div>
+    <button (click)="handleOpenFiltros()" class="!font-medium !text-sm !tracking-wide !uppercase !h-auto" mat-stroked-button>
+      <mat-icon matPrefix>filter_alt</mat-icon>
+      Filtros
+    </button>
   </div>
-</tabla-layout>
+  <!-- Body -->
+  <div class="rounded bg-white flex flex-col border-1 flex-1 h-0">
+    <div class="flex-1 h-0 overflow-auto">
+      <table class="w-full relative max-h-full">
+        <thead class="sticky w-full">
+          <tr class="text-sm font-semibold tracking-wide">
+            <th class="px-2"></th>
+            <th class="ps-2 py-5 text-start">Usuario</th>
+            <th>Grupos</th>
+            <th>Fecha de creación</th>
+            <th class="w-4"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (usuario of servicio.usuarios; track $index) {
+            <tr class="odd:bg-smoke2 border-y-1 text-sm p-5 tracking-wide text-center">
+              <td class="py-5 ps-4">
+                <div class="flex justify-center items-center">
+                  <mat-icon class="icon-sm text-gray01">person</mat-icon>
+                </div>
+              </td>
+              <td class="ps-2">
+                <span class="flex flex-col items-start">
+                  <p class="truncate">{{ usuario.nombres + ' ' + usuario.apellidos }}</p>
+                  <p class="text-xs truncate"> {{ usuario.correo }}</p>
+                </span>
+              </td>
+              <td>{{ usuario.grupos.length }}</td>
+              <td>{{ usuario.fechaCreacion | date: 'dd-MM-YYYY HH:MM' }}</td>
+              <td class="px-5">
+                <button (click)="serviceForm.onCheckboxChange(usuario, 'usuario')" mat-icon-button>
+                  <mat-icon [ngClass]="{
+                    'icon-sm': true,
+                    '!text-gray03': !serviceForm.isChecked(usuario, 'usuario'),
+                    '!text-blue01': serviceForm.isChecked(usuario, 'usuario')
+                  }">
+                    {{ !serviceForm.isChecked(usuario, 'usuario') ? 'add_circle' : 'check_circle' }}
+                  </mat-icon>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <footer class="border-t-1 py-2">
+      <mat-paginator
+        (page)="handlePageEvent($event)"
+        [length]="servicio.usuariosInfoPaginate ? servicio.usuariosInfoPaginate.totalRecords : 0"
+        [pageSize]="servicio.usuariosInfoPaginate ? servicio.usuariosInfoPaginate.pageSize : 1"
+        [pageSizeOptions]="[5, 10, 20, 50]"
+        aria-label="Selecciona una pagina"
+      >
+      </mat-paginator>
+    </footer>
+  </div>
+</div>

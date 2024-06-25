@@ -1,0 +1,59 @@
+<section>
+  <p class="text-base font-medium text-center tracking-tight py-5">Usuarios</p>
+  @if (servicioForm.usuariosSeleccionados.length > 0) {
+    <ul class="flex flex-col gap-2">
+      @for (usuario of servicioForm.usuariosSeleccionados; track $index) {
+        <li class="flex gap-2">
+          <div class="flex bg-white shadow-expand-ams border-gray04 border-opacity-50 border-[0.25px] rounded-t-sm gap-2 w-full">
+            <span class="w-1 bg-blue02">&nbsp;</span>
+            <div class="flex flex-1 w-0 ps-2 py-3 items-center gap-2">
+              <mat-icon class="icon-sm text-gray01">group</mat-icon> 
+              <div class="text-sm truncate">
+                <span class="flex flex-col items-start">
+                  <p class="text-sm truncate">{{ usuario.nombres + ' ' + usuario.apellidos }}</p>
+                  <p class="text-xs truncate"> {{ usuario.correo }}</p>
+                </span>
+              </div>
+            </div>
+            <div class="ms-auto flex items-center gap-2 pe-2">
+              <button 
+                (click)="servicioForm.onCheckboxChange(usuario, 'usuario')"
+                mat-icon-button>
+                <mat-icon class="icon-sm text-gray01">cancel</mat-icon>
+              </button>
+            </div>
+          </div>
+        </li>
+      }
+    </ul>
+  } @else {
+    <p class="italic text-sm font-normal text-center tracking-tight">Sin usuarios seleccionados</p>
+  }
+</section>
+<section>
+  <p class="text-base font-medium text-center tracking-tight py-5">Resumen de permisos</p>
+  @if (servicioForm.permisosSeleccionados.length > 0) {
+    <ul class="flex flex-col gap-2">
+      @for (permiso of servicioForm.permisosSeleccionados; track $index) {
+        <li class="flex gap-2">
+          <div class="flex bg-white shadow-expand-ams border-gray04 border-opacity-50 border-[0.25px] rounded-t-sm gap-2 w-full">
+            <span class="w-1 bg-green2">&nbsp;</span>
+            <div class="flex flex-1 w-0 ps-2 py-3 items-center gap-2">
+              <mat-icon class="icon-sm text-gray01">shield</mat-icon> 
+              <p class="text-sm truncate" [matTooltip]="permiso.descripcion || permiso.nombre">{{permiso.nombre}}</p>
+            </div>
+            <div class="ms-auto flex items-center gap-2 pe-2">
+              <button 
+                (click)="servicioForm.onCheckboxChange(permiso, 'permiso')"
+                mat-icon-button>
+                <mat-icon class="icon-sm text-gray01">cancel</mat-icon>
+              </button>
+            </div>
+          </div>
+        </li>
+      }
+    </ul>
+  } @else {
+    <p class="italic text-sm font-normal text-center tracking-tight">Sin permisos seleccionados</p>
+  }
+</section>

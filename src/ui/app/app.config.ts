@@ -5,13 +5,14 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { UsuarioDataModule } from '@data/usuarios/usuario.data.module';
 import { UserService } from './shared/services/user.service';
-import { MAT_RIPPLE_GLOBAL_OPTIONS, RippleAnimationConfig, RippleGlobalOptions } from '@angular/material/core';
+import { MAT_RIPPLE_GLOBAL_OPTIONS, RippleAnimationConfig, RippleGlobalOptions, provideNativeDateAdapter } from '@angular/material/core';
 import { MAT_PAGINATOR_DEFAULT_OPTIONS, MatPaginatorDefaultOptions } from '@angular/material/paginator';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     importProvidersFrom(UsuarioDataModule, UserService),
     provideRouter(routes), 
+    provideNativeDateAdapter(),
     provideAnimationsAsync(), 
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,

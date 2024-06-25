@@ -1,6 +1,14 @@
+export interface IGrupoUsersEntity {
+  id: number,
+  firstName: string,
+  lastName: string,
+  email: string
+}
+
 export interface IGrupoPermissionEntity {
   permissionId: number,
-  name: string
+  name: string,
+  description: string
 }
 
 export interface IGrupoEntity {
@@ -9,5 +17,5 @@ export interface IGrupoEntity {
   description: string | null,
   fechaCreacion: Date,
   permissions: IGrupoPermissionEntity[],
-  users: number[]
+  users: IGrupoUsersEntity[]
 }

@@ -12,6 +12,7 @@ import { UpdateUsuarioUsecase } from '@data/usuarios/usecases/update-usuario.use
 import { SnackbarService } from '@ui/shared/services/snackbar.service';
 import { IGrupoModel } from '@data/grupos/models/grupo.model';
 import { UsuarioFormAbstract } from './usuario-form-abstract';
+import { ModalGrupoPermisosComponent } from '../components/modal/modal-grupo-permisos.component';
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +34,7 @@ export class UsuarioConfigService extends UsuarioFormAbstract implements OnDestr
     private location: Location,
     private drawerService: DrawerService,
     private updateUserUsecase: UpdateUsuarioUsecase,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
   ) {
     super()
     this.drawerCloseSubscription = this.drawerService.onClose().subscribe(() => {
@@ -49,7 +50,7 @@ export class UsuarioConfigService extends UsuarioFormAbstract implements OnDestr
     });
   }
 
-  onCheckboxChange(grupo: IGrupoModel) {
+  override onCheckboxChange(grupo: IGrupoModel) {
     const grupos = this.formGrupos.get('grupos');
     if (!this.isChecked(grupo)) {
       grupos?.value.push(grupo.id)
@@ -61,9 +62,18 @@ export class UsuarioConfigService extends UsuarioFormAbstract implements OnDestr
     }
   }
 
-  isChecked(grupo: IGrupoModel): boolean {
+  override isChecked(grupo: IGrupoModel): boolean {
     const grupos = this.formGrupos.get('grupos');
     return grupos?.value?.some((x: number) => x === grupo.id);
+  }
+
+  override showInfoModalGroup(grupo: IGrupoModel, type: 'usuarios' | 'permisos'): void {
+    this.dialog.open(ModalGrupoPermisosComponent, {
+      data: {
+        grupo,
+        type
+      }
+    })
   }
 
   openDrawer(usuario: IUsuarioModel) {
@@ -101,6 +111,8 @@ export class UsuarioConfigService extends UsuarioFormAbstract implements OnDestr
       grupos: new FormControl<number[]>(usuario.grupos.map(g => g.id)),
       updatePassword: new FormControl<boolean>(false)
     });
+
+    this.gruposSeleccionados = usuario.grupos
 
     this.drawerService.open(UsuarioDrawer);
   }

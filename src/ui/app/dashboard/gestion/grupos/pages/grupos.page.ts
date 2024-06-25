@@ -1,7 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { GruposModule } from '../grupos.module';
 import { GrupoUsecaseService } from '../services/grupo-usecase.service';
 import { GrupoFormService } from '../services/grupo-form.service';
+import { GrupoConfigService } from '../services/grupo-config.service';
+import { DrawerService } from '@ui/dashboard/shared/services/drawer.service';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { GruposDrawer } from '../components/drawer/grupo-drawer.component';
 
 @Component({
   selector: 'grupos-page',
@@ -11,9 +16,27 @@ import { GrupoFormService } from '../services/grupo-form.service';
   ],
   templateUrl: './grupos.page.html',
 })
-export class GruposPage {
+export class GruposPage implements OnDestroy {
+  private drawerDisponibleSubscription!: Subscription;
+
   constructor(
-    public service: GrupoUsecaseService,
-    public serviceForm: GrupoFormService
-  ) { }
+    private servicioConf: GrupoConfigService,
+    public drawerService: DrawerService,
+    private route: ActivatedRoute
+  ) { 
+    this.drawerDisponibleSubscription = this.drawerService.onDisponible().subscribe({
+      next: () => {
+        const { drawer } = this.route.snapshot.queryParams
+        if (drawer && this.servicioConf.grupo) {
+          this.drawerService.open(GruposDrawer)
+        }
+      }
+    })
+  }
+
+  ngOnDestroy(): void {
+    if (this.drawerDisponibleSubscription) {
+      this.drawerDisponibleSubscription.unsubscribe()
+    }
+  }
 }

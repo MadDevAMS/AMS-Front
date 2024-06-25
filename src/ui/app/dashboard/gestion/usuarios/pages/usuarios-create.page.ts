@@ -14,15 +14,6 @@ import { IGrupoModel, IGrupoPermisoModel } from '@data/grupos/models/grupo.model
 })
 export class UsuariosCreatePage {
   constructor(
-    public servicio: UsuarioUsecaseService,
     public servicioForm: UsuarioFormService
   ) { }
-
-  getPermisos() {
-    const permisos = this.servicioForm.gruposSeleccionados.reduce((acc: IGrupoPermisoModel[], curr: IGrupoModel) => {
-      const newPermisos = curr.permisos.filter(p => !acc.some(ap => ap.id === p.id))
-      return acc.concat(newPermisos)
-    }, [] as IGrupoPermisoModel[])
-    return permisos
-  }
 }

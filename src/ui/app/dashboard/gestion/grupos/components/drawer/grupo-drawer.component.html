@@ -1,4 +1,4 @@
-<div class="bg-white flex flex-col h-full min-w-[48rem]">
+<!-- <div class="bg-white flex flex-col h-full min-w-[48rem]">
   <header class="p-6 py-5 flex items-center bg-blue01 relative">
     <h2 class="text-white text-lg font-medium text-start tracking-tight">
       Administracion de usuario
@@ -67,7 +67,7 @@
       </nav>
       <footer class="w-full py-2">
         <button 
-          (click)="usuarioService.openDelete()"
+          (click)="grupoService.openDelete()"
           color="warn" 
           class="!font-medium !text-sm !tracking-wide !uppercase !border-blood !w-full" 
           mat-stroked-button>
@@ -82,7 +82,7 @@
           @case ('informacion') {
             <div class="p-6 flex flex-col gap-6">
               <div 
-                [formGroup]="usuarioService.formNombresApellidos"
+                [formGroup]="grupoService.formNombresApellidos"
                 class="border-1 rounded shadow-expand-ams w-full">
                 <header class="text-base font-medium tracking-tighter py-3 px-6 border-b-1">
                   Información de usuario
@@ -90,13 +90,13 @@
                 <div class="flex flex-col gap-6 p-6">
                   <mat-form-field class="form-field-sm" appearance="outline">
                     <mat-label>Nombres de usuario</mat-label>
-                    <input type="text" formControlName="nombres" [value]="usuarioService.usuario?.nombres" matInput>
-                    @if(usuarioService.hasError(usuarioService.formNombresApellidos, 'nombres', 'required')) { <mat-error>Campo obligatorio</mat-error> }
+                    <input type="text" formControlName="nombres" [value]="grupoService.usuario?.nombres" matInput>
+                    @if(grupoService.hasError(grupoService.formNombresApellidos, 'nombres', 'required')) { <mat-error>Campo obligatorio</mat-error> }
                   </mat-form-field>
                   <mat-form-field class="form-field-sm" appearance="outline">
                     <mat-label>Apellidos de usuario</mat-label>
-                    <input type="text" formControlName="apellidos" [value]="usuarioService.usuario?.apellidos" matInput>
-                    @if(usuarioService.hasError(usuarioService.formNombresApellidos, 'apellidos', 'required')) { <mat-error>Campo obligatorio</mat-error> }
+                    <input type="text" formControlName="apellidos" [value]="grupoService.usuario?.apellidos" matInput>
+                    @if(grupoService.hasError(grupoService.formNombresApellidos, 'apellidos', 'required')) { <mat-error>Campo obligatorio</mat-error> }
                   </mat-form-field>
                 </div>
               </div>
@@ -111,12 +111,12 @@
                 <div class="flex flex-col gap-6 p-6">
                   <mat-form-field class="form-field-sm" appearance="outline">
                     <mat-label>Correo de usuario</mat-label>
-                    <input type="text" matInput [value]="usuarioService.usuario?.correo" disabled>
+                    <input type="text" matInput [value]="grupoService.usuario?.correo" disabled>
                   </mat-form-field>
                 </div>
               </div>
               <div 
-                [formGroup]="usuarioService.formPassword"
+                [formGroup]="grupoService.formPassword"
                 class="border-1 rounded shadow-expand-ams w-full">
                 <header class="text-base font-medium tracking-tighter py-3 px-6 border-b-1">
                   Actualizar contraseña
@@ -124,27 +124,27 @@
                 <div class="flex flex-col gap-6 p-6">
                   <mat-form-field class="form-field-sm" appearance="outline">
                     <mat-label>Contraseña</mat-label>
-                    <input [type]="usuarioService.hidePassword ? 'password' : 'text'" formControlName="password" name="password"
+                    <input [type]="grupoService.hidePassword ? 'password' : 'text'" formControlName="password" name="password"
                       matInput />
                     <button type="button" mat-icon-button matSuffix
-                      (click)="usuarioService.hidePassword = !usuarioService.hidePassword">
-                      <mat-icon>{{usuarioService.hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                      (click)="grupoService.hidePassword = !grupoService.hidePassword">
+                      <mat-icon>{{grupoService.hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
                     </button>
-                    @if(usuarioService.hasError(usuarioService.formPassword, 'password', 'required')) { <mat-error>Campo obligatorio</mat-error> }
-                    @for (error of usuarioService.getErrors(usuarioService.formPassword ,'password'); track $index) {
+                    @if(grupoService.hasError(grupoService.formPassword, 'password', 'required')) { <mat-error>Campo obligatorio</mat-error> }
+                    @for (error of grupoService.getErrors(grupoService.formPassword ,'password'); track $index) {
                     <mat-error>{{ error }}</mat-error>
                     }
                   </mat-form-field>
                   <mat-form-field class="form-field-sm" appearance="outline">
                     <mat-label>Repetir contraseña</mat-label>
-                    <input [type]="usuarioService.hidePassword ? 'password' : 'text'" formControlName="confirmPassword" name="confirmPassword"
+                    <input [type]="grupoService.hidePassword ? 'password' : 'text'" formControlName="confirmPassword" name="confirmPassword"
                       matInput />
                     <button type="button" mat-icon-button matSuffix
-                      (click)="usuarioService.hidePassword = !usuarioService.hidePassword">
-                      <mat-icon>{{usuarioService.hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                      (click)="grupoService.hidePassword = !grupoService.hidePassword">
+                      <mat-icon>{{grupoService.hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
                     </button>
-                    @if(usuarioService.hasError(usuarioService.formPassword, 'confirmPassword', 'required')) { <mat-error>Campo obligatorio</mat-error> }
-                    @for (error of usuarioService.getErrors(usuarioService.formPassword ,'confirmPassword'); track $index) {
+                    @if(grupoService.hasError(grupoService.formPassword, 'confirmPassword', 'required')) { <mat-error>Campo obligatorio</mat-error> }
+                    @for (error of grupoService.getErrors(grupoService.formPassword ,'confirmPassword'); track $index) {
                       <mat-error>{{ error }}</mat-error>
                       }
                   </mat-form-field>
@@ -157,10 +157,10 @@
               <div class="flex flex-1 h-0 w-full flex-col gap-6">
                 <usuarios-tabla-grupos 
                   wrapperClass="max-h-[36rem]"
-                  [serviceForm]="usuarioService"
+                  [serviceForm]="grupoService"
                 ></usuarios-tabla-grupos>
                 <div class="flex flex-col gap-4">
-                  <gestion-info-grupos-permisos [servicioForm]="usuarioService"></gestion-info-grupos-permisos>
+                  <gestion-info-grupos-permisos [servicioForm]="grupoService"></gestion-info-grupos-permisos>
                 </div>
               </div>
             </div>
@@ -182,14 +182,14 @@
         </button>
         <button 
           (click)="
-            linkTab === 'informacion' ? usuarioService.updateNombresApellidos() : 
-            linkTab === 'autenticacion' ? usuarioService.updatePassword() : 
-            usuarioService.updateGrupos()
+            linkTab === 'informacion' ? grupoService.updateNombresApellidos() : 
+            linkTab === 'autenticacion' ? grupoService.updatePassword() : 
+            grupoService.updateGrupos()
           "
           color="primary" 
           class="!font-medium !text-sm !tracking-wide !uppercase disabled:!bg-blue01 disabled:!bg-opacity-80 w-32" 
           mat-raised-button>
-          @if (usuarioService.loading) {
+          @if (grupoService.loading) {
             <div class="text-center !py-[0.625rem] !px-4">
               <mat-spinner class="spinner-white" diameter="28"></mat-spinner>
             </div>
@@ -201,4 +201,4 @@
     </div>
   <div>
 </div>
-</div>
+</div> -->

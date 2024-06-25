@@ -9,9 +9,15 @@ export class GrupoMapper extends Mapper<IGrupoEntity, IGrupoModel> {
       nombre: param.name,
       permisos: param.permissions.map(p => ({
         id: p.permissionId,
-        nombre: p.name
+        nombre: p.name,
+        descripcion: p.description
       })),
-      usuarios: param.users,
+      usuarios: param.users.map(u => ({
+        id: u.id,
+        nombres: u.firstName,
+        apellidos: u.lastName,
+        correo: u.email
+      })),
       descripcion: param.description,
       fecha_creacion: new Date()
     }
