@@ -1,7 +1,5 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, signal } from '@angular/core';
 import { GruposModule } from '../grupos.module';
-import { GrupoUsecaseService } from '../services/grupo-usecase.service';
-import { GrupoFormService } from '../services/grupo-form.service';
 import { GrupoConfigService } from '../services/grupo-config.service';
 import { DrawerService } from '@ui/dashboard/shared/services/drawer.service';
 import { ActivatedRoute } from '@angular/router';
@@ -12,7 +10,7 @@ import { GruposDrawer } from '../components/drawer/grupo-drawer.component';
   selector: 'grupos-page',
   standalone: true,
   imports: [
-    GruposModule
+    GruposModule,
   ],
   templateUrl: './grupos.page.html',
 })
@@ -20,7 +18,7 @@ export class GruposPage implements OnDestroy {
   private drawerDisponibleSubscription!: Subscription;
 
   constructor(
-    private servicioConf: GrupoConfigService,
+    public servicioConf: GrupoConfigService,
     public drawerService: DrawerService,
     private route: ActivatedRoute
   ) { 

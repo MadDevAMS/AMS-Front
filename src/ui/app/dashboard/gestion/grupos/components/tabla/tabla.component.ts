@@ -1,8 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Signal, effect } from '@angular/core';
 import { IGrupoModel } from '@data/grupos/models/grupo.model';
-import { GrupoFormService } from '../../services/grupo-form.service';
 import { GrupoUsecaseService } from '../../services/grupo-usecase.service';
-import { UsuariosFilterGruposDrawer } from '@ui/dashboard/gestion/usuarios/components/drawer/usuarios-filter-grupos-drawer.component';
 import { DrawerService } from '@ui/dashboard/shared/services/drawer.service';
 import { PageEvent } from '@angular/material/paginator';
 import { GruposFilterGruposDrawer } from '../drawer/filter-grupos-drawer.component';
@@ -15,17 +13,16 @@ import { Router } from '@angular/router';
   templateUrl: './tabla.component.html',
 })
 export class TablaComponent {
+  @Input() groupConfigService!: GrupoConfigService
   busqueda: string = "";
   private deleteSuscription!: Subscription;
 
   constructor(
     public servicio: GrupoUsecaseService,
-    public servicioForm: GrupoFormService,
-    private groupConfigService: GrupoConfigService,
     private drawerService: DrawerService,
     private router: Router,
   ) { 
-    this.deleteSuscription = this.groupConfigService.hasDeleted().subscribe(_ => {
+    this.deleteSuscription = this.groupConfigService?.hasDeleted().subscribe(_ => {
       this.servicio.getAllUsuarios() 
     })
   }
@@ -45,7 +42,7 @@ export class TablaComponent {
   }
 
   handleOpenConfig(grupo: IGrupoModel) {
-    this.groupConfigService.openDrawer(grupo)
+    this.groupConfigService?.openDrawer(grupo)
   }
 
   handleOpenFiltros() {

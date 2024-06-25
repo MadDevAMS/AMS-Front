@@ -1,7 +1,7 @@
-<!-- <div class="bg-white flex flex-col h-full min-w-[48rem]">
+<div class="bg-white flex flex-col h-full min-w-[48rem]">
   <header class="p-6 py-5 flex items-center bg-blue01 relative">
     <h2 class="text-white text-lg font-medium text-start tracking-tight">
-      Administracion de usuario
+      Administracion de grupo
     </h2>
   </header>
   <div class="flex-1 flex h-0">
@@ -9,7 +9,7 @@
       <nav class="flex flex-col gap-2">
         <dashboard-sidebar-item 
           [label]="'Información'"
-          routerLink="/dashboard/gestion/usuarios"
+          routerLink="/dashboard/gestion/grupos"
           [routerLinkActiveOptions]="{ 
             exact: true, 
             queryParams: 'exact',
@@ -19,7 +19,7 @@
           }"
           tabLink="informacion"
           [queryParams]="{
-            drawer: 'usuarioDrawer',
+            drawer: 'grupoDrawer',
             drawerTab: 'informacion',
           }"
           [isDrawer]="true"
@@ -27,8 +27,8 @@
           <mat-icon class="icon-sm" icon>info</mat-icon>
         </dashboard-sidebar-item>
         <dashboard-sidebar-item 
-          [label]="'Autenticacion'"
-          routerLink="/dashboard/gestion/usuarios"
+          [label]="'Usuarios'"
+          routerLink="/dashboard/gestion/grupos"
           [routerLinkActiveOptions]="{ 
             exact: true, 
             queryParams: 'exact',
@@ -37,20 +37,20 @@
             fragment: 'exact',
           }"
           [queryParams]="{
-            drawer: 'usuarioDrawer',
-            drawerTab: 'autenticacion',
+            drawer: 'grupoDrawer',
+            drawerTab: 'usuarios',
           }"
-          tabLink="autenticacion"
+          tabLink="usuarios"
           [isDrawer]="true"
         >
-          <mat-icon class="icon-sm" icon>lock</mat-icon>
+          <mat-icon class="icon-sm" icon>person</mat-icon>
         </dashboard-sidebar-item>
         <dashboard-sidebar-item 
-          [label]="'Grupos'"
-          routerLink="/dashboard/gestion/usuarios"
+          [label]="'Permisos'"
+          routerLink="/dashboard/gestion/grupos"
           [queryParams]="{
-            drawer: 'usuarioDrawer',
-            drawerTab: 'grupos',
+            drawer: 'grupoDrawer',
+            drawerTab: 'permisos',
           }"
           [routerLinkActiveOptions]="{ 
             exact: true, 
@@ -59,20 +59,20 @@
             paths: 'exact',
             fragment: 'exact',
           }"
-          tabLink="grupos"
+          tabLink="permisos"
           [isDrawer]="true"
         >
-          <mat-icon class="icon-sm" icon>group</mat-icon>
+          <mat-icon class="icon-sm" icon>shield</mat-icon>
         </dashboard-sidebar-item>
       </nav>
       <footer class="w-full py-2">
         <button 
-          (click)="grupoService.openDelete()"
+          (click)="serviceConfig.openDelete()"
           color="warn" 
           class="!font-medium !text-sm !tracking-wide !uppercase !border-blood !w-full" 
           mat-stroked-button>
           <mat-icon class="icon-sm" matPrefix>delete</mat-icon>
-          Eliminar usuario
+          Eliminar grupo
         </button>
       </footer>
     </aside>
@@ -80,90 +80,71 @@
       <div class="flex-1 h-0 overflow-auto">
         @switch (linkTab) {
           @case ('informacion') {
-            <div class="p-6 flex flex-col gap-6">
-              <div 
-                [formGroup]="grupoService.formNombresApellidos"
-                class="border-1 rounded shadow-expand-ams w-full">
-                <header class="text-base font-medium tracking-tighter py-3 px-6 border-b-1">
-                  Información de usuario
-                </header>
-                <div class="flex flex-col gap-6 p-6">
-                  <mat-form-field class="form-field-sm" appearance="outline">
-                    <mat-label>Nombres de usuario</mat-label>
-                    <input type="text" formControlName="nombres" [value]="grupoService.usuario?.nombres" matInput>
-                    @if(grupoService.hasError(grupoService.formNombresApellidos, 'nombres', 'required')) { <mat-error>Campo obligatorio</mat-error> }
-                  </mat-form-field>
-                  <mat-form-field class="form-field-sm" appearance="outline">
-                    <mat-label>Apellidos de usuario</mat-label>
-                    <input type="text" formControlName="apellidos" [value]="grupoService.usuario?.apellidos" matInput>
-                    @if(grupoService.hasError(grupoService.formNombresApellidos, 'apellidos', 'required')) { <mat-error>Campo obligatorio</mat-error> }
-                  </mat-form-field>
+            @if (serviceConfig.formGrupo) {
+              <div class="p-6 flex flex-col gap-6">
+                <div 
+                  [formGroup]="serviceConfig.formGrupo"
+                  class="border-1 rounded shadow-expand-ams w-full">
+                  <header class="text-base font-medium tracking-tighter py-3 px-6 border-b-1">
+                    Información de grupo
+                  </header>
+                  <div class="flex flex-col gap-6 p-6">
+                    <mat-form-field class="form-field-sm" appearance="outline">
+                      <mat-label>Nombre de grupo</mat-label>
+                      <input type="text" formControlName="nombre" [value]="serviceConfig.grupo?.nombre" matInput>
+                      @if(serviceConfig.hasError(serviceConfig.formGrupo, 'nombre', 'required')) { <mat-error>Campo obligatorio</mat-error> }
+                    </mat-form-field>
+                    <mat-form-field class="form-field-sm" appearance="outline">
+                      <mat-label>Descripción de grupo</mat-label>
+                      <input type="text" formControlName="descripcion" [value]="serviceConfig.grupo?.descripcion" matInput>
+                      @if(serviceConfig.hasError(serviceConfig.formGrupo, 'descripcion', 'required')) { <mat-error>Campo obligatorio</mat-error> }
+                    </mat-form-field>
+                  </div>
                 </div>
               </div>
-            </div>
+            } @else {
+              <div class="flex h-full justify-center items-center">
+                <mat-spinner color="primary" diameter="56"></mat-spinner>
+              </div>
+            }
           }
-          @case ('autenticacion') {
-            <div class="p-6 flex flex-col gap-6">
-              <div class="border-1 rounded shadow-expand-ams w-full">
-                <header class="text-base font-medium tracking-tighter py-3 px-6 border-b-1">
-                  Información de cuenta
-                </header>
-                <div class="flex flex-col gap-6 p-6">
-                  <mat-form-field class="form-field-sm" appearance="outline">
-                    <mat-label>Correo de usuario</mat-label>
-                    <input type="text" matInput [value]="grupoService.usuario?.correo" disabled>
-                  </mat-form-field>
+          @case ('usuarios') {
+            @if (serviceConfig.formGrupo) {
+              <div class="p-6 flex flex-col gap-6">
+                <div class="flex flex-1 h-0 w-full flex-col gap-6">
+                  <grupos-tabla-usuarios 
+                    wrapperClass="max-h-[36rem]"
+                    [serviceForm]="serviceConfig"
+                  ></grupos-tabla-usuarios>
+                  <div class="flex flex-col gap-4">
+                    <gestion-info-usuarios-permisos onlyTab="usuarios" [servicioForm]="serviceConfig"></gestion-info-usuarios-permisos>
+                  </div>
                 </div>
               </div>
-              <div 
-                [formGroup]="grupoService.formPassword"
-                class="border-1 rounded shadow-expand-ams w-full">
-                <header class="text-base font-medium tracking-tighter py-3 px-6 border-b-1">
-                  Actualizar contraseña
-                </header>
-                <div class="flex flex-col gap-6 p-6">
-                  <mat-form-field class="form-field-sm" appearance="outline">
-                    <mat-label>Contraseña</mat-label>
-                    <input [type]="grupoService.hidePassword ? 'password' : 'text'" formControlName="password" name="password"
-                      matInput />
-                    <button type="button" mat-icon-button matSuffix
-                      (click)="grupoService.hidePassword = !grupoService.hidePassword">
-                      <mat-icon>{{grupoService.hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
-                    </button>
-                    @if(grupoService.hasError(grupoService.formPassword, 'password', 'required')) { <mat-error>Campo obligatorio</mat-error> }
-                    @for (error of grupoService.getErrors(grupoService.formPassword ,'password'); track $index) {
-                    <mat-error>{{ error }}</mat-error>
-                    }
-                  </mat-form-field>
-                  <mat-form-field class="form-field-sm" appearance="outline">
-                    <mat-label>Repetir contraseña</mat-label>
-                    <input [type]="grupoService.hidePassword ? 'password' : 'text'" formControlName="confirmPassword" name="confirmPassword"
-                      matInput />
-                    <button type="button" mat-icon-button matSuffix
-                      (click)="grupoService.hidePassword = !grupoService.hidePassword">
-                      <mat-icon>{{grupoService.hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
-                    </button>
-                    @if(grupoService.hasError(grupoService.formPassword, 'confirmPassword', 'required')) { <mat-error>Campo obligatorio</mat-error> }
-                    @for (error of grupoService.getErrors(grupoService.formPassword ,'confirmPassword'); track $index) {
-                      <mat-error>{{ error }}</mat-error>
-                      }
-                  </mat-form-field>
-                </div>
+            } @else {
+              <div class="flex h-full justify-center items-center">
+                <mat-spinner color="primary" diameter="56"></mat-spinner>
               </div>
-            </div>
+            }
           }
-          @case ('grupos') {
-            <div class="p-6 flex flex-col gap-6">
-              <div class="flex flex-1 h-0 w-full flex-col gap-6">
-                <usuarios-tabla-grupos 
-                  wrapperClass="max-h-[36rem]"
-                  [serviceForm]="grupoService"
-                ></usuarios-tabla-grupos>
-                <div class="flex flex-col gap-4">
-                  <gestion-info-grupos-permisos [servicioForm]="grupoService"></gestion-info-grupos-permisos>
+          @case ('permisos') {
+            @if (serviceConfig.formGrupo) {
+              <div class="p-6 flex flex-col gap-6">
+                <div class="flex flex-1 h-0 w-full flex-col gap-6">
+                  <grupos-tabla-permisos 
+                    wrapperClass="max-h-[36rem]"
+                    [serviceForm]="serviceConfig"
+                  ></grupos-tabla-permisos>
+                  <div class="flex flex-col gap-4">
+                    <gestion-info-usuarios-permisos onlyTab="permisos" [servicioForm]="serviceConfig"></gestion-info-usuarios-permisos>
+                  </div>
                 </div>
               </div>
-            </div>
+            } @else {
+              <div class="flex h-full justify-center items-center">
+                <mat-spinner color="primary" diameter="56"></mat-spinner>
+              </div>
+            }
           } 
           @default {
             <div class="p-6 h-full flex flex-col justify-center items-center gap-2">
@@ -181,15 +162,11 @@
           Cancelar
         </button>
         <button 
-          (click)="
-            linkTab === 'informacion' ? grupoService.updateNombresApellidos() : 
-            linkTab === 'autenticacion' ? grupoService.updatePassword() : 
-            grupoService.updateGrupos()
-          "
+          (click)="serviceConfig.updateGrupo()"
           color="primary" 
           class="!font-medium !text-sm !tracking-wide !uppercase disabled:!bg-blue01 disabled:!bg-opacity-80 w-32" 
           mat-raised-button>
-          @if (grupoService.loading) {
+          @if (serviceConfig.loading) {
             <div class="text-center !py-[0.625rem] !px-4">
               <mat-spinner class="spinner-white" diameter="28"></mat-spinner>
             </div>
@@ -201,4 +178,4 @@
     </div>
   <div>
 </div>
-</div> -->
+</div>

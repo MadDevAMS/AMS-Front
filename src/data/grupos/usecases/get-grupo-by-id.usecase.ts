@@ -6,7 +6,7 @@ import { IGrupoModel } from '../models/grupo.model';
 import { GrupoRepository } from '../repository/grupo.repository';
 
 @Injectable({
-  providedIn: 'platform'
+  providedIn: 'root'
 })
 export class GetGrupoByIdUsecase implements UseCase<number, IApiResponse<IGrupoModel>> {
   constructor(private grupoRepository: GrupoRepository) { }

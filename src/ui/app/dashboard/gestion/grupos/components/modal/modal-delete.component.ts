@@ -5,6 +5,7 @@ import { SnackbarService } from '@ui/shared/services/snackbar.service';
 import { CommonModule } from '@angular/common';
 import { DeleteGrupoUsecase } from '@data/grupos/usecases/delete-grupo.usecase';
 import { GrupoDataModule } from '@data/grupos/grupo.data.module';
+import { GrupoConfigService } from '../../services/grupo-config.service';
 
 @Component({
   selector: 'activo-modal-Delete',
@@ -17,11 +18,13 @@ import { GrupoDataModule } from '@data/grupos/grupo.data.module';
   ],
   providers: [
     SnackbarService,
-    DeleteGrupoUsecase
+    DeleteGrupoUsecase,
   ],
   templateUrl: './modal-delete.component.html',
 })
 export class ModalDeleteComponent {
+  loading = false
+
   constructor(
     private deleteUsecase: DeleteGrupoUsecase,
     private snackbarService: SnackbarService,
@@ -30,6 +33,7 @@ export class ModalDeleteComponent {
   ) { }
 
   onSubmit() {
+    this.loading = true
     this.deleteUsecase.execute(this.data.id).subscribe({
       next: (res) => {
         if (res.status !== 200) {
@@ -42,20 +46,22 @@ export class ModalDeleteComponent {
             mensaje: res.message || 'Grupo eliminado',
             type: 'success'
           })
-          this.onNoClick()
+          this.dialogRef.close(true)
         }
+        this.loading = false
       },
       error: (err) => {
         this.snackbarService.open({
           mensaje: err.message,
           type: 'error',
         })
+        this.loading = false
       }
     })
   }
 
   onNoClick(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 
 }

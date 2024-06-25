@@ -1,10 +1,11 @@
+import { IGrupoPermisoModel, IGrupoUsuarioModel } from "@data/grupos/models/grupo.model";
 import { IPermisoModel } from "@data/permisos/models/permiso.model";
 import { IUsuarioModel } from "@data/usuarios/models/usuario.model";
 
 export abstract class GrupoFormAbstract {
-  abstract usuariosSeleccionados: IUsuarioModel[]
-  abstract permisosSeleccionados: IPermisoModel[]
-  abstract onCheckboxChange(item: IUsuarioModel | IPermisoModel, type: 'permiso' | 'usuario'): void
-  abstract isChecked(item: IUsuarioModel | IPermisoModel, type: 'permiso' | 'usuario'): boolean
-  abstract showInfoModalUsuario(usuario: IUsuarioModel, type: 'grupos' | 'permisos'): void
+  abstract usuariosSeleccionados: (IGrupoUsuarioModel | IUsuarioModel)[]
+  abstract permisosSeleccionados: (IGrupoPermisoModel | IPermisoModel)[]
+  abstract onCheckboxChange(item: IGrupoUsuarioModel | IUsuarioModel | (IGrupoPermisoModel | IPermisoModel), type: 'permiso' | 'usuario'): void
+  abstract isChecked(item: IGrupoUsuarioModel | IUsuarioModel | (IGrupoPermisoModel | IPermisoModel), type: 'permiso' | 'usuario'): boolean
+  abstract showInfoModalUsuario(usuario: IGrupoUsuarioModel | IUsuarioModel, type: 'grupos' | 'permisos'): void
 }

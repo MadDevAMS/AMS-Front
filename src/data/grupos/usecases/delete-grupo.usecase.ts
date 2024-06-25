@@ -5,7 +5,7 @@ import { IApiResponse } from '@base/response/response';
 import { GrupoRepository } from '../repository/grupo.repository';
 
 @Injectable({
-  providedIn: 'platform'
+  providedIn: 'root'
 })
 export class DeleteGrupoUsecase implements UseCase<number, IApiResponse<void>> {
   constructor(private grupoRepository: GrupoRepository) { }

@@ -7,4 +7,5 @@ import { GrupoFormAbstract } from '../services/grupo-form-abstract';
 })
 export class InfoUsuariosPermisosComponent {
   @Input() servicioForm!: GrupoFormAbstract
+  @Input() onlyTab!: 'usuarios' | 'permisos'
 }

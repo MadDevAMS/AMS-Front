@@ -18,47 +18,54 @@
   <!-- Body -->
   <div class="rounded bg-white flex flex-col border-1 flex-1 h-0">
     <div class="flex-1 h-0 overflow-auto">
-      <table class="w-full relative max-h-full">
-        <thead class="sticky w-full">
-          <tr class="text-sm font-semibold tracking-wide">
-            <th class="px-2"></th>
-            <th class="ps-2 py-5 text-start">Usuario</th>
-            <th>Grupos</th>
-            <th>Fecha de creación</th>
-            <th class="w-4"></th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (usuario of servicio.usuarios; track $index) {
-            <tr class="odd:bg-smoke2 border-y-1 text-sm p-5 tracking-wide text-center">
-              <td class="py-5 ps-4">
-                <div class="flex justify-center items-center">
-                  <mat-icon class="icon-sm text-gray01">person</mat-icon>
-                </div>
-              </td>
-              <td class="ps-2">
-                <span class="flex flex-col items-start">
-                  <p class="truncate">{{ usuario.nombres + ' ' + usuario.apellidos }}</p>
-                  <p class="text-xs truncate"> {{ usuario.correo }}</p>
-                </span>
-              </td>
-              <td>{{ usuario.grupos.length }}</td>
-              <td>{{ usuario.fechaCreacion | date: 'dd-MM-YYYY HH:MM' }}</td>
-              <td class="px-5">
-                <button (click)="serviceForm.onCheckboxChange(usuario, 'usuario')" mat-icon-button>
-                  <mat-icon [ngClass]="{
-                    'icon-sm': true,
-                    '!text-gray03': !serviceForm.isChecked(usuario, 'usuario'),
-                    '!text-blue01': serviceForm.isChecked(usuario, 'usuario')
-                  }">
-                    {{ !serviceForm.isChecked(usuario, 'usuario') ? 'add_circle' : 'check_circle' }}
-                  </mat-icon>
-                </button>
-              </td>
+      @if (servicio.usuarios.length > 0) {
+        <table class="w-full relative max-h-full">
+          <thead class="sticky w-full">
+            <tr class="text-sm font-semibold tracking-wide">
+              <th class="px-2"></th>
+              <th class="ps-2 py-5 text-start">Usuario</th>
+              <th>Grupos</th>
+              <th>Fecha de creación</th>
+              <th class="w-4"></th>
             </tr>
-          }
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            @for (usuario of servicio.usuarios; track $index) {
+              <tr class="odd:bg-smoke2 border-y-1 text-sm p-5 tracking-wide text-center">
+                <td class="py-5 ps-4">
+                  <div class="flex justify-center items-center">
+                    <mat-icon class="icon-sm text-gray01">person</mat-icon>
+                  </div>
+                </td>
+                <td class="ps-2">
+                  <span class="flex flex-col items-start">
+                    <p class="truncate">{{ usuario.nombres + ' ' + usuario.apellidos }}</p>
+                    <p class="text-xs truncate"> {{ usuario.correo }}</p>
+                  </span>
+                </td>
+                <td>{{ usuario.grupos.length }}</td>
+                <td>{{ usuario.fechaCreacion | date: 'dd-MM-YYYY HH:MM' }}</td>
+                <td class="px-5">
+                  <button (click)="serviceForm.onCheckboxChange(usuario, 'usuario')" mat-icon-button>
+                    <mat-icon [ngClass]="{
+                      'icon-sm': true,
+                      '!text-gray03': !serviceForm.isChecked(usuario, 'usuario'),
+                      '!text-blue01': serviceForm.isChecked(usuario, 'usuario')
+                    }">
+                      {{ !serviceForm.isChecked(usuario, 'usuario') ? 'add_circle' : 'check_circle' }}
+                    </mat-icon>
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      } @else {
+        <div class="flex flex-col gap-2 justify-center items-center h-full p-6">
+          <mat-icon class="!text-7xl !w-12 !h-12 !text-gray01 !text-opacity-80">inbox</mat-icon>
+          <p class="italic text-sm font-normal text-center tracking-tight">Sin usuarios encontrados</p>
+        </div>
+      }
     </div>
     <footer class="border-t-1 py-2">
       <mat-paginator

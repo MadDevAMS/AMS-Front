@@ -1,8 +1,7 @@
-import { Injectable, OnDestroy } from "@angular/core";
+import { Injectable, OnDestroy, inject } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { IGrupoModel } from "@data/grupos/models/grupo.model";
+import { IGrupoModel, IGrupoPermisoModel, IGrupoUsuarioModel } from "@data/grupos/models/grupo.model";
 import { UpdateGrupoUsecase } from "@data/grupos/usecases/update-grupo.usecase";
-import { IPermisoModel } from "@data/permisos/models/permiso.model";
 import { IUsuarioModel } from "@data/usuarios/models/usuario.model";
 import { SnackbarService } from "@ui/shared/services/snackbar.service";
 import { MatDialog } from "@angular/material/dialog";
@@ -13,22 +12,23 @@ import { Router } from "@angular/router";
 import { Location } from "@angular/common";
 import { DrawerService } from "@ui/dashboard/shared/services/drawer.service";
 import { GruposDrawer } from "../components/drawer/grupo-drawer.component";
+import { GrupoUsecaseService } from "./grupo-usecase.service";
 
 @Injectable({ 
-  providedIn: 'root' 
+  providedIn: 'root'
 })
 export class GrupoConfigService extends GrupoFormAbstract implements OnDestroy {
+  private updateGrupoUsecase = inject(UpdateGrupoUsecase);
   private drawerCloseSubscription!: Subscription;
   private _deleteUser = new Subject<void>()
-  usuariosSeleccionados: IUsuarioModel[] = [];
-  permisosSeleccionados: IPermisoModel[] = [];
+  usuariosSeleccionados: IGrupoUsuarioModel[] = [];
+  permisosSeleccionados: IGrupoPermisoModel[] = [];
   formGrupo!: FormGroup;
-  formUsuarios!: FormGroup;
-  formPermisos!: FormGroup;
   grupo: IGrupoModel | null = null;
+  loading = false
 
   constructor(
-    private updateGrupoUsecase: UpdateGrupoUsecase,
+    private service: GrupoUsecaseService,
     private drawerService: DrawerService,
     private dialog: MatDialog,
     private snackbarService: SnackbarService,
@@ -48,6 +48,20 @@ export class GrupoConfigService extends GrupoFormAbstract implements OnDestroy {
       }, 300);
     });
   }
+
+  initForms(grupo: IGrupoModel) {
+    this.grupo = grupo;
+
+    this.formGrupo = new FormGroup({
+      nombre: new FormControl<string>(grupo.nombre, [Validators.required]),
+      descripcion: new FormControl<string>(grupo.descripcion || '', [Validators.required]),
+      idPermisos: new FormControl<number[]>(grupo.permisos.map(p => p.id)),
+      idUsuarios: new FormControl<number[]>(grupo.usuarios.map(p => p.id)),
+    });
+
+    this.permisosSeleccionados = grupo.permisos
+    this.usuariosSeleccionados = grupo.usuarios
+  }
   
   openDrawer(grupo: IGrupoModel) {
     const url = this.router.createUrlTree([], {
@@ -60,25 +74,9 @@ export class GrupoConfigService extends GrupoFormAbstract implements OnDestroy {
 
     this.location.go(url);
 
-    this.grupo = grupo;
-
-    this.formGrupo = new FormGroup({
-      nombre: new FormControl<string>(grupo.nombre, [Validators.required]),
-      descripcion: new FormControl<string>(grupo.descripcion || '', [Validators.required]),
+    this.drawerService.open(GruposDrawer, {
+      grupo
     });
-
-    this.formPermisos = new FormGroup({
-      idPermisos: new FormControl<number[]>(grupo.permisos.map(p => p.id)),
-    });
-
-    this.formUsuarios = new FormGroup({
-      idUsuarios: new FormControl<number[]>(grupo.usuarios.map(p => p.id)),
-    });
-
-    // this.permisosSeleccionados = grupo.permisos
-    // this.usuariosSeleccionados = grupo.usuarios
-
-    this.drawerService.open(GruposDrawer);
   }
 
   closeDrawer() {
@@ -100,18 +98,18 @@ export class GrupoConfigService extends GrupoFormAbstract implements OnDestroy {
     }
   }
   
-  override isChecked(item: IUsuarioModel | IPermisoModel, type: 'permiso' | 'usuario'): boolean {
-    const array = this.formGrupo.get(type === 'permiso' ? 'idPermisos' : 'idUsuarios')
+  override isChecked(item: IGrupoUsuarioModel | IGrupoPermisoModel, type: 'permiso' | 'usuario'): boolean {
+    const array = this.formGrupo?.get(type === 'permiso' ? 'idPermisos' : 'idUsuarios')
     return array?.value?.some((id: number) => id === item.id)
   }
 
-  override onCheckboxChange(item: IUsuarioModel | IPermisoModel, type: 'permiso' | 'usuario'): void {
-    const formField = this.formGrupo.get(type === 'permiso' ? 'idPermisos' : 'idUsuarios')
+  override onCheckboxChange(item: IGrupoUsuarioModel | IGrupoPermisoModel, type: 'permiso' | 'usuario'): void {
+    const formField = this.formGrupo?.get(type === 'permiso' ? 'idPermisos' : 'idUsuarios')
     if (!this.isChecked(item, type)) {
       formField?.value.push(item.id)
       type === 'permiso' ?
-        this.permisosSeleccionados.push(item as IPermisoModel) :
-        this.usuariosSeleccionados.push(item as IUsuarioModel)
+        this.permisosSeleccionados.push(item as IGrupoPermisoModel) :
+        this.usuariosSeleccionados.push(item as IGrupoUsuarioModel)
     } else {
       const index = formField?.value.findIndex((x: number) => x === item.id);
       formField?.value.splice(index, 1);
@@ -125,29 +123,21 @@ export class GrupoConfigService extends GrupoFormAbstract implements OnDestroy {
 
   override showInfoModalUsuario(usuario: IUsuarioModel, type: "permisos" | "grupos"): void { }
 
-  hasError(field: string, type: string) {
-    return this.formGrupo.get(field)?.hasError(type);
+  hasError(form: FormGroup, field: string, type: string) {
+    return form.get(field)?.hasError(type);
   }
 
   hasDeleted() {
     return this._deleteUser.asObservable();
   }
 
-  limpiar() {
-    this.grupo = null;
-    this.formGrupo.reset({
-      nombre: '',
-      descripcion: '',
-      idPermisos: [],
-      idUsuarios: []
-    });
-  }
 
-  submit() {
+  updateGrupo() {
     this.formGrupo.markAllAsTouched();
     if (this.formGrupo.valid) {
+      this.loading = true
       this.updateGrupoUsecase.execute({
-        id: 12,
+        id: this.grupo?.id,
         ...this.formGrupo.value
       }).subscribe({
         next: (res) => {
@@ -165,12 +155,15 @@ export class GrupoConfigService extends GrupoFormAbstract implements OnDestroy {
               type: 'success'
             })
           }
+          this.loading = false
         },
         error: (err) => {
+          console.log(err);
           this.snackbarService.open({
             mensaje: err.message,
             type: 'error'
           })
+          this.loading = false
         }
       })
     }
