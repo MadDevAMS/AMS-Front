@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { SendMessageUsecase } from '@data/chat/usecases/send-message.usecase';
 
@@ -12,6 +12,7 @@ interface IConversationPrompt {
   templateUrl: './chat.component.html',
 })
 export class ChatComponent {
+  @Input() title!: string
   @ViewChild('boxMessage') boxMessage!: ElementRef
 
   conversation: IConversationPrompt[] = []
