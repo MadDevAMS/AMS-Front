@@ -1,0 +1,63 @@
+<div mat-dialog-title class="!text-lg !p-6 bg-blue02 !flex !justify-center !items-center">
+  <span class="p-2 rounded-[50%] border-white border-1">
+    <mat-icon class="text-white">info</mat-icon>
+  </span>
+</div>
+<mat-dialog-content class="!p-0">
+  <div class="text-center text-sm font-medium tracking-tighter py-4">
+    <p class="text-black mb-4 px-6">
+      @if (data.type === 'usuarios') {Usuarios de grupo}
+      @else {Permisos de grupo}
+    </p>
+    <div class="px-2">
+      <section>
+        @if (getArray().length > 0) {
+          <ul class="flex flex-col gap-2">
+            @for (item of getArray(); track $index) {
+              <li class="flex gap-2 min-w-72">
+                <div class="flex bg-white shadow-expand-ams border-gray04 border-opacity-50 border-[0.25px] rounded-t-sm gap-2 w-full">
+                  <span 
+                    class="w-1"
+                    [ngClass]="{
+                      'bg-green2': data.type === 'permisos',
+                      'bg-blue02': data.type === 'usuarios',
+                    }">&nbsp;</span>
+                  <div class="flex flex-1 w-0 ps-2 py-3 items-center gap-2">
+                    <mat-icon class="icon-sm text-gray01">
+                      @if (data.type === 'usuarios') {person}
+                      @else {shield}
+                    </mat-icon> 
+                    @if (data.type === 'usuarios') {
+                      <span class="flex flex-col items-start">
+                        <p class="text-sm truncate">{{getLabel(item)[0] + ' ' + getLabel(item)[1]}}</p>
+                        <p class="text-xs truncate">{{getLabel(item)[2]}}</p>
+                      </span>
+                    } @else {
+                      <p class="text-sm truncate" [matTooltip]="getLabel(item)[1]">
+                        {{getLabel(item)[0]}}
+                      </p>
+                    }
+                  </div>
+                </div>
+              </li>
+            }
+          </ul>
+        } @else {
+          <p class="italic text-sm font-normal text-center tracking-tight px-6">{{ getLabelEmpty() }}</p>
+        }
+      </section>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <div class="w-full flex flex-col xl:flex-row xl:justify-center gap-4">
+    <button 
+      (click)="onNoClick()" 
+      color="primary" 
+      class="!font-medium !text-sm !tracking-wide !uppercase w-full !m-0"
+      mat-raised-button
+      cdkFocusInitial>
+      Cerrar
+    </button>
+  </div>
+</mat-dialog-actions>

@@ -1,0 +1,10 @@
+<button
+  (click)="serviceForm.showInfoModalGroup(grupo, type)"
+  matRipple 
+  [matTooltip]="getLabel()" class="hover:bg-gray05 flex items-center p-2 rounded-lg text-xs border-2">
+  <mat-icon class="icon-sm text-gray01">
+    @if (type === 'permisos') {shield}
+    @else {person}
+  </mat-icon>
+  {{ getAmmount() }}
+</button>

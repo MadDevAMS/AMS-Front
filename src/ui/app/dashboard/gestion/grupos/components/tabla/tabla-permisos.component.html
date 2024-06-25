@@ -1,0 +1,78 @@
+<div 
+  class="flex flex-col gap-6 overflow-visible"
+  [ngClass]="wrapperClass"
+>
+  <!-- Actions -->
+  <div class="flex justify-between">
+    <div class="bg-white">
+      <mat-form-field class="max-w-60 w-full form-field-sm">
+        <input type="search" matInput placeholder="Buscar por nombre">
+        <mat-icon matPrefix>search</mat-icon>
+      </mat-form-field>
+    </div>
+    <!-- <button (click)="handleOpenFiltros()" class="!font-medium !text-sm !tracking-wide !uppercase !h-auto" mat-stroked-button>
+      <mat-icon matPrefix>filter_alt</mat-icon>
+      Filtros
+    </button> -->
+  </div>
+  <!-- Body -->
+  <div class="rounded bg-white flex flex-col border-1 flex-1 h-0">
+    <div class="flex-1 h-0 overflow-auto">
+      @if (servicio.permisos.length > 0) {
+        <table class="w-full relative max-h-full">
+          <thead class="sticky w-full">
+            <tr class="text-sm font-semibold tracking-wide">
+              <th class="px-2"></th>
+              <th class="ps-2 py-5 text-start">Permiso</th>
+              <th>Descripción</th>
+              <th class="w-4"></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (permiso of servicio.permisos; track $index) {
+              <tr class="odd:bg-smoke2 border-y-1 text-sm p-5 tracking-wide text-center">
+                <td class="py-5 ps-4">
+                  <div class="flex justify-center items-center">
+                    <mat-icon class="icon-sm text-gray01">shield</mat-icon>
+                  </div>
+                </td>
+                <td class="ps-2 text-start">{{ permiso.nombre }}</td>
+                <td>
+                  <div class="flex items-center">
+                    <p class="text-xs max-w-52 mx-auto">{{ permiso.descripcion }}</p>
+                  </div>
+                </td>
+                <td class="px-5">
+                  <button (click)="serviceForm.onCheckboxChange(permiso, 'permiso')" mat-icon-button>
+                    <mat-icon [ngClass]="{
+                      'icon-sm': true,
+                      '!text-gray03': !serviceForm.isChecked(permiso, 'permiso'),
+                      '!text-blue01': serviceForm.isChecked(permiso, 'permiso')
+                    }">
+                      {{ !serviceForm.isChecked(permiso, 'permiso') ? 'add_circle' : 'check_circle' }}
+                    </mat-icon>
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      } @else {
+        <div class="flex flex-col gap-2 justify-center items-center h-full p-6">
+          <mat-icon class="!text-7xl !w-12 !h-12 !text-gray01 !text-opacity-80">inbox</mat-icon>
+          <p class="italic text-sm font-normal text-center tracking-tight">Sin usuarios encontrados</p>
+        </div>
+      }
+    </div>
+    <footer class="border-t-1 py-2">
+      <mat-paginator
+        (page)="handlePageEvent($event)"
+        [length]="servicio.permisosInfoPaginate ? servicio.permisosInfoPaginate.totalRecords : 0"
+        [pageSize]="servicio.permisosInfoPaginate ? servicio.permisosInfoPaginate.pageSize : 1"
+        [pageSizeOptions]="[5, 10, 20, 50]"
+        aria-label="Selecciona una pagina"
+      >
+      </mat-paginator>
+    </footer>
+  </div>
+</div>

@@ -4,13 +4,14 @@ import { GrupoDataModule } from '@data/grupos/grupo.data.module';
 import { UsuarioDataModule } from '@data/usuarios/usuario.data.module';
 import { UsuarioUsecaseService } from './services/usuario-usecase.service';
 import { SharedModule } from '../shared/shared.module';
-import { UsuarioFormService } from './services/usuario-form.service';
 import { TablaGruposComponent } from './components/tabla/tabla-grupos.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { TablesPaginatorIntl } from './services/pagination.service';
-import { UsuarioConfigService } from './services/usuario-config.service';
 import { UsuariosFilterGruposDrawer } from './components/drawer/usuarios-filter-grupos-drawer.component';
 import { UsuariosFilterUsuariosDrawer } from './components/drawer/usuarios-filter-usuarios-drawer.component';
+import { InfoGruposPermisosComponent } from './components/info-grupos-permisos.component';
+import { ChipInfoGrupoComponent } from './components/chip-info-grupo.component';
+import { TablesPaginatorIntl } from '@ui/dashboard/shared/services/pagination.service';
+import { MatPaginatorIntl } from '@angular/material/paginator';
 
 const commonModules = [
   SharedModule,
@@ -24,7 +25,9 @@ const declarations = [
   TablaComponent,
   TablaGruposComponent,
   UsuariosFilterGruposDrawer,
-  UsuariosFilterUsuariosDrawer
+  UsuariosFilterUsuariosDrawer,
+  InfoGruposPermisosComponent,
+  ChipInfoGrupoComponent
 ]
 
 @NgModule({
@@ -35,7 +38,7 @@ const declarations = [
     ...commonModules
   ],
   providers: [ 
-    TablesPaginatorIntl,
+    {provide: MatPaginatorIntl, useClass: TablesPaginatorIntl},
     UsuarioUsecaseService,
   ],
 })

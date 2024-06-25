@@ -1,7 +1,4 @@
-export interface IGruposUsuarioModel {
-  id: number,
-  nombre: string
-}
+import { IGrupoModel } from "@data/grupos/models/grupo.model"
 
 export interface IUsuarioModel {
   id: number,
@@ -9,5 +6,5 @@ export interface IUsuarioModel {
   apellidos: string,
   correo: string,
   fechaCreacion: Date,
-  grupos: IGruposUsuarioModel[]
+  grupos: IGrupoModel[]
 }

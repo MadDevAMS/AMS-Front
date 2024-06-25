@@ -13,7 +13,7 @@ interface IParamsPagination {
 }
 
 @Injectable({
-  providedIn: 'platform',
+  providedIn: 'root',
 })
 export class UsuarioUsecaseService {
   gruposInfoPaginate!: IApiResponsePagination<IGrupoModel>;

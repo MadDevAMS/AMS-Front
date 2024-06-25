@@ -1,27 +1,30 @@
 import { Injectable } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { IGrupoModel } from "@data/grupos/models/grupo.model";
 import { CreateGrupoUsecase } from "@data/grupos/usecases/create-grupo.usecase";
-import { UpdateGrupoUsecase } from "@data/grupos/usecases/update-grupo.usecase";
 import { IPermisoModel } from "@data/permisos/models/permiso.model";
 import { IUsuarioModel } from "@data/usuarios/models/usuario.model";
 import { SnackbarService } from "@ui/shared/services/snackbar.service";
 import { MatDialog } from "@angular/material/dialog";
-import { ModalDeleteComponent } from "../components/modal/modal-delete.component";
+import { GrupoFormAbstract } from "./grupo-form-abstract";
+import { Router } from "@angular/router";
 
-@Injectable({ 
-  providedIn: 'platform' 
+@Injectable({
+  providedIn: 'root'
 })
-export class GrupoFormService {
-  grupoSeleccionado: IGrupoModel | null = null;
+export class GrupoFormService extends GrupoFormAbstract {
+  usuariosSeleccionados: IUsuarioModel[] = [];
+  permisosSeleccionados: IPermisoModel[] = [];
+
   formGrupo: FormGroup;
+  loading = false
 
   constructor(
-    private updateGrupoUsecase: UpdateGrupoUsecase,
     private createGrupoUsecase: CreateGrupoUsecase,
     private dialog: MatDialog,
+    private router: Router,
     private snackbarService: SnackbarService
   ) {
+    super()
     this.formGrupo = new FormGroup({
       nombre: new FormControl<string>('', [Validators.required]),
       descripcion: new FormControl<string>(''),
@@ -30,130 +33,81 @@ export class GrupoFormService {
     });
   }
 
-  onCheckboxChange(e: any, permiso: IPermisoModel) {
-    const permisos = this.formGrupo.get('idPermisos');
-    if (e.checked) {
-      permisos?.value.push(permiso.id)
-    } else {
-      const index = permisos?.value.findIndex((x: number) => x === permiso.id);
-      permisos?.value.splice(index, 1);
-    }
+  override isChecked(item: IUsuarioModel | IPermisoModel, type: 'permiso' | 'usuario'): boolean {
+    const array = this.formGrupo.get(type === 'permiso' ? 'idPermisos' : 'idUsuarios')
+    return array?.value?.some((id: number) => id === item.id)
   }
 
-  openDialog() {
-    this.dialog.open(ModalDeleteComponent, {
-      data: {
-        id: this.grupoSeleccionado?.id
+  override onCheckboxChange(item: IUsuarioModel | IPermisoModel, type: 'permiso' | 'usuario'): void {
+    const formField = this.formGrupo.get(type === 'permiso' ? 'idPermisos' : 'idUsuarios')
+    if (!this.isChecked(item, type)) {
+      formField?.value.push(item.id)
+      type === 'permiso' ?
+        this.permisosSeleccionados.push(item as IPermisoModel) :
+        this.usuariosSeleccionados.push(item as IUsuarioModel)
+    } else {
+      const index = formField?.value.findIndex((x: number) => x === item.id);
+      formField?.value.splice(index, 1);
+      if (type === 'permiso') {
+        this.permisosSeleccionados = this.permisosSeleccionados.filter(g => g.id !== item.id)
+      } else {
+        this.usuariosSeleccionados = this.usuariosSeleccionados.filter(g => g.id !== item.id)
       }
-    })
-  }
-
-  isChecked(permiso: IPermisoModel): boolean {
-    const permisos = this.formGrupo.get('idPermisos');
-    return permisos?.value?.some((x: number) => x === permiso.id);
-  }
-
-  toggleSeleccionar(grupo: IGrupoModel) {
-    if (this.grupoSeleccionado && this.grupoSeleccionado.id === grupo.id) {
-      this.limpiar();
-    } else {
-      this.grupoSeleccionado = grupo;
-      this.formGrupo.reset({
-        nombre: grupo.nombre,
-        descripcion: grupo.descripcion,
-        idPermisos: grupo.permisos.map(p => p.id),
-        idUsuarios: Array.from(grupo.usuarios),
-      });
     }
   }
 
-  isSelectedUsuario(usuario: IUsuarioModel): boolean {
-    const usuarios = this.formGrupo.get('idUsuarios');
-    return usuarios?.value?.some((x: number) => x === usuario.id);
-  }
-
-  toggleSeleccionarUsuario(usuario: IUsuarioModel) {
-    const usuarios = this.formGrupo.get('idUsuarios');
-    if (!usuarios?.value.some((u: number) => u === usuario.id)) {
-      usuarios?.value.push(usuario.id)
-    } else {
-      const index = usuarios?.value.findIndex((x: number) => x === usuario.id);
-      usuarios?.value.splice(index, 1);
-    }
-  }
+  override showInfoModalUsuario(usuario: IUsuarioModel, type: "permisos" | "grupos"): void { }
 
   hasError(field: string, type: string) {
     return this.formGrupo.get(field)?.hasError(type);
   }
 
+  getErrors(field: string) {
+    return this.formGrupo.get(field)?.getError('errors')
+  }
+
   limpiar() {
-    this.grupoSeleccionado = null;
     this.formGrupo.reset({
       nombre: '',
       descripcion: '',
       idPermisos: [],
       idUsuarios: []
     });
+    this.permisosSeleccionados = []
+    this.usuariosSeleccionados = []
   }
 
   submit() {
     this.formGrupo.markAllAsTouched();
     if (this.formGrupo.valid) {
-      if (this.grupoSeleccionado) {
-        this.updateGrupoUsecase.execute({
-          id: this.grupoSeleccionado.id,
-          ...this.formGrupo.value
-        }).subscribe({
-          next: (res) => {
-            if (res.status !== 200) {
-              res.errors?.forEach((err) => {
-                this.formGrupo.get(err.propertyName)?.setErrors({ errors: err.errorMessage })
-              })
-              this.snackbarService.open({ 
-                mensaje: res.message || 'Ha ocurrido un error al intentar actualizar el grupo, revise sus datos o consulte a su administrador',
-                type: 'error'
-              })
-            } else {
-              this.snackbarService.open({
-                mensaje: res.message || 'Grupo actualizado exitosamente',
-                type: 'success'
-              })
-            }
-          },
-          error: (err) => {
+      this.loading = true
+      this.createGrupoUsecase.execute(this.formGrupo.value).subscribe({
+        next: (res) => {
+          if (res.status !== 201) {
+            res.errors?.forEach((err) => {
+              this.formGrupo.get(err.propertyName)?.setErrors({ errors: err.errorMessage })
+            })
             this.snackbarService.open({
-              mensaje: err.message,
+              mensaje: res.message || 'Ha ocurrido un error al intentar crear el grupo, revise sus datos o consulte a su administrador',
               type: 'error'
             })
-          }
-        })
-      } else {
-        this.createGrupoUsecase.execute(this.formGrupo.value).subscribe({
-          next: (res) => {
-            if (res.status !== 201) {
-              res.errors?.forEach((err) => {
-                this.formGrupo.get(err.propertyName)?.setErrors({ errors: err.errorMessage })
-              })
-              this.snackbarService.open({ 
-                mensaje: res.message || 'Ha ocurrido un error al intentar crear el grupo, revise sus datos o consulte a su administrador',
-                type: 'error'
-              })
-            } else {
-              this.snackbarService.open({
-                mensaje: res.message || 'Grupo generado exitosamente',
-                type: 'success'
-              })
-            }
-          },
-          error: (err) => {
-            console.log(err);
+          } else {
             this.snackbarService.open({
-              mensaje: err.message,
-              type: 'error'
+              mensaje: res.message || 'Grupo generado exitosamente',
+              type: 'success'
             })
+            this.router.navigate(['/dashboard/gestion/grupos'])
           }
-        })
-      }
+          this.loading = false
+        },
+        error: (err) => {
+          this.snackbarService.open({
+            mensaje: err.message,
+            type: 'error'
+          })
+          this.loading = false
+        }
+      })
     }
   }
 }
