@@ -1,3 +1,5 @@
+import { IGrupoEntity } from "@domain/grupos/entities/grupo.entity"
+
 export interface IGroupUserEntity {
   id: number,
   name: string
@@ -10,5 +12,5 @@ export interface IUsuarioEntity {
   email: string,
   state: number,
   auditCreateDate: Date,
-  group: IGroupUserEntity[]
+  group: IGrupoEntity[]
 }

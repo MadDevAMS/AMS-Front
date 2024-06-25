@@ -1,40 +1,72 @@
-<tabla-layout
-  [header]="[
-    'Nombre',
-    'Descripcion',
-    'F. Creación',
-  ]"
->
-  <input
-    type="text"
-    [(ngModel)]="busqueda"
-    placeholder="Buscar grupos"
-    class="focus:outline-none w-full"
-    search
-  />
-  @if (serviceForm.grupoSeleccionado) {
-    <button 
-      (click)="serviceForm.openDialog()"
-      class="bg-white !shadow-expand-ams !rounded-lg !p-2 !font-semibold !text-sm h-full"
-      mat-ripple
-      actions
-    >
-      <mat-icon>delete</mat-icon>
-    </button>
-  }
-  <div class="overflow-auto max-h-96 md:flex-1 md:h-0 md:max-h-full" body>
-    @for(grupo of filtrarGrupos(); track grupo.id) {
-      <div (click)="seleccionar(grupo)" [ngClass]="{
-        'px-6 py-5 flex items-center font-light text-sm cursor-pointer transition-colors hover:bg-smoke2': true,
-        '!bg-slate-200': serviceForm.grupoSeleccionado && serviceForm.grupoSeleccionado.id === grupo.id
-      }" matRipple>
-        <span class="w-14 text-sm">{{ $index | number: '3.0' }}</span>
-        <div class="grid grid-cols-[repeat(auto-fit,minmax(0,1fr))] flex-1 gap-2 text-sm">
-          <tabla-col>{{ grupo.nombre }}</tabla-col>
-          <tabla-col>{{ grupo.descripcion }}</tabla-col>
-          <tabla-col>{{ grupo.fecha_creacion | date: 'short' }}</tabla-col>
-        </div>
-      </div>
-    }
+<div class="flex flex-col gap-6 max-h-[36rem] md:max-h-full md:h-full overflow-visible">
+  <!-- Actions -->
+  <div class="flex justify-between">
+    <div class="bg-white">
+      <mat-form-field class="max-w-60 w-full form-field-sm">
+        <input type="search" matInput placeholder="Buscar por nombre">
+        <mat-icon matPrefix>search</mat-icon>
+      </mat-form-field>
+    </div>
+    <div class="flex gap-4">
+      <button (click)="handleOpenFiltros()" class="!font-medium !text-sm !tracking-wide !uppercase !h-auto" mat-stroked-button>
+        <mat-icon matPrefix>filter_alt</mat-icon>
+        Filtros
+      </button>
+      <button (click)="addGroupRoute()" color="primary" mat-raised-button class="!font-medium !text-sm !tracking-wide !uppercase !h-auto">
+        <mat-icon>add</mat-icon> Añadir
+      </button>
+    </div>
   </div>
-</tabla-layout>
+  <!-- Body -->
+  <div class="rounded bg-white flex flex-col border-1 flex-1 h-0 overflow-clip shadow-expand-ams">
+    <div class="flex-1 h-0 overflow-auto">
+      @if (servicio.grupos.length > 0) {
+        <table class="w-full relative max-h-full">
+          <thead class="sticky w-full">
+            <tr class="text-sm font-semibold tracking-wide text-center">
+              <th class="px-2">Nombre</th>
+              <th class="py-4 ">Descripción</th>
+              <th>Usuarios</th>
+              <th>Permisos</th>
+              <th>Fecha de creación</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (grupo of servicio.grupos; track $index) {
+              <tr class="odd:bg-smoke2 border-y-1 text-sm tracking-wide text-center hover:bg-opacity-60 hover:even:bg-smoke2">
+                <td>{{ grupo.nombre }}</td>
+                <td>{{ grupo.descripcion }}</td>
+                <td>{{ grupo.usuarios.length }}</td>
+                <td>{{ grupo.permisos.length }}</td>
+                <td>{{ grupo.fecha_creacion| date: 'dd-MM-YYYY HH:MM' }}</td>
+                <td>
+                  <div class="flex justify-center items-center h-12">
+                    <button (click)="handleOpenConfig(grupo)" mat-icon-button>
+                      <mat-icon class="icon-sm text-gray01">settings</mat-icon>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      } @else {
+        <div class="flex flex-col gap-2 justify-center items-center h-full p-6">
+          <mat-icon class="!text-7xl !w-12 !h-12 !text-gray01 !text-opacity-80">inbox</mat-icon>
+          <p class="italic text-sm font-normal text-center tracking-tight">Sin usuarios encontrados</p>
+        </div>
+      }
+    </div>
+    <footer class="border-t-1 py-2">
+      <mat-paginator
+        (page)="handlePageEvent($event)"
+        [length]="servicio.gruposInfoPaginate ? servicio.gruposInfoPaginate.totalRecords : 0"
+        [pageSize]="servicio.gruposInfoPaginate ? servicio.gruposInfoPaginate.pageSize : 1"
+        [pageSizeOptions]="[10, 20, 50]"
+        aria-label="Selecciona una pagina"
+      >
+      </mat-paginator>
+    </footer>
+  </div>
+</div>

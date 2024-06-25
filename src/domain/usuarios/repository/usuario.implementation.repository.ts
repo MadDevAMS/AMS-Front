@@ -28,6 +28,7 @@ export class UsuarioImplementationRepository extends UsuarioRepository {
   }
 
   override updateUsuario(params: IUsuarioCreateModel): Observable<IApiResponse<void>> {
+    console.log(params, this.mapperCreate.mapTo(params));
     return this.http.put<IApiResponse<void>>(`${API_URL}/users`, this.mapperCreate.mapTo(params))
   }
 
