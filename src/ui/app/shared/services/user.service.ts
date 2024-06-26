@@ -4,11 +4,11 @@ import { GetAuthUserUsecase } from '@data/usuarios/usecases/get-auth-user.usecas
 import { jwtDecode } from 'jwt-decode'
 import { map } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
+@Injectable({ 
+  providedIn: 'root' 
 })
 export class UserService {
-  dataUser: IUsuarioAuthModel = {} as any
+  dataUser!: IUsuarioAuthModel
 
   constructor(
     private getAuthUserUsecase: GetAuthUserUsecase
