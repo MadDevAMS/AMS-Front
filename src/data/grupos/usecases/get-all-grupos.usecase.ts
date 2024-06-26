@@ -7,7 +7,7 @@ import { IRequestPagination } from '@base/request/requestPagination';
 import { IApiResponsePagination } from '@base/response/responsePagination';
 
 @Injectable({
-  providedIn: 'platform'
+  providedIn: 'root'
 })
 export class GetAllGruposUsecase implements UseCase<IRequestPagination, IApiResponsePagination<IGrupoModel>> {
   constructor(private gruposRepository: GrupoRepository) { }

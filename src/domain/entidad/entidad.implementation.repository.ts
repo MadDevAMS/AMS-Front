@@ -24,6 +24,13 @@ export class EntidadImplementationRepository extends EntidadRepository {
   }
 
   override updateEntidad(params: IEntidadModel): Observable<IApiResponse<void>> {
-    return this.http.put<IApiResponse<void>>(`${API_URL}/entidades`, this.mapper.mapTo(params))
+    const formData = new FormData();
+    const mappedParams = this.mapper.mapTo(params);
+    for (const key in mappedParams) {
+      if (mappedParams.hasOwnProperty(key)) {
+        formData.append(key, Object.create(mappedParams)[key]);
+      }
+    }
+    return this.http.put<IApiResponse<void>>(`${API_URL}/entidades`, formData)
   }
 }

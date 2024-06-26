@@ -26,6 +26,12 @@ export class HeaderComponent {
   TITULOS: Record<string, string> = {
     '/dashboard/gestion/usuarios/create': 'Crear usuario',
     '/dashboard/gestion/usuarios': 'Administrar usuarios',
+    '/dashboard/gestion/grupos/create': 'Crear grupo',
+    '/dashboard/gestion/grupos': 'Administrar grupos',
+    '/dashboard/diagnostico': 'Diagnóstico',
+    '/dashboard/monitoreo': 'Monitoreo',
+    '/dashboard/activos': 'Arbol de activos',
+    '/dashboard': 'Dashboard',
   }
 
   constructor(

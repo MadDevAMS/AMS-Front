@@ -4,7 +4,7 @@
       Administracion de usuario
     </h2>
   </header>
-  <div class="flex-1 flex">
+  <div class="flex-1 flex h-0">
     <aside class="bg-blue01 flex flex-col p-4 justify-between overflow-auto h-full w-56 shadow-md-ams-01">
       <nav class="flex flex-col gap-2">
         <dashboard-sidebar-item 
@@ -76,13 +76,13 @@
         </button>
       </footer>
     </aside>
-    <div class="flex flex-col flex-1 w-0">
-      <div class="flex-1 h-0">
-        <div class="p-6 flex flex-col gap-6 w-full h-full">
-          @switch (linkTab) {
-            @case ('informacion') {
-              <form 
-                [formGroup]="usuarioService.formUsuario"
+    <div class="flex-1 h-full flex flex-col">
+      <div class="flex-1 h-0 overflow-auto">
+        @switch (linkTab) {
+          @case ('informacion') {
+            <div class="p-6 flex flex-col gap-6">
+              <div 
+                [formGroup]="usuarioService.formNombresApellidos"
                 class="border-1 rounded shadow-expand-ams w-full">
                 <header class="text-base font-medium tracking-tighter py-3 px-6 border-b-1">
                   Información de usuario
@@ -91,17 +91,19 @@
                   <mat-form-field class="form-field-sm" appearance="outline">
                     <mat-label>Nombres de usuario</mat-label>
                     <input type="text" formControlName="nombres" [value]="usuarioService.usuario?.nombres" matInput>
-                    @if(usuarioService.hasError('nombres', 'required')) { <mat-error>Campo obligatorio</mat-error> }
+                    @if(usuarioService.hasError(usuarioService.formNombresApellidos, 'nombres', 'required')) { <mat-error>Campo obligatorio</mat-error> }
                   </mat-form-field>
                   <mat-form-field class="form-field-sm" appearance="outline">
                     <mat-label>Apellidos de usuario</mat-label>
                     <input type="text" formControlName="apellidos" [value]="usuarioService.usuario?.apellidos" matInput>
-                    @if(usuarioService.hasError('apellidos', 'required')) { <mat-error>Campo obligatorio</mat-error> }
+                    @if(usuarioService.hasError(usuarioService.formNombresApellidos, 'apellidos', 'required')) { <mat-error>Campo obligatorio</mat-error> }
                   </mat-form-field>
                 </div>
-              </form>
-            }
-            @case ('autenticacion') {
+              </div>
+            </div>
+          }
+          @case ('autenticacion') {
+            <div class="p-6 flex flex-col gap-6">
               <div class="border-1 rounded shadow-expand-ams w-full">
                 <header class="text-base font-medium tracking-tighter py-3 px-6 border-b-1">
                   Información de cuenta
@@ -110,39 +112,66 @@
                   <mat-form-field class="form-field-sm" appearance="outline">
                     <mat-label>Correo de usuario</mat-label>
                     <input type="text" matInput [value]="usuarioService.usuario?.correo" disabled>
-                    @if(usuarioService.hasError('correo', 'required')) { <mat-error>Campo obligatorio</mat-error> }
                   </mat-form-field>
                 </div>
               </div>
-              <div class="border-1 rounded shadow-expand-ams w-full">
+              <div 
+                [formGroup]="usuarioService.formPassword"
+                class="border-1 rounded shadow-expand-ams w-full">
                 <header class="text-base font-medium tracking-tighter py-3 px-6 border-b-1">
                   Actualizar contraseña
                 </header>
                 <div class="flex flex-col gap-6 p-6">
                   <mat-form-field class="form-field-sm" appearance="outline">
                     <mat-label>Contraseña</mat-label>
-                    <input type="password" matInput>
-                    @if(usuarioService.hasError('password', 'required')) { <mat-error>Campo obligatorio</mat-error> }
+                    <input [type]="usuarioService.hidePassword ? 'password' : 'text'" formControlName="password" name="password"
+                      matInput />
+                    <button type="button" mat-icon-button matSuffix
+                      (click)="usuarioService.hidePassword = !usuarioService.hidePassword">
+                      <mat-icon>{{usuarioService.hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    @if(usuarioService.hasError(usuarioService.formPassword, 'password', 'required')) { <mat-error>Campo obligatorio</mat-error> }
+                    @for (error of usuarioService.getErrors(usuarioService.formPassword ,'password'); track $index) {
+                    <mat-error>{{ error }}</mat-error>
+                    }
                   </mat-form-field>
                   <mat-form-field class="form-field-sm" appearance="outline">
                     <mat-label>Repetir contraseña</mat-label>
-                    <input type="password" matInput>
-                    @if(usuarioService.hasError('confirmPassword', 'required')) { <mat-error>Campo obligatorio</mat-error> }
+                    <input [type]="usuarioService.hidePassword ? 'password' : 'text'" formControlName="confirmPassword" name="confirmPassword"
+                      matInput />
+                    <button type="button" mat-icon-button matSuffix
+                      (click)="usuarioService.hidePassword = !usuarioService.hidePassword">
+                      <mat-icon>{{usuarioService.hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    @if(usuarioService.hasError(usuarioService.formPassword, 'confirmPassword', 'required')) { <mat-error>Campo obligatorio</mat-error> }
+                    @for (error of usuarioService.getErrors(usuarioService.formPassword ,'confirmPassword'); track $index) {
+                      <mat-error>{{ error }}</mat-error>
+                      }
                   </mat-form-field>
                 </div>
               </div>
-            }
-            @case ('grupos') {
-              grupo
-            } 
-            @default {
-              <div class="flex-1 flex flex-col justify-center items-center gap-2">
-                <img src="/ui/assets/icons/svg/logo.svg" alt="logo-svg" />
-                <p class="text-xs text-gray01 text-center max-w-64">Seleccione una página para continuar</p>
-              </div>
-            }
+            </div>
           }
-        </div>
+          @case ('grupos') {
+            <div class="p-6 flex flex-col gap-6">
+              <div class="flex flex-1 h-0 w-full flex-col gap-6">
+                <usuarios-tabla-grupos 
+                  wrapperClass="max-h-[36rem]"
+                  [serviceForm]="usuarioService"
+                ></usuarios-tabla-grupos>
+                <div class="flex flex-col gap-4">
+                  <gestion-info-grupos-permisos [servicioForm]="usuarioService"></gestion-info-grupos-permisos>
+                </div>
+              </div>
+            </div>
+          } 
+          @default {
+            <div class="p-6 h-full flex flex-col justify-center items-center gap-2">
+              <img src="/ui/assets/icons/svg/logo.svg" alt="logo-svg" />
+              <p class="text-xs text-gray01 text-center max-w-64">Seleccione una página para continuar</p>
+            </div>
+          }
+        }
       </div>
       <footer class="p-6 border-t-2 flex gap-4 justify-between">
         <button 
@@ -152,7 +181,11 @@
           Cancelar
         </button>
         <button 
-          (click)="usuarioService.updateUser()"
+          (click)="
+            linkTab === 'informacion' ? usuarioService.updateNombresApellidos() : 
+            linkTab === 'autenticacion' ? usuarioService.updatePassword() : 
+            usuarioService.updateGrupos()
+          "
           color="primary" 
           class="!font-medium !text-sm !tracking-wide !uppercase disabled:!bg-blue01 disabled:!bg-opacity-80 w-32" 
           mat-raised-button>

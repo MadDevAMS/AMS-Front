@@ -1,19 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { UsuarioUsecaseService } from '../../services/usuario-usecase.service';
-import { UsuarioFormService } from '../../services/usuario-form.service';
 import { PageEvent } from '@angular/material/paginator';
 import { DrawerService } from '../../../../shared/services/drawer.service';
 import { UsuariosFilterGruposDrawer } from '../drawer/usuarios-filter-grupos-drawer.component';
+import { UsuarioFormAbstract } from '../../services/usuario-form-abstract';
 
 @Component({
   selector: 'usuarios-tabla-grupos',
   templateUrl: './tabla-grupos.component.html',
 })
 export class TablaGruposComponent {
-
+  @Input() serviceForm!: UsuarioFormAbstract
+  @Input() wrapperClass!: string
+  
   constructor(    
     public servicio: UsuarioUsecaseService,
-    public servicioForm: UsuarioFormService,
     private drawerService: DrawerService
   ) {}
 

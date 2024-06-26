@@ -1,29 +1,30 @@
 import { Component, Input } from '@angular/core';
-import { IUsuarioModel } from '@data/usuarios/models/usuario.model';
-import { GrupoFormService } from '../../services/grupo-form.service';
+import { GrupoFormAbstract } from '../../services/grupo-form-abstract';
+import { GrupoUsecaseService } from '../../services/grupo-usecase.service';
+import { DrawerService } from '@ui/dashboard/shared/services/drawer.service';
+import { PageEvent } from '@angular/material/paginator';
+import { GruposFilterUsuariosDrawer } from '../drawer/grupos-filter-usuarios-drawer.component';
 
 @Component({
-  selector: 'tabla-usuarios',
+  selector: 'grupos-tabla-usuarios',
   templateUrl: './tabla-usuarios.component.html',
 })
 export class TablaUsuariosComponent {
-  @Input() usuarios: IUsuarioModel[] = [];
+  @Input() serviceForm!: GrupoFormAbstract
+  @Input() wrapperClass!: string
+  
+  constructor(    
+    public servicio: GrupoUsecaseService,
+    private drawerService: DrawerService
+  ) {}
 
-  busqueda: string = "";
-
-  constructor(
-    public serviceForm: GrupoFormService
-  ) { }
-
-  seleccionar(usuario: IUsuarioModel) {
-    this.serviceForm.toggleSeleccionarUsuario(usuario);
+  handlePageEvent(e: PageEvent) {
+    this.servicio.usuariosParams.records = e.pageSize
+    this.servicio.usuariosParams.numPage = e.pageIndex + 1
+    this.servicio.getAllUsuarios()
   }
 
-  filtrarUsuarios() {
-    return this.usuarios.filter(usuario =>
-      Object.values(usuario).some(value =>
-        value?.toString().toLowerCase().includes(this.busqueda.toLowerCase())
-      )
-    );
+  handleOpenFiltros() {
+    this.drawerService.open(GruposFilterUsuariosDrawer)
   }
 }
