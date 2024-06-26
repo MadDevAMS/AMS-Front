@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import {
   ChartComponent,
   ApexAxisChartSeries,
@@ -14,6 +14,9 @@ import {
 } from "ng-apexcharts";
 import { SnackbarService } from '@ui/shared/services/snackbar.service';
 import { ChartDataService } from '../../../services/chart-data.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalFilesComponent } from '../../modal/modal-files.component';
+import { IChartS3FileEntity } from '@domain/charts/dashboard/chart-s3-file.entity';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -34,12 +37,15 @@ export type ChartOptions = {
   templateUrl: './temperature-chart.component.html',
 })
 export class TemperatureDashboardComponent implements OnInit {
+  @Input() title!: string
+
   chartOptions: Partial<ChartOptions> = {};
   archivoSeleccionado!: File;
   hasLoad = false
   isDragOver = false
 
   constructor(
+    private dialog: MatDialog,
     private chartdataService: ChartDataService,
     private snackbarService: SnackbarService
   ) { }
@@ -88,6 +94,31 @@ export class TemperatureDashboardComponent implements OnInit {
     };
   }
 
+  openDialog() {
+    const dialogRef = this.dialog.open(ModalFilesComponent, {
+      data: {
+        files: this.chartdataService.filesS3
+      }
+    })
+
+    dialogRef.afterClosed().subscribe((res: IChartS3FileEntity) => {
+      if (res) {
+        const key = res.name.substring(res.name.lastIndexOf('/') + 1, res.name.length)
+        this.chartdataService.getTemperatureFile(key).subscribe({
+          next: (response) => {
+            this.cargarInfo(response)
+          },
+          error: (error) => {
+            this.snackbarService.open({
+              mensaje: error.message,
+              type: 'error'
+            })
+          }
+        })
+      }
+    })
+  }
+
   onDragOver(event: DragEvent) {
     event.preventDefault();
     this.isDragOver = true;
@@ -127,41 +158,7 @@ export class TemperatureDashboardComponent implements OnInit {
       this.hasLoad = false
       this.chartdataService.uploadTemperatureFile(this.archivoSeleccionado).subscribe({
         next: (response) => {
-          if (response && response.data) {
-            const { timeStamp, values } = response.data;
-            if (timeStamp && values) {
-              this.chartOptions = {
-                ...this.chartOptions,
-                series: [
-                  {
-                    name: "Temperatura",
-                    data: values.map((value: number, index: number) => {
-                      return {
-                        x: new Date(timeStamp[index]).getTime(),
-                        y: value,
-                        color: this.getColorForValue(value)
-                      };
-                    })
-                  }
-                ],
-                xaxis: {
-                  ...this.chartOptions.xaxis,
-                  categories: timeStamp
-                },
-              };
-              this.hasLoad = true
-            } else {
-              this.snackbarService.open({
-                mensaje: 'TimeStamp o temperature no están definidos en la respuesta',
-                type: 'error'
-              })
-            }
-          } else {
-            this.snackbarService.open({
-              mensaje: response.message,
-              type: 'error'
-            })
-          }
+          this.cargarInfo(response)
         },
         error: (error) => {
           this.snackbarService.open({
@@ -172,6 +169,45 @@ export class TemperatureDashboardComponent implements OnInit {
       });
     }
   }
+
+  cargarInfo(response: any) {
+    if (response && response.data) {
+      const { timeStamp, values } = response.data;
+      if (timeStamp && values) {
+        this.chartOptions = {
+          ...this.chartOptions,
+          series: [
+            {
+              name: "Temperatura",
+              data: values.map((value: number, index: number) => {
+                return {
+                  x: new Date(timeStamp[index]).getTime(),
+                  y: value,
+                  color: this.getColorForValue(value)
+                };
+              })
+            }
+          ],
+          xaxis: {
+            ...this.chartOptions.xaxis,
+            categories: timeStamp
+          },
+        };
+        this.hasLoad = true
+      } else {
+        this.snackbarService.open({
+          mensaje: 'TimeStamp o temperature no están definidos en la respuesta',
+          type: 'error'
+        })
+      }
+    } else {
+      this.snackbarService.open({
+        mensaje: response.message,
+        type: 'error'
+      })
+    }
+  }
+
   getColorForValue(value: number): string {
     if (value <= 35) {
       const blueIntensity = Math.floor((value / 35) * 255);

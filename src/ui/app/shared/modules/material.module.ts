@@ -16,6 +16,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 const materialModules = [
   MatIconModule,
@@ -37,6 +38,7 @@ const materialModules = [
   MatPaginatorModule,
   MatProgressSpinnerModule,
   MatTooltipModule,
+  MatDatepickerModule,
   CdkStepperModule,
 ]
 

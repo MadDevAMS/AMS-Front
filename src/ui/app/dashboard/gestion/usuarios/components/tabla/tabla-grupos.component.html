@@ -1,4 +1,7 @@
-<div class="flex flex-col gap-6 pt-6 max-h-[36rem] md:max-h-full md:h-full overflow-visible">
+<div 
+  class="flex flex-col gap-6 overflow-visible"
+  [ngClass]="wrapperClass"
+>
   <!-- Actions -->
   <div class="flex justify-between">
     <div class="bg-white">
@@ -15,42 +18,65 @@
   <!-- Body -->
   <div class="rounded bg-white flex flex-col border-1 flex-1 h-0">
     <div class="flex-1 h-0 overflow-auto">
-      <table class="w-full relative max-h-full">
-        <thead class="sticky w-full">
-          <tr class="text-sm font-semibold tracking-wide">
-            <th class="px-2"></th>
-            <th class="text-start ps-2 py-5">Nombre de grupo</th>
-            <th>Usuarios</th>
-            <th>Permisos</th>
-            <th class="w-4"></th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (grupo of servicio.grupos; track $index) {
-            <tr class="odd:bg-smoke2 border-y-1 text-sm p-5 tracking-wide text-center">
-              <td class="py-5 ps-4">
-                <div class="flex justify-center items-center">
-                  <mat-icon class="icon-sm text-gray01">group</mat-icon>
-                </div>
-              </td>
-              <td class="text-start ps-2">{{ grupo.nombre }}</td>
-              <td>{{ grupo.usuarios.length }}</td>
-              <td>{{ grupo.permisos.length }}</td>
-              <td class="px-5">
-                <button (click)="servicioForm.onCheckboxChange(grupo)" mat-icon-button>
-                  <mat-icon [ngClass]="{
-                    'icon-sm': true,
-                    '!text-gray03': !servicioForm.isChecked(grupo),
-                    '!text-blue01': servicioForm.isChecked(grupo)
-                  }">
-                    {{ !servicioForm.isChecked(grupo) ? 'add_circle' : 'check_circle' }}
-                  </mat-icon>
-                </button>
-              </td>
+      @if (servicio.grupos.length > 0) {
+        <table class="w-full relative max-h-full">
+          <thead class="sticky w-full">
+            <tr class="text-sm font-semibold tracking-wide">
+              <th class="px-2"></th>
+              <th class="text-start ps-2 py-5">Nombre de grupo</th>
+              <th>Usuarios</th>
+              <th>Permisos</th>
+              <th class="w-4"></th>
             </tr>
-          }
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            @for (grupo of servicio.grupos; track $index) {
+              <tr class="odd:bg-smoke2 border-y-1 text-sm p-5 tracking-wide text-center">
+                <td class="py-5 ps-4">
+                  <div class="flex justify-center items-center">
+                    <mat-icon class="icon-sm text-gray01">group</mat-icon>
+                  </div>
+                </td>
+                <td class="text-start ps-2">{{ grupo.nombre }}</td>
+                <td>
+                  <div class="flex justify-center items-center">
+                    <gestion-chip-info-grupo  
+                      type="usuarios"
+                      [serviceForm]="serviceForm"
+                      [grupo]="grupo"
+                    ></gestion-chip-info-grupo>
+                  </div>
+                </td>
+                <td>
+                  <div class="flex justify-center items-center">
+                    <gestion-chip-info-grupo  
+                      type="permisos"
+                      [serviceForm]="serviceForm"
+                      [grupo]="grupo"
+                    ></gestion-chip-info-grupo>
+                  </div>
+                </td>
+                <td class="px-5">
+                  <button (click)="serviceForm.onCheckboxChange(grupo)" mat-icon-button>
+                    <mat-icon [ngClass]="{
+                      'icon-sm': true,
+                      '!text-gray03': !serviceForm.isChecked(grupo),
+                      '!text-blue01': serviceForm.isChecked(grupo)
+                    }">
+                      {{ !serviceForm.isChecked(grupo) ? 'add_circle' : 'check_circle' }}
+                    </mat-icon>
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      } @else {
+        <div class="flex flex-col gap-2 justify-center items-center h-full p-6">
+          <mat-icon class="!text-7xl !w-12 !h-12 !text-gray01 !text-opacity-80">inbox</mat-icon>
+          <p class="italic text-sm font-normal text-center tracking-tight">Sin grupos encontrados</p>
+        </div>
+      }
     </div>
     <footer class="border-t-1 py-2">
       <mat-paginator

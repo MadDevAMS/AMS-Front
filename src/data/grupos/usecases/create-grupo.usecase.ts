@@ -6,7 +6,7 @@ import { IGrupoCreateModel } from '../models/grupo-create.model';
 import { GrupoRepository } from '../repository/grupo.repository';
 
 @Injectable({
-  providedIn: 'platform'
+  providedIn: 'root'
 })
 export class CreateGrupoUsecase implements UseCase<IGrupoCreateModel, IApiResponse<void>> {
   constructor(private grupoRepository: GrupoRepository) { }

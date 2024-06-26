@@ -90,6 +90,8 @@ export class ActivosFormService<T> {
             this.loadingUpdate = false
           },
           error: (err) => {
+            console.log(err);
+            
             this.snackbarService.open({
               mensaje: err.message,
               type: 'error',

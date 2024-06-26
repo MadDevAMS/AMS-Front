@@ -28,9 +28,13 @@ export class DrawerService {
     this.drawerOpen = false;
   }
 
-  open<T>(comp: ComponentType<T>) {
+  open(comp: ComponentType<any>, data?: any) {
     this.drawerOpen = true;
-    this.viewContainerRef.createComponent(comp);
+    const compRef = this.viewContainerRef.createComponent(comp);
+
+    if (data) {
+      compRef.instance.data = data
+    }
   }
 
   onClose(): Observable<void> {

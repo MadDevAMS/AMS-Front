@@ -7,6 +7,14 @@ import { GrupoUsecaseService } from './services/grupo-usecase.service';
 import { GrupoFormService } from './services/grupo-form.service';
 import { PermisoDataModule } from '@data/permisos/permiso.data.module';
 import { TablaUsuariosComponent } from './components/tabla/tabla-usuarios.component';
+import { InfoUsuariosPermisosComponent } from './components/info-usuarios-permisos.component';
+import { TablaPermisosComponent } from './components/tabla/tabla-permisos.component';
+import { GruposFilterPermisosDrawer } from './components/drawer/grupos-filter-permisos-drawer.component';
+import { GruposFilterUsuariosDrawer } from './components/drawer/grupos-filter-usuarios-drawer.component';
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { TablesPaginatorIntl } from '@ui/dashboard/shared/services/pagination.service';
+import { GruposFilterGruposDrawer } from './components/drawer/filter-grupos-drawer.component';
+import { GrupoConfigService } from './services/grupo-config.service';
 
 const commonModules = [
   SharedModule,
@@ -18,7 +26,12 @@ const commonModules = [
 
 const declarations = [
   TablaComponent,
-  TablaUsuariosComponent
+  TablaUsuariosComponent,
+  TablaPermisosComponent,
+  GruposFilterGruposDrawer,
+  GruposFilterPermisosDrawer,
+  GruposFilterUsuariosDrawer,
+  InfoUsuariosPermisosComponent
 ]
 
 @NgModule({
@@ -29,8 +42,10 @@ const declarations = [
     ...commonModules
   ],
   providers: [ 
+    {provide: MatPaginatorIntl, useClass: TablesPaginatorIntl},
     GrupoUsecaseService,
-    GrupoFormService
+    GrupoFormService,
+    GrupoConfigService
   ],
 })
 export class GruposModule { }

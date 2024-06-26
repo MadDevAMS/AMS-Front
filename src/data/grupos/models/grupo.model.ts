@@ -1,6 +1,14 @@
+export interface IGrupoUsuarioModel {
+  id: number,
+  nombres: string,
+  apellidos: string,
+  correo: string
+}
+
 export interface IGrupoPermisoModel {
   id: number,
-  nombre: string
+  nombre: string,
+  descripcion: string
 }
 
 export interface IGrupoModel {
@@ -8,6 +16,6 @@ export interface IGrupoModel {
   nombre: string,
   descripcion: string | null,
   permisos: IGrupoPermisoModel[],
-  usuarios: number[],
+  usuarios: IGrupoUsuarioModel[],
   fecha_creacion: Date
 }
