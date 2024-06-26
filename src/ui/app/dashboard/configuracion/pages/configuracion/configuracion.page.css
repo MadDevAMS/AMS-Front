@@ -1,0 +1,28 @@
+.config-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dark-theme {
+  background-color: #121212;
+  color: #ffffff;
+}
+.config-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.btn-block {
+  width: 100%;
+}
+.btn-danger {
+  background-color: red;
+  border-color: red;
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: darkred;
+  border-color: darkred;
+}
