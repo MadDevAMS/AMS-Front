@@ -27,7 +27,7 @@ export class GrupoFormService extends GrupoFormAbstract {
     super()
     this.formGrupo = new FormGroup({
       nombre: new FormControl<string>('', [Validators.required]),
-      descripcion: new FormControl<string>(''),
+      descripcion: new FormControl<string>('', [Validators.required]),
       idPermisos: new FormControl<number[]>([]),
       idUsuarios: new FormControl<number[]>([])
     });

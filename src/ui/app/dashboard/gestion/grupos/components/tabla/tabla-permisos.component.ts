@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { IUsuarioModel } from '@data/usuarios/models/usuario.model';
 import { GrupoFormAbstract } from '../../services/grupo-form-abstract';
 import { GruposFilterPermisosDrawer } from '../drawer/grupos-filter-permisos-drawer.component';
@@ -10,7 +10,7 @@ import { PageEvent } from '@angular/material/paginator';
   selector: 'grupos-tabla-permisos',
   templateUrl: './tabla-permisos.component.html',
 })
-export class TablaPermisosComponent {
+export class TablaPermisosComponent implements OnInit {
   @Input() serviceForm!: GrupoFormAbstract
   @Input() wrapperClass!: string
   
@@ -18,6 +18,10 @@ export class TablaPermisosComponent {
     public servicio: GrupoUsecaseService,
     private drawerService: DrawerService
   ) {}
+
+  ngOnInit(): void {
+    this.servicio.getAllPermisos()
+  }
 
   handlePageEvent(e: PageEvent) {
     this.servicio.permisosParams.records = e.pageSize
