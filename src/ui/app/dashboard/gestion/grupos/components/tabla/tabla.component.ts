@@ -1,4 +1,4 @@
-import { Component, Input, Signal, effect } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, Signal, effect } from '@angular/core';
 import { IGrupoModel } from '@data/grupos/models/grupo.model';
 import { GrupoUsecaseService } from '../../services/grupo-usecase.service';
 import { DrawerService } from '@ui/dashboard/shared/services/drawer.service';
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   selector: 'tabla-grupos',
   templateUrl: './tabla.component.html',
 })
-export class TablaComponent {
+export class TablaComponent implements OnInit, OnDestroy {
   @Input() groupConfigService!: GrupoConfigService
   busqueda: string = "";
   private deleteSuscription!: Subscription;
@@ -23,12 +23,12 @@ export class TablaComponent {
     private router: Router,
   ) { 
     this.deleteSuscription = this.groupConfigService?.hasDeleted().subscribe(_ => {
-      this.servicio.getAllUsuarios() 
+      this.servicio.getAllGrupos() 
     })
   }
 
   ngOnInit(): void {
-    this.servicio.getAllUsuarios()
+    this.servicio.getAllGrupos()
   }
 
   ngOnDestroy(): void {

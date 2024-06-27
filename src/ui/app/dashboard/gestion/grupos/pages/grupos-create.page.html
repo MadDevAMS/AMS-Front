@@ -40,6 +40,8 @@
               name="descripcion"
               matInput
             ></textarea>
+            @if(serviceForm.hasError('descripcion', 'required')) {
+            <mat-error>Ingrese la descripción del grupo</mat-error> }
           </mat-form-field>
         </section>
         <gestion-info-usuarios-permisos [servicioForm]="serviceForm"></gestion-info-usuarios-permisos>
