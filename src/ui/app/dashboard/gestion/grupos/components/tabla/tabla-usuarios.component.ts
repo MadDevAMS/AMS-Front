@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { GrupoFormAbstract } from '../../services/grupo-form-abstract';
 import { GrupoUsecaseService } from '../../services/grupo-usecase.service';
 import { DrawerService } from '@ui/dashboard/shared/services/drawer.service';
@@ -9,7 +9,7 @@ import { GruposFilterUsuariosDrawer } from '../drawer/grupos-filter-usuarios-dra
   selector: 'grupos-tabla-usuarios',
   templateUrl: './tabla-usuarios.component.html',
 })
-export class TablaUsuariosComponent {
+export class TablaUsuariosComponent implements OnInit {
   @Input() serviceForm!: GrupoFormAbstract
   @Input() wrapperClass!: string
   
@@ -17,6 +17,10 @@ export class TablaUsuariosComponent {
     public servicio: GrupoUsecaseService,
     private drawerService: DrawerService
   ) {}
+
+  ngOnInit(): void {
+    this.servicio.getAllUsuarios()
+  }
 
   handlePageEvent(e: PageEvent) {
     this.servicio.usuariosParams.records = e.pageSize
